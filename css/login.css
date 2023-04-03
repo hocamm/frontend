@@ -1,0 +1,272 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Noto Sans KR",sans-serif;
+    position: relative;
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    flex-direction: column;
+    background: #034AA6;
+}
+
+/* navigation bar layout */
+
+body nav {
+    position: sticky;
+    z-index: 1;
+    top: 0;
+    display: flex;
+    width: 100%;
+    height: 4rem;
+    align-items: center;
+    justify-content: center;
+    font-size: .875rem;
+    background: #ffffff;
+}
+
+body nav .container {
+    position:relative;
+    display: flex;
+    width: 1080px;
+    height: 4rem;
+    align-items:center;
+    justify-content: space-between;
+    padding: 0 1.25rem;
+    color: #ffffff;
+}
+
+/* header layout */
+
+body .hd {
+    display: flex;
+    justify-content: center;
+    background: #034AA6;
+}
+
+body .hd .container {
+    display: grid;
+    width: 1080px;
+    height: 100%;
+    padding: 0 1.25rem;
+    background: #034AA6;
+    grid-template-columns: auto 468px;
+}
+
+body .hd .container .hd-left {
+    position: relative;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+body .hd .container .hd-right {
+    position: relative;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+/* navigation bar */
+nav img {
+    width: 12%;
+}
+
+/* header left */
+
+.hd-left {
+    position: relative;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.hd-left .title {
+    margin-top: 6.75rem;
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.title h2 {
+    margin-bottom: 0;
+}
+
+.mainlogo-white {
+    margin-top: 0.4rem;
+    width: 90%;
+    max-width: 30rem;
+}
+
+.hd-left .content {
+    margin-top: 0;
+    color: #ffffff;
+    font-size: 1.4rem;
+    font-weight: 400;
+}
+
+.hd-left img {
+    width: 60%;
+    max-width: 31.25rem;
+}
+
+/* header right */
+
+.hd-right {
+    position: relative;
+    display:flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.hd-right .account {
+    width: 100%;
+    border: 1px solid #d7d7d7;
+    border-radius: 0.9375rem;
+    margin-top: 6.75rem;
+    background: #f9fafb;
+}
+
+.hd-right .info {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    margin-top: 2rem;
+    margin-bottom: 3.75rem;
+    color:#fff;
+    font-size: .9375rem;
+}
+
+.hd-right .login { 
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hd-right .login .options {
+    display: grid;
+    width: 100%;
+    height: 3.125rem;
+    align-items: center;
+    border-radius: 0.9375rem 0.9375rem 0 0;
+    background: #f4f4f4;
+    grid-template-columns: 1fr 1fr;
+}
+
+.hd-right .login .options a {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.9375rem 0.9375rem 0 0;
+    margin: auto;
+    text-decoration: none;
+}
+
+.hd-right .login .options .option-login {
+    box-sizing: content-box;
+    padding-bottom: 1rem;
+    background: #fff;
+    color: #0A70F5;
+    font-weight: 700;
+}
+
+.hd-right .login .options .option-signup {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    border-radius: 0.9375rem 0.9375rem 0 0;
+    margin: auto;
+    background: #f4f4f4;
+    color: black
+}
+
+.hd-right .login .client {
+    width: 100%;
+    height: 100%;
+    padding: 1.875rem 2rem;
+    border-radius: 0.9375rem;
+    background: #fff;
+}
+
+.client-email {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    font-size: .8125rem;
+    font-weight: 700;
+}
+
+.client-email-input {
+    position: relative;
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.client-email-input input{
+    width: 100%;
+    height: 2.875rem;
+    padding: 0.5rem 2.5rem 0.5rem 0.875rem;
+    border: 1px solid #d2d2d2;
+    border-radius: 0.25rem;
+    padding-left: 2.75rem;
+}
+
+.client-email-input .email-icon {
+    position: absolute;
+    left: 1.0625rem;
+    color: #d2d2d2
+}
+
+.client-pwd {
+    margin-top: 2.25rem;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    font-size: .8125rem;
+    font-weight: 700;
+}
+
+.client-pwd-input {
+    position: relative;
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.client-pwd-input input {
+    width: 100%;
+    height: 2.875rem;
+    padding: 0.5rem 2.5rem 0.5rem 0.875rem;
+    border: 1px solid #d2d2d2;
+    border-radius: 0.25rem;
+    padding-left: 2.75rem;
+}
+
+.pwd-icon {
+    z-index: 3;
+    position: absolute;
+    left: 1.0625rem;
+    color: #d2d2d2
+}
+
+.login-btn {
+    border: 0;
+    width: 100%;
+    height: 2.75rem;
+    border-radius: 4px;
+    margin-top: 2.75rem;
+    background: #0A70F5;
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
