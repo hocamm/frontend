@@ -1,13 +1,13 @@
 $(document).ready(function () {
   $("#mainlogo").click(function () {
-    var url = "/login.html";
+    var url = "./login.html";
     window.location.href = url;
   });
 });
 
 $(document).ready(function () {
   $("#log-in").click(function () {
-    var url = "/login.html";
+    var url = "./login.html";
     window.location.href = url;
   });
 });
