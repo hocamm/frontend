@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>호잠</title>
+
+    <link rel="stylesheet" href="./css/signup.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+      integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.js"
+      integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <nav>
+      <div class="container">
+        <img src="./images/mainlogo_lil.png" alt="MainLogo" id="mainlogo" />
+      </div>
+    </nav>
+
+    <header class="hd">
+      <div class="container">
+        <div class="hd-left">
+          <div class="title">
+            <h2>
+              터키어 스피킹은<br />
+              <div class="mainlogo-white">
+                <img src="./images/mainlogo_white_lil.png" alt="Logo_white" />
+              </div>
+            </h2>
+          </div>
+          <div class="content">
+            <p>원어민 없는<br />프리토킹 수업</p>
+          </div>
+          <img src="./images/title_under.png" alt="Background" />
+        </div>
+
+        <div class="hd-right">
+          <div class="account">
+            <div class="login">
+              <div class="options">
+                <a href="#" class="option-login" id="log-in">로그인</a>
+                <a href="#" class="option-signup" id="sign-up">회원가입</a>
+              </div>
+              <div class="client">
+                <div class="client-email">이메일</div>
+                <div class="client-email-input">
+                  <input
+                    id="id"
+                    name="email"
+                    type="email"
+                    placeholder="이메일을 입력해 주세요"
+                    autocomplete
+                  />
+                  <div class="email-icon"><i class="far fa-envelope"></i></div>
+                </div>
+
+                <div class="client-name">닉네임</div>
+                <div class="client-name-input">
+                  <input
+                    id="nickname"
+                    name="nickname"
+                    type="nickname"
+                    placeholder="닉네임을 입력해 주세요"
+                  />
+                  <div class="client-icon"><i class="fas fa-user"></i></div>
+                </div>
+
+                <div class="client-pwd">비밀번호</div>
+                <div class="client-pwd-input">
+                  <input
+                    id="pw"
+                    name="password"
+                    type="password"
+                    placeholder="비밀번호를 입력해 주세요"
+                  />
+                  <div class="pwd-icon"><i class="fas fa-lock"></i></div>
+                </div>
+                <div class="client-pwd-input-check">
+                  <input
+                    id="pw-check"
+                    name="password-check"
+                    type="password-check"
+                    placeholder="비밀번호를 한번 더 입력해 주세요"
+                  />
+                  <div class="pwd-icon"><i class="fas fa-lock"></i></div>
+                </div>
+
+                <button class="signup-btn" id="signup-btn">회원 가입</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <script type="text/javascript" src="./script/signup.js"></script>
+  </body>
+</html>
