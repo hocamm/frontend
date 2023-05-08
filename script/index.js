@@ -1,6 +1,6 @@
 $(document).ready(function () {
   $("#mainlogo").click(function () {
-    var url = "./login.html";
+    var url = "./index.html";
     window.location.href = url;
   });
 });
