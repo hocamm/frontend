@@ -1,12 +1,12 @@
 // 메인 로고 클릭 시 로그인 화면으로 이동
 $(document).ready(function () {
   $("#mainlogo").click(function () {
-    var url = "./login.html";
+    var url = "./index.html";
     window.location.href = url;
   });
 
   $("#log-in").click(function () {
-    var url = "./login.html";
+    var url = "./index.html";
     window.location.href = url;
   });
   // 회원가입 버튼 클릭시 유효성 검사

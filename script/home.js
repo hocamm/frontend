@@ -1,5 +1,3 @@
-
-
 $.ajax({
     url: "/api/user",
     type: "GET",
@@ -7,8 +5,7 @@ $.ajax({
       "Authorization": "Bearer " + getAccessToken()
     },
     success: function(data) {
-        data.data == 
-
+     
     },
     error: function() {
         console.log()
