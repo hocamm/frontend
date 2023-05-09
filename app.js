@@ -3,40 +3,12 @@ const stopButton = document.getElementById("stop-recording");
 const transcript = document.getElementById("transcript");
 const playbackButton = document.getElementById("playback");
 
-playbackButton.addEventListener("click", () => {
-    if (audioChunks.length === 0) {
-      console.error("No audio to play back.");
-      return;
-    }
-  
-    const audioBlob = new Blob(audioChunks, { type: "audio/webm; codecs=opus" });
-    const audioURL = URL.createObjectURL(audioBlob);
-    const audioElement = new Audio(audioURL);
-  
-    // Wait for the media file to load completely before playing it
-    audioElement.addEventListener("loadedmetadata", () => {
-      audioElement.play();
-    });
-  
-    // Log any playback errors
-    audioElement.addEventListener("error", (event) => {
-      console.error("Playback error:", event);
-    });
-  
-    // Reset the audioChunks array after playback
-    audioElement.addEventListener("ended", () => {
-      audioChunks = [];
-    });
-  });
-  
-
 let mediaRecorder;
 let audioChunks = [];
 
-// API key for Google Cloud Speech-to-Text
 const API_KEY = "AIzaSyDJjjGLu3DXYnZFDNkWzykZDU6KIXmN3S4";
 
-// Start recording
+// 녹음 시작 버튼
 startButton.addEventListener("click", async () => {
   try {
     startButton.disabled = true;
@@ -62,7 +34,7 @@ startButton.addEventListener("click", async () => {
   }
 });
 
-// Stop recording
+// 녹음 종료 버튼
 stopButton.addEventListener("click", async () => {
   if (!mediaRecorder || mediaRecorder.state === "inactive") return;
 
@@ -78,7 +50,34 @@ stopButton.addEventListener("click", async () => {
   startButton.disabled = false;
 });
 
-// Send audio to Google Speech-to-Text API
+// 다시 듣기 버튼
+playbackButton.addEventListener("click", () => {
+    if (audioChunks.length === 0) {
+      console.error("No audio to play back.");
+      return;
+    }
+  
+    const audioBlob = new Blob(audioChunks, { type: "audio/webm; codecs=opus" });
+    const audioURL = URL.createObjectURL(audioBlob);
+    const audioElement = new Audio(audioURL);
+  
+    // Wait for the media file to load completely before playing it
+    audioElement.addEventListener("loadedmetadata", () => {
+      audioElement.play();
+    });
+  
+    // Log any playback errors
+    audioElement.addEventListener("error", (event) => {
+      console.error("Playback error:", event);
+    });
+  
+    // Reset the audioChunks array after playback
+    audioElement.addEventListener("ended", () => {
+      audioChunks = [];
+    });
+  });
+
+// 음성 파일 API 전송
 async function sendAudioToGoogleSTT(blob) {
   try {
     const response = await fetch(
@@ -109,7 +108,7 @@ async function sendAudioToGoogleSTT(blob) {
   }
 }
 
-// Convert Blob to Base64
+// Blob 을 base64로 변환
 async function blobToBase64(blob) {
   try {
     const reader = new FileReader();
@@ -128,7 +127,7 @@ async function blobToBase64(blob) {
   }
 }
 
-// Display transcription
+// api통신으로부터 온 response를 화면에 diplay함
 function displayTranscription(response) {
   try {
     if (response.results) {
