@@ -41,17 +41,24 @@ startButton.addEventListener("click", async () => {
 });
 
 // Stop recording
-stopButton.addEventListener("click", () => {
-  try {
-    stopButton.disabled = true;
-    startButton.disabled = false;
+stopButton.addEventListener("click", async () => {
+    if (!mediaRecorder || mediaRecorder.state === "inactive") return;
+  
     mediaRecorder.stop();
+  
+    const audioBlob = new Blob(audioChunks, { type: "audio/webm; codecs=opus" });
+  
+    // Send the audioBlob to Google Speech-to-Text API
+    const response = await sendAudioToGoogleSTT(audioBlob);
+    displayTranscription(response);
+  
+    // Re-enable the startButton and reset the audioChunks array
+    startButton.disabled = false;
     audioChunks = [];
-  } catch (error) {
-    console.error("Error stopping recording:", error);
-    stopButton.disabled = false;
-  }
-});
+  });
+  
+  
+  
 
 // Send audio to Google Speech-to-Text API
 async function sendAudioToGoogleSTT(blob) {
@@ -62,11 +69,11 @@ async function sendAudioToGoogleSTT(blob) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          config: {
-            encoding: "OGG_OPUS",
-            // sampleRateHertz: 48000, // Comment out or remove this line
-            languageCode: "en-US",
-          },
+            config: {
+                encoding: "WEBM_OPUS",
+                languageCode: "tr-TR",
+              },
+              
           audio: {
             content: await blobToBase64(blob),
           },
@@ -111,12 +118,10 @@ function displayTranscription(response) {
           .join("\n");
         transcript.textContent = transcribedText;
       } else {
-        transcript.textContent = "No transcription results found.";
         console.warn("No transcription results found in the API response:", response);
       }
     } catch (error) {
       console.error("Error displaying transcription:", error);
     }
   }
-  
   
