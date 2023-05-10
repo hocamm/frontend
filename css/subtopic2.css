@@ -65,6 +65,7 @@ main .dashboard {
 }
 
 .topic-first {
+    text-decoration: none;
     flex: 1;
     position: relative;
     display: flex;
@@ -82,6 +83,7 @@ main .dashboard {
 }
 
 .topic-mid {
+    text-decoration: none;
     flex: 1;
     position: relative;
     display: flex;
@@ -99,6 +101,7 @@ main .dashboard {
 }
 
 .topic-last {
+    text-decoration: none;
     flex: 1;
     position: relative;
     display: flex;
@@ -114,6 +117,56 @@ main .dashboard {
 
     margin: 0px 0px 0px 14px;
 }
+
+#topic1 {
+    transition: all 0.8s;
+}
+#topic1:hover {
+    box-shadow: 0px 0px 5px 5px gray;
+}
+#topic2 {
+    transition: all 0.8s;
+}
+#topic2:hover {
+    box-shadow: 0px 0px 5px 5px gray;
+}
+#topic3 {
+    transition: all 0.8s;
+}
+#topic3:hover {
+    box-shadow: 0px 0px 5px 5px gray;
+}
+#topic4 {
+    transition: all 0.8s;
+}
+#topic4:hover {
+    box-shadow: 0px 0px 5px 5px gray;
+}
+#topic5 {
+    transition: all 0.8s;
+}
+#topic5:hover {
+    box-shadow: 0px 0px 5px 5px gray;
+}
+#topic6 {
+    transition: all 0.8s;
+}
+#topic6:hover {
+    box-shadow: 0px 0px 5px 5px gray;
+}
+#topic7 {
+    transition: all 0.8s;
+}
+#topic7:hover {
+    box-shadow: 0px 0px 5px 5px gray;
+}
+#topic8 {
+    transition: all 0.8s;
+}
+#topic8:hover {
+    box-shadow: 0px 0px 5px 5px gray;
+}
+
 
 /* p */
 .info {
