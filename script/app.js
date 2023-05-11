@@ -42,11 +42,11 @@ stopButton.addEventListener("click", async () => {
 
   const audioBlob = new Blob(audioChunks, { type: "audio/webm; codecs=opus" });
 
-  // Send the audioBlob to Google Speech-to-Text API
+  // Blob을 GoogleSTT로 전송
   const response = await sendAudioToGoogleSTT(audioBlob);
   displayTranscription(response);
 
-  // Re-enable the startButton and reset the audioChunks array
+  // 시작 버튼 활성화
   startButton.disabled = false;
 });
 
@@ -61,17 +61,17 @@ playbackButton.addEventListener("click", () => {
     const audioURL = URL.createObjectURL(audioBlob);
     const audioElement = new Audio(audioURL);
   
-    // Wait for the media file to load completely before playing it
+    // 다시 듣기 전 녹음된 파일 저장할때 까지 대기
     audioElement.addEventListener("loadedmetadata", () => {
       audioElement.play();
     });
   
-    // Log any playback errors
+    // 다시 듣기 에러 로깅
     audioElement.addEventListener("error", (event) => {
       console.error("Playback error:", event);
     });
   
-    // Reset the audioChunks array after playback
+    // 녹음 내용 초기화
     audioElement.addEventListener("ended", () => {
       audioChunks = [];
     });
@@ -101,7 +101,7 @@ async function sendAudioToGoogleSTT(blob) {
     );
 
     const jsonResponse = await response.json();
-    console.log("Raw STT API response:", jsonResponse); // Log the raw response
+    console.log("Raw STT API response:", jsonResponse); // api 응답 로깅
     return jsonResponse;
   } catch (error) {
     console.error("Error sending audio to Google STT:", error);
@@ -127,7 +127,7 @@ async function blobToBase64(blob) {
   }
 }
 
-// api통신으로부터 온 response를 화면에 diplay함
+// api통신으로부터 온 response를 화면에 display함
 function displayTranscription(response) {
   try {
     if (response.results) {
