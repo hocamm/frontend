@@ -62,11 +62,13 @@ $(document).ready(function () {
       contentType : "application/json; charset=utf-8",
       success: function(response) {
           alert("회원가입이 완료되었습니다.");
+          window.location.href = "./home.html"
           console.log(response)
         },
       error: function(response) {
         alert("회원가입에 실패했습니다.");
         console.log(response)
+        window.location.href = "./home.html"
       },
     });
   });
