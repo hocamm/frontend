@@ -65,6 +65,8 @@ main .dashboard {
 }
 
 .first-topic {
+    text-decoration: none;
+    transition: all 0.8s;
     flex:1;
     position: relative;
     display: flex;
@@ -80,7 +82,13 @@ main .dashboard {
     text-align: left;
 }
 
+.first-topic:hover{
+    box-shadow: 0px 0px 3px 3px gray;
+}
+
 .second-topic {
+    text-decoration: none;
+    transition: all 0.8s;
     flex: 1;
     position: relative;
     display: flex;
@@ -96,7 +104,13 @@ main .dashboard {
     text-align: left;
 }
 
+.second-topic:hover{
+    box-shadow: 0px 0px 3px 3px gray;
+}
+
 .third-topic {
+    text-decoration: none;
+    transition: all 0.8s;
     flex: 1;
     position: relative;
     display: flex;
@@ -110,6 +124,10 @@ main .dashboard {
     border-radius: 8px;
     background-color: #ffffff;
     text-align: left;
+}
+
+.third-topic:hover{
+    box-shadow: 0px 0px 3px 3px gray;
 }
 
 /* p */

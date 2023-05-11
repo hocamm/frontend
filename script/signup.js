@@ -55,7 +55,7 @@ $(document).ready(function () {
     };
 
     $.ajax({
-      url: "https://13.209.187.148:8080/user/register",
+      url: "http://13.209.187.148:8080/user/register",
       type: "POST",
       dataType : "json",
       data: JSON.stringify(data),
