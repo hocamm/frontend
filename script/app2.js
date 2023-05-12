@@ -1,40 +1,46 @@
 const startButton = document.getElementById("start-recording");
 const stopButton = document.getElementById("stop-recording");
+const sendButton = document.getElementById("send-content")
 const transcript = document.getElementById("transcript");
 
 let recognition;
 let isRecording = false;
 let socket;
 
-$.ajax({
-  url: "http://43.200.123.232:8080/chat",
-  method: "POST",
-  data: {},
-})
-  .done(function (data) {
-    socket = new WebSocket(`ws://43.200.123.232:8080/ws/chat`);
-    console.log(data);
-
-    let userroomid = data.data.roomId;
-
-    // Save roomId in Local Storage
-    localStorage.setItem('roomId', userroomid);
-
-    socket.onmessage = function (event) {
-      console.log("Received: ", event.data);
-    };
-
-    socket.onerror = function (error) {
-      console.error("WebSocket Error: ", error);
-    };
-
-    socket.onclose = function (event) {
-      console.log("WebSocket is closed now.");
-    };
+function getRoomId() {
+  return $.ajax({
+    url: "http://43.200.123.232:8080/chat",
+    method: "POST",
+    data: {},
   })
-  .fail(function (error) {
-    console.error("Error:", error);
-  });
+    .done(function (data) {
+      socket = new WebSocket(`ws://43.200.123.232:8080/ws/chat`);
+      console.log(data);
+
+      let userroomid = data.data.roomId;
+
+      // Save roomId in Local Storage
+      localStorage.setItem("roomId", userroomid);
+
+      socket.onmessage = function (event) {
+        console.log("Received: ", event.data);
+      };
+
+      socket.onerror = function (error) {
+        console.error("WebSocket Error: ", error);
+      };
+
+      socket.onclose = function (event) {
+        console.log("WebSocket is closed now.");
+      };
+    })
+    .fail(function (error) {
+      console.error("Error:", error);
+    });
+}
+
+getRoomId();
+
 
 if (window.SpeechRecognition || window.webkitSpeechRecognition) {
   recognition = new (window.SpeechRecognition ||
@@ -55,6 +61,24 @@ startButton.addEventListener("click", () => {
   stopButton.disabled = false;
 });
 
+
+// recognition handling
+let interimTranscript = "";
+
+recognition.onresult = (event) => {
+  for (let i = event.resultIndex; i < event.results.length; i++) {
+    const transcript = event.results[i][0].transcript;
+    if (event.results[i].isFinal) {
+      interimTranscript += transcript;
+    }
+  }
+  
+  // If there is interimTranscript available, update the transcript's text content
+  if(interimTranscript) {
+    transcript.textContent = interimTranscript;
+  }
+};
+
 stopButton.addEventListener("click", () => {
   if (!recognition || !isRecording) return;
 
@@ -63,37 +87,18 @@ stopButton.addEventListener("click", () => {
   startButton.disabled = false;
   stopButton.disabled = true;
 
-  // Retrieve roomId from Local Storage
-  const roomId = localStorage.getItem('roomId');
-
-  // Send the content of the transcript when the recording is stopped
-  socket.send(JSON.stringify({ roomId, content: transcript.textContent }));
+  interimTranscript = "";
 });
 
-recognition.onresult = (event) => {
-  let interimTranscript = "";
-  let finalTranscript = "";
+sendButton.addEventListener("click", () => {
+  // Retrieve roomId from Local Storage
+  const roomId = localStorage.getItem("roomId");
+  // Send the content of the transcript when the recording is stopped
+  socket.send(JSON.stringify({ roomId, content: transcript.textContent }));
 
-  for (let i = event.resultIndex; i < event.results.length; i++) {
-    const transcript = event.results[i][0].transcript;
-    if (event.results[i].isFinal) {
-      finalTranscript += transcript;
-  
-      // Retrieve roomId from Local Storage
-      const roomId = localStorage.getItem('roomId');
-  
-      // Send final transcript and roomId through WebSocket
-      socket.send(JSON.stringify({ roomId, content: finalTranscript }));
-    } else {
-      interimTranscript += transcript;
-    }
-  
-    transcript.textContent = finalTranscript || interimTranscript;
-  };
-
-  transcript.textContent = finalTranscript || interimTranscript;
-};
+})
 
 recognition.onerror = (event) => {
   console.error("Recognition error:", event.error);
 };
+
