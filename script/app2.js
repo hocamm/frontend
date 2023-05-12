@@ -9,7 +9,7 @@ let socket;
 
 function getRoomId() {
   return $.ajax({
-    url: "http://43.200.123.232:8080/chat",
+    url: "https://43.200.123.232:8080/chat",
     method: "POST",
     data: {},
   })
