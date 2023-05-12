@@ -19,23 +19,24 @@ function getRoomId() {
 
       let userroomid = data.data.roomId;
 
-      // Save roomId in Local Storage
+      // roomID 로컬 스토리지에 저장해서 사용해요
       localStorage.setItem("roomId", userroomid);
 
       socket.onmessage = function (event) {
         let response = JSON.parse(event.data);
         if (response.type === "machine") {
-          console.log("Hocam said: ", response.answer);
+            console.log("Hocam said: ", response.answer);
+            // 답만 일단 챗박스에 붙여줘요
+            document.getElementById('chatbox').innerHTML += '<p><strong>hocam:</strong> ' + response.answer + '</p>';
         }
-      };
-      
+    };
 
       socket.onerror = function (error) {
         console.error("WebSocket Error: ", error);
       };
 
       socket.onclose = function (event) {
-        console.log("WebSocket is closed now.");
+        console.log("WebSocket is closed now.", event);
       };
     })
     .fail(function (error) {
@@ -66,20 +67,21 @@ startButton.addEventListener("click", () => {
 });
 
 
-// recognition handling
+// 인식 어떻게하는지 로직
+// 콤마 찍고 물음표 찍을라면 이걸로 핸들링 해야해요
 let interimTranscript = "";
 
 recognition.onresult = (event) => {
   for (let i = event.resultIndex; i < event.results.length; i++) {
-    const transcript = event.results[i][0].transcript;
+    const transcriptText = event.results[i][0].transcript;
     if (event.results[i].isFinal) {
-      interimTranscript += transcript;
+      interimTranscript += transcriptText;
     }
   }
   
-  // If there is interimTranscript available, update the transcript's text content
+  // 사용자가 계속 말하고 있을수도 있어서 interimTranscript 최신화 하는 기능
   if(interimTranscript) {
-    transcript.textContent = interimTranscript;
+    transcript.value = interimTranscript;
   }
 };
 
@@ -95,14 +97,21 @@ stopButton.addEventListener("click", () => {
 });
 
 sendButton.addEventListener("click", () => {
-  // Retrieve roomId from Local Storage
+  // 위에서 로컬스토리지에 저장했던 roomID 가져와요
   const roomId = localStorage.getItem("roomId");
-  // Send the content of the transcript when the recording is stopped
-  const request = JSON.stringify({ roomId, content: transcript.textContent })
+
+  // 챗박스에 사용자 input 붙여넣는거
+  const message = transcript.value;
+  document.getElementById('chatbox').innerHTML += '<p><strong>You:</strong> ' + message + '</p>';
+
+  // send 버튼 눌러야만 서버로 보내져요
+  const request = JSON.stringify({ roomId, content: message });
 
   socket.send(request);
-  console.log("You Said: ", transcript.textContent)
-})
+  console.log("You Said: ", message);
+
+  transcript.value = ""; // 메세지 박스 비워서 뒤에 연결되지 않게 해요
+});
 
 recognition.onerror = (event) => {
   console.error("Recognition error:", event.error);
