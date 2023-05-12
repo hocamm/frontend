@@ -5,21 +5,20 @@ const transcript = document.getElementById("transcript");
 let recognition;
 let isRecording = false;
 
-// Create a new SpeechRecognition object
 if (window.SpeechRecognition || window.webkitSpeechRecognition) {
   recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-  recognition.continuous = true; // Enable continuous recognition
-  recognition.interimResults = true; // Enable interim results
-  recognition.lang = "tr-TR"; // Set the language
+  recognition.continuous = true; 
+  recognition.interimResults = true; 
+  recognition.lang = "tr-TR"; 
 } else {
-  console.error("Speech Recognition API not supported by this browser.");
+  console.error("Speech Recognition 기능은 이 브라우저에서 지원되지 않습니다");
 }
 
 startButton.addEventListener("click", () => {
   if (!recognition) return;
 
   isRecording = true;
-  recognition.start(); // Start recognition
+  recognition.start(); 
   startButton.disabled = true;
   stopButton.disabled = false;
 });
@@ -27,7 +26,7 @@ startButton.addEventListener("click", () => {
 stopButton.addEventListener("click", () => {
   if (!recognition || !isRecording) return;
 
-  recognition.stop(); // Stop recognition
+  recognition.stop();
   isRecording = false;
   startButton.disabled = false;
   stopButton.disabled = true;
