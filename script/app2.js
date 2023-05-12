@@ -23,8 +23,12 @@ function getRoomId() {
       localStorage.setItem("roomId", userroomid);
 
       socket.onmessage = function (event) {
-        console.log("Received: ", event.data);
+        let response = JSON.parse(event.data);
+        if (response.type === "machine") {
+          console.log("Hocam said: ", response.answer);
+        }
       };
+      
 
       socket.onerror = function (error) {
         console.error("WebSocket Error: ", error);
@@ -94,8 +98,10 @@ sendButton.addEventListener("click", () => {
   // Retrieve roomId from Local Storage
   const roomId = localStorage.getItem("roomId");
   // Send the content of the transcript when the recording is stopped
-  socket.send(JSON.stringify({ roomId, content: transcript.textContent }));
+  const request = JSON.stringify({ roomId, content: transcript.textContent })
 
+  socket.send(request);
+  console.log("You Said: ", transcript.textContent)
 })
 
 recognition.onerror = (event) => {
