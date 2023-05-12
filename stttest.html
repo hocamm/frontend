@@ -8,10 +8,30 @@
 </head>
 <body>
   <h1>hocam</h1>
-  <button id="start-recording">녹음 시작</button>
-  <button id="stop-recording" disabled>녹음 종료</button>
-  <button id="playback">다시 듣기 </button>
-  <p id="transcript"></p>
-  <script src="./app.js"></script>
+  <div class="dashboard">
+    <!-- 채팅 박스 추가 -->
+    <div class="chatting-box">
+      <div id="chat-content">
+      
+      </div>
+      <div class="sending-box">
+        <p id="myChat">
+          <!-- transcript를 이 부분에 넣어도 될지 궁금 -->
+          <p id="transcript"></p> 
+        </p>
+        <input type="submit" id="send" value="send">
+      </div>
+    </div>
+    
+    <div class="recording-box">
+      <button id="start-recording">녹음 시작</button>
+      <button id="stop-recording" disabled>녹음 종료</button>
+      <button id="playback">다시 듣기 </button>
+      <p id="transcript"></p>
+      <script src="./app.js"></script>
+    </div>
+  </div>
+  
+  
 </body>
 </html>
