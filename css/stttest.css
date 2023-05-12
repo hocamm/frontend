@@ -1,19 +1,90 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f0f0f0;
-    padding: 50px;
-  }
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f0f0f0;
+  padding: 50px;
+}
+
+.dashboard {
+  display: inline-flex;
+  justify-content: space-between;
+}
+
+.chatting-box {
+  width: 65%;
+}
+
+/* .msgLine, .msgBox는 메세지 생성될 때 사용됨 */
+.msgLine {
+  margin: 15px;
+}
+
+.msgBox {
+  border: 1px solid black;
+  background-color: black;
+  padding: 2px 5px;
+  border-radius: 10px;
+}
+
+#chat-content {
+  border: 1px solid black;
+  width: 100%;
+  height: 200px;
+  margin-bottom: 10px;
+  overflow-y: auto;
+}
+
+.sending-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#myChat {
+  width: 100%;
+  height: 40px;
+  border: 1px solid black;
+  border-radius: 50px;
+}
+
+#msg, #myChat {
+  width: 80%;
+  height: 32px;
+  border-radius: 8px;
+}
+
+#send {
+  float: right;
+  width: 16%;
+  height: 34px;
+  border-radius: 50px;
+  background: black;
+  color: white;
+  cursor: pointer;
+}
+
+.recording-box {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30%;
+}
   
-  button {
-    font-size: 1rem;
-    padding: 10px 20px;
-    margin: 10px;
-    cursor: pointer;
-  }
+button {
+  font-size: 1rem;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+}
   
-  p {
-    font-size: 1.2rem;
-    white-space: pre-wrap;
-  }
+p {
+  font-size: 1.2rem;
+  white-space: pre-wrap;  
+}
   

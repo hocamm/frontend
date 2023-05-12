@@ -54,7 +54,7 @@ main .dashboard {
     align-items: center;
     width: 1080px;
     height: 100%;
-    padding: 5rem 1.25rem;
+    padding: 2rem 1.25rem 1.5rem 1.25rem;
     background: #EFEFEF;
 }
 
