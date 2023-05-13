@@ -1,6 +1,6 @@
 const startButton = document.getElementById("start-recording");
 const stopButton = document.getElementById("stop-recording");
-const sendButton = document.getElementById("send-content")
+const sendButton = document.getElementById("send-content");
 const transcript = document.getElementById("transcript");
 
 let recognition;
@@ -24,12 +24,28 @@ function getRoomId() {
 
       socket.onmessage = function (event) {
         let response = JSON.parse(event.data);
+
         if (response.type === "machine") {
-            console.log("Hocam said: ", response.answer);
-            // 답만 일단 챗박스에 붙여줘요
-            document.getElementById('chatbox').innerHTML += '<p><strong>hocam:</strong> ' + response.answer + '</p>';
+          console.log("Hocam said: ", response.answer);
+          document.getElementById("chatbox").innerHTML +=
+            "<p><strong>hocam:</strong> " + response.answer + "</p>";
+
+          // Check if grammarCorrection property exists
+          if (response.grammarCorrection) {
+            let grammarfix = JSON.parse(response.grammarCorrection);
+            // Check if grammarFixedOutput property exists
+            if (grammarfix[1] && grammarfix[1].grammarFixedOutput) {
+              let correctedSentence =
+                grammarfix[1].grammarFixedOutput.split("\"")[1] + ".";
+              console.log(grammarfix[1].grammarFixedOutput  );
+              document.getElementById("chatbox").innerHTML +=
+                "<p><strong>이렇게 말하는 것이 더 좋아요:</strong> " +
+                correctedSentence +
+                "</p>";
+            }
+          }
         }
-    };
+      };
 
       socket.onerror = function (error) {
         console.error("WebSocket Error: ", error);
@@ -45,7 +61,6 @@ function getRoomId() {
 }
 
 getRoomId();
-
 
 if (window.SpeechRecognition || window.webkitSpeechRecognition) {
   recognition = new (window.SpeechRecognition ||
@@ -66,7 +81,6 @@ startButton.addEventListener("click", () => {
   stopButton.disabled = false;
 });
 
-
 // 인식 어떻게하는지 로직
 // 콤마 찍고 물음표 찍을라면 이걸로 핸들링 해야해요
 let interimTranscript = "";
@@ -78,9 +92,9 @@ recognition.onresult = (event) => {
       interimTranscript += transcriptText;
     }
   }
-  
+
   // 사용자가 계속 말하고 있을수도 있어서 interimTranscript 최신화 하는 기능
-  if(interimTranscript) {
+  if (interimTranscript) {
     transcript.value = interimTranscript;
   }
 };
@@ -102,7 +116,8 @@ sendButton.addEventListener("click", () => {
 
   // 챗박스에 사용자 input 붙여넣는거
   const message = transcript.value;
-  document.getElementById('chatbox').innerHTML += '<p><strong>You:</strong> ' + message + '</p>';
+  document.getElementById("chatbox").innerHTML +=
+    "<p><strong>You:</strong> " + message + "</p>";
 
   // send 버튼 눌러야만 서버로 보내져요
   const request = JSON.stringify({ roomId, content: message });
@@ -116,4 +131,3 @@ sendButton.addEventListener("click", () => {
 recognition.onerror = (event) => {
   console.error("Recognition error:", event.error);
 };
-
