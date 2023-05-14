@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="kr">
+
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=()" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>호잠</title>
+
+    <link rel="stylesheet" href="./css/chat.css">
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+      integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.js"
+      integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+      crossorigin="anonymous"
+    ></script>
+    
+  </head>
+  <body>
+    <nav>
+      <div class="container">
+        <img src="./images/mainlogo_lil.png" alt="MainLogo" id="mainlogo" />
+      </div>
+    </nav>
+
+    <div class="chatbox-container">
+      <div class="left-column">
+
+        <div id="chatbox" class="chatbox">
+          <!-- 채팅이 여기에 붙어요 -->
+        </div>
+
+        <div class="send-area">
+          <input
+            id="transcript"
+            class="message-box"
+            type="text"
+            placeholder="메세지를 입력해 주세요"
+          />
+          <button id="send-content">send</button>
+        </div>
+      </div>
+
+      <div class="controls">
+        <img src="images/start-recording.png" id="recording-btn" alt="recoring-btn">
+        <div class="buttons">
+          <button onclick="changeImgStart()" id="start-recording">녹음 시작</button>
+          <button onclick="changeImgStop()" id="stop-recording" disabled>녹음 종료</button>
+        </div>
+      </div>
+      
+    </div>
+
+    
+    <script src="./script/app2.js"></script>
+  </body>
+</html>

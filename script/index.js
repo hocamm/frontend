@@ -57,7 +57,7 @@ $(function () {
       password: userpw,
     };
     $.ajax({
-      url: "http://13.209.187.148:8080/auth/login",
+      url: "http://43.200.123.232:8080/auth/login",
       method: "POST",
       data: data,
       success: function (data) {
