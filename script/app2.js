@@ -1,7 +1,7 @@
-const startButton = document.getElementById("start-recording");
-const stopButton = document.getElementById("stop-recording");
-const sendButton = document.getElementById("send-content");
-const transcript = document.getElementById("transcript");
+const startButton = $("#start-recording");
+const stopButton = $("#stop-recording");
+const sendButton = $("#send-content");
+const transcript = $("#transcript");
 
 let recognition;
 let isRecording = false;
@@ -51,15 +51,17 @@ function SocketEventHandlers() {
               grammarfix[1].grammarFixedOutput.split('"')[1] + ".";
             console.log(grammarfix[1].grammarFixedOutput);
             // 수정된 문법 챗박스에 추가
-            document.getElementById("chatbox").innerHTML +=
+            $("#chatbox").append(
               "<div class='message-container user grammarcorrection'><p class='message user grammarcorrection'><strong>이렇게 말하는 것이 더 좋아요:</strong> " +
-              correctedSentence +
-              "</p></div>";
+                correctedSentence +
+                "</p></div>"
+            );
             // hocam 답변 챗박스에 추가
-            document.getElementById("chatbox").innerHTML +=
-            "<div class='message-container machine'><p class='message machine'>" +
-            response.answer +
-            "</p></div>";
+            $("#chatbox").append(
+              "<div class='message-container machine'><p class='message machine'>" +
+                response.answer +
+                "</p></div>"
+            );
           }
         }
       }
@@ -69,7 +71,6 @@ function SocketEventHandlers() {
 
 getRoomId().then(SocketEventHandlers);
 
-
 if (window.SpeechRecognition || window.webkitSpeechRecognition) {
   recognition = new (window.SpeechRecognition ||
     window.webkitSpeechRecognition)();
@@ -77,12 +78,11 @@ if (window.SpeechRecognition || window.webkitSpeechRecognition) {
   recognition.interimResults = true;
   recognition.lang = "tr-TR";
 } else {
-  console.error("이 브라우저는 STT 인식 기능을 하지 않습니다. 다른 브라우저를 사용해 주세요.");
+  console.error(
+    "이 브라우저는 STT 인식 기능을 하지 않습니다. 다른 브라우저를 사용해 주세요."
+  );
 }
 
-
-// 인식 어떻게하는지 로직
-// 콤마 찍고 물음표 찍을라면 이걸로 핸들링 해야해요
 let interimTranscript = "";
 
 recognition.onresult = (event) => {
@@ -93,43 +93,42 @@ recognition.onresult = (event) => {
     }
   }
 
-  // 사용자가 계속 말하고 있을수도 있어서 interimTranscript 최신화 하는 기능
   if (interimTranscript) {
-    transcript.value = interimTranscript;
+    transcript.val(interimTranscript);
   }
 };
 
-startButton.addEventListener("click", () => {
+startButton.on("click", () => {
   if (!recognition) return;
 
   isRecording = true;
   recognition.start();
-  startButton.disabled = true;
-  stopButton.disabled = false;
+  startButton.prop("disabled", true);
+  stopButton.prop("disabled", false);
 });
 
-
-stopButton.addEventListener("click", () => {
+stopButton.on("click", () => {
   if (!recognition || !isRecording) return;
 
   recognition.stop();
   isRecording = false;
-  startButton.disabled = false;
-  stopButton.disabled = true;
+  startButton.prop("disabled", false);
+  stopButton.prop("disabled", true);
 
   interimTranscript = "";
 });
 
-sendButton.addEventListener("click", () => {
+sendButton.on("click", () => {
   // 위에서 로컬스토리지에 저장했던 roomID 가져와요
   const roomId = localStorage.getItem("roomId");
 
   // 챗박스에 사용자 input 붙여넣는거
-  const message = transcript.value;
-  document.getElementById("chatbox").innerHTML +=
+  const message = transcript.val();
+  $("#chatbox").append(
     "<div class='message-container user'><p class='message user'><strong>You:</strong> " +
-    message +
-    "</p></div>";
+      message +
+      "</p></div>"
+  );
 
   // send 버튼 눌러야만 서버로 보내져요
   const request = JSON.stringify({ roomId, content: message });
@@ -137,7 +136,7 @@ sendButton.addEventListener("click", () => {
   socket.send(request);
   console.log("You Said: ", message);
 
-  transcript.value = ""; // 메세지 박스 비워서 뒤에 연결되지 않게 해요
+  transcript.val(""); // 메세지 박스 비워서 뒤에 연결되지 않게 해요
 });
 
 recognition.onerror = (event) => {
