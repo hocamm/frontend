@@ -51,8 +51,10 @@ function SocketEventHandlers() {
               grammarfix[1].grammarFixedOutput.split('"')[1] + ".";
             console.log(grammarfix[1].grammarFixedOutput);
             // 수정된 문법 챗박스에 추가
-            $(".message-container.user:last").append(
-              "<p class='message user grammarcorrection'><strong>이렇게 말하는 것이 더 좋아요:</strong> " +
+            $(".message-container.user:last").html(
+              "<p class='message user'><strong>You:</strong> " +
+                message +
+                "</p><p class='message user grammarcorrection'><strong>이렇게 말하는 것이 더 좋아요:</strong> " +
                 correctedSentence +
                 "</p>"
             );
@@ -68,6 +70,7 @@ function SocketEventHandlers() {
     };
   }
 }
+
 
 getRoomId().then(SocketEventHandlers);
 
