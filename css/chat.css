@@ -82,6 +82,38 @@ nav img {
     margin-right: 10px;
 }
 
+.message-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .message-container.user {
+    justify-content: flex-end;
+  }
+
+  .message {
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px;
+  }
+
+  .message.user {
+    background-color: #cce5ff;
+    color: #004085;
+  }
+
+  .message.user.grammarcorrection {
+    background-color: #cce5ff;
+    color: red;
+  }
+
+  .message.machine {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
 .send-area #send-content {
     width: 10%;
     border-radius: 20px;
