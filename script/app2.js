@@ -47,20 +47,21 @@ function SocketEventHandlers() {
             let correctedSentence =
               grammarfix[1].grammarFixedOutput.split('"')[1] + ".";
             console.log(grammarfix[1].grammarFixedOutput);
-
+    
             // 고친 문장 기존 채팅 밑에 붙임
             $(".message-container.user:last .message.user").append(
               "<p class='grammarcorrection' style='color: red'><strong>이렇게 말하는 것이 더 좋아요:</strong> " +
                 correctedSentence +
                 "</p>"
             );
+    
+            // Remove "thinking" message and stop the animation
+            $(".message-container.machine.thinking").remove();
+            stopThinkingAnimation();
           }
         }
-
-        setTimeout(function() {
-          $(".message-container.machine.thinking").remove();
-          stopThinkingAnimation();
     
+        setTimeout(function() {
           // 응답에 대한 새로운 챗 버블 생성
           $("#chatbox").append(
             "<div class='message-container machine'><p class='message machine'>" +
@@ -69,9 +70,9 @@ function SocketEventHandlers() {
           );
           scrollToBottom();
         }, 2000);
-        
       }
     };
+    
   }
 }
 
@@ -102,6 +103,10 @@ recognition.onresult = (event) => {
   if (interimTranscript) {
     transcript.val(interimTranscript);
   }
+};
+
+recognition.onerror = (event) => {
+  console.error("Recognition error:", event.error);
 };
 
 startButton.on("click", () => {
@@ -155,9 +160,7 @@ sendButton.on("click", () => {
   scrollToBottom();
 });
 
-recognition.onerror = (event) => {
-  console.error("Recognition error:", event.error);
-};
+
 
 // 스크롤 자동으로 밑으로 내림 - test 필요
 function scrollToBottom() {
@@ -198,17 +201,13 @@ function startThinkingAnimation() {
       }
       count++;
     }
-  }, 300);
+  }, 400);
 }
 
 function stopThinkingAnimation() {
   clearInterval(thinkingAnimationInterval);
 }
 
-
-function stopThinkingAnimation() {
-  clearInterval(thinkingAnimationInterval);
-}
 // 클릭시 녹음 모양 아이콘 변함
 function changeImgStart() {
   document.getElementById("recording-btn").src = "../images/stop-recording.png";
