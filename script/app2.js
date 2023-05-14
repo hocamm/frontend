@@ -47,21 +47,21 @@ function SocketEventHandlers() {
             let correctedSentence =
               grammarfix[1].grammarFixedOutput.split('"')[1] + ".";
             console.log(grammarfix[1].grammarFixedOutput);
-    
+
             // 고친 문장 기존 채팅 밑에 붙임
             $(".message-container.user:last .message.user").append(
               "<p class='grammarcorrection' style='color: red'><strong>이렇게 말하는 것이 더 좋아요:</strong> " +
                 correctedSentence +
                 "</p>"
             );
-    
+
             // Remove "thinking" message and stop the animation
             $(".message-container.machine.thinking").remove();
             stopThinkingAnimation();
           }
         }
-    
-        setTimeout(function() {
+
+        setTimeout(function () {
           // 응답에 대한 새로운 챗 버블 생성
           $("#chatbox").append(
             "<div class='message-container machine'><p class='message machine'>" +
@@ -72,7 +72,6 @@ function SocketEventHandlers() {
         }, 2000);
       }
     };
-    
   }
 }
 
@@ -129,7 +128,8 @@ stopButton.on("click", () => {
   interimTranscript = "";
 });
 
-sendButton.on("click", () => {
+// sendText는 엔터치거나 send 누르면 보내짐
+function sendText() {
   // 위에서 로컬스토리지에 저장했던 roomID 가져와요
   const roomId = localStorage.getItem("roomId");
 
@@ -141,7 +141,6 @@ sendButton.on("click", () => {
       "</p></div>"
   );
 
-  // send 버튼 눌러야만 서버로 보내져요
   const request = JSON.stringify({ roomId, content: message });
 
   socket.send(request);
@@ -156,11 +155,20 @@ sendButton.on("click", () => {
   );
 
   setTimeout(startThinkingAnimation, 0);
-
   scrollToBottom();
+}
+
+// send 버튼 click시 sendtext 실행
+sendButton.on("click", sendText);
+
+// transcript에 enter 눌렸을 때 sendtext 실행
+transcript.on("keypress", (event) => {
+  if (event.which === 13) {
+    // 13 is the keycode for Enter
+    event.preventDefault(); // Prevents the default action to be triggered (here it prevents the newline)
+    sendText();
+  }
 });
-
-
 
 // 스크롤 자동으로 밑으로 내림 - test 필요
 function scrollToBottom() {
@@ -168,10 +176,12 @@ function scrollToBottom() {
   chatbox.scrollTop = chatbox.scrollHeight;
 }
 
-let observer = new MutationObserver(function(mutations) {
-  mutations.forEach(function(mutation) {
-    if (mutation.type === 'childList') {
-      const thinkingMessageElement = document.querySelector(".message-container.machine.thinking .message.machine");
+let observer = new MutationObserver(function (mutations) {
+  mutations.forEach(function (mutation) {
+    if (mutation.type === "childList") {
+      const thinkingMessageElement = document.querySelector(
+        ".message-container.machine.thinking .message.machine"
+      );
       if (thinkingMessageElement) {
         startThinkingAnimation();
       }
@@ -179,14 +189,16 @@ let observer = new MutationObserver(function(mutations) {
   });
 });
 
-observer.observe(document.querySelector('#chatbox'), { childList: true });
+observer.observe(document.querySelector("#chatbox"), { childList: true });
 
 function startThinkingAnimation() {
   let count = 0;
-  
+
   thinkingAnimationInterval = setInterval(() => {
-    const thinkingMessageElement = document.querySelector(".message-container.machine.thinking .message.machine");
-    
+    const thinkingMessageElement = document.querySelector(
+      ".message-container.machine.thinking .message.machine"
+    );
+
     if (thinkingMessageElement) {
       switch (count % 3) {
         case 0:
