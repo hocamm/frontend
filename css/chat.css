@@ -1,164 +1,162 @@
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    font-family: "Noto Sans KR",sans-serif;
-    position: relative;
-    display: flex;
-    width: 100%;
-    height: 100vh;
-    flex-direction: column;
-    background: #EFEFEF;
+  margin: 0;
+  font-family: "Noto Sans KR", sans-serif;
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  flex-direction: column;
+  background: #efefef;
 }
 
 /* navigation bar layout */
 
 body nav {
-    position: sticky;
-    z-index: 1;
-    top: 0;
-    display: flex;
-    width: 100%;
-    height: 4rem;
-    align-items: center;
-    justify-content: center;
-    font-size: .875rem;
-    background: #ffffff;
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  display: flex;
+  width: 100%;
+  height: 4rem;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  background: #ffffff;
 }
 
 body nav .container {
-    position:relative;
-    display: flex;
-    width: 1080px;
-    height: 4rem;
-    align-items:center;
-    justify-content: space-between;
-    padding: 0 1.25rem;
-    color: #ffffff;
+  position: relative;
+  display: flex;
+  width: 1080px;
+  height: 4rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+  color: #ffffff;
 }
 
 nav img {
-    width: 12%;
+  width: 12%;
 }
 
 /* chatbox-container(navigation 밑 부분) */
 .chatbox-container {
-    display: flex;
-    width: 100%;
-    height: 100vh;
-    align-items: stretch;
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  align-items: stretch;
 }
 
 /* left-container(화면 좌측, chatbox, send-area 포함된 div) */
 .left-column {
-    float: left;
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    height: 100%;
+  float: left;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  height: 100%;
 }
 .chatbox {
-    width: 100%;
-    height: 90%;
-    padding: 20px;
-    overflow: auto;
+  width: 100%;
+  height: 90%;
+  padding: 20px;
+  overflow: auto;
 }
 
 .send-area {
-    display: flex;
-    justify-content: center;
-    margin-top: 5px;
-    padding: 0px 10px;
-    height: 30px;
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+  padding: 0px 10px;
+  height: 30px;
 }
 
 .message-box {
-    border-radius: 20px;
-    padding-left: 20px;
-    border-width: 1px;
-    width: 90%;
-    margin-right: 10px;
+  border-radius: 20px;
+  padding-left: 20px;
+  border-width: 1px;
+  width: 90%;
+  margin-right: 10px;
 }
 
 .message-container {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: 10px;
-  }
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 10px;
+}
 
-  .message-container.user {
-    justify-content: flex-end;
-  }
+.message-container.user {
+  justify-content: flex-end;
+}
 
-  .message {
-    padding: 10px;
-    border-radius: 5px;
-    margin: 5px;
-  }
+.message {
+  padding: 10px;
+  border-radius: 5px;
+  margin: 5px;
+}
 
-  .message.user {
-    background-color: #cce5ff;
-    color: #004085;
-  }
+.message.user {
+  background-color: #cce5ff;
+  color: #004085;
+}
 
-  .message.user.grammarcorrection {
-    background-color: #cce5ff;
-    color: red;
-  }
+.message.user.grammarcorrection {
+  background-color: #cce5ff;
+  color: red;
+}
 
-  .message.machine {
-    background-color: #d4edda;
-    color: #155724;
-  }
+.message.machine {
+  background-color: #d4edda;
+  color: #155724;
+}
 
 .send-area #send-content {
-    width: 10%;
-    border-radius: 20px;
-    border-width: 0px;
-    background-color: #034AA6;
-    color: #ffffff;
+  width: 10%;
+  border-radius: 20px;
+  border-width: 0px;
+  background-color: #034aa6;
+  color: #ffffff;
 }
 
 .send-area #send-content:hover {
-    background-color: #033c87;
-    transition: 0.5s;
+  background-color: #033c87;
+  transition: 0.5s;
 }
 
 /* controls(화면 우측, 녹음 버튼 있는 부분) */
 .controls {
-    float: right;
-    width: 20%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #ffffff;
+  float: right;
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
 }
 
 .controls img {
-    width: 40%;
-    margin-bottom: 20px;
+  width: 40%;
+  margin-bottom: 20px;
 }
 
 .buttons {
-    text-align: center;
+  text-align: center;
 }
 
 .buttons button {
-    display: inline-block;
-    margin: 2px;
-    border-radius: 20px;
-    border-width: 0px;
-    padding: 4px 8px;
-    background-color: #EFEFEF;
+  display: inline-block;
+  margin: 2px;
+  border-radius: 20px;
+  border-width: 0px;
+  padding: 4px 8px;
+  background-color: #efefef;
 }
 
 .buttons button:hover {
-    background-color: #c4c4c4;
-    transition: 0.5s;
+  background-color: #c4c4c4;
+  transition: 0.5s;
 }
-
-
