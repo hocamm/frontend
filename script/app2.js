@@ -53,7 +53,7 @@ function SocketEventHandlers() {
             // 수정된 문법 챗박스에 추가
             $(".message-container.user:last").html(
               "<p class='message user'><strong>You:</strong> " +
-                message +
+                userMessage +
                 "</p><p class='message user grammarcorrection'><strong>이렇게 말하는 것이 더 좋아요:</strong> " +
                 correctedSentence +
                 "</p>"
