@@ -142,3 +142,12 @@ sendButton.on("click", () => {
 recognition.onerror = (event) => {
   console.error("Recognition error:", event.error);
 };
+
+// 클릭시 녹음 모양 아이콘 변함
+function changeImgStart() {
+  document.getElementById("recording-btn").src = "../images/stop-recording.png"
+}
+
+function changeImgStop() {
+  document.getElementById("recording-btn").src = "../images/start-recording.png"
+}
