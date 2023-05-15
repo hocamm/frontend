@@ -41,6 +41,7 @@ function SocketEventHandlers() {
   if (socket) {
     socket.onmessage = function (event) {
       let response = JSON.parse(event.data);
+      let message = socket.lastMessage;
       if (response.type === "machine") {
         console.log("Hocam said: ", response.answer);
         console.log(response);
@@ -49,24 +50,49 @@ function SocketEventHandlers() {
 
         let fullFixedAnswer = response.grammarFixedAnswer;
         let answerReason = response.grammarFixedReason;
-        let trimedFixedAnswer = fullFixedAnswer.split(": ")[1];
-        // 고친 문장을 기존 유저 채팅 컨테이너 안, 유저의 말 하단에 붙입니다.
-        $(".message-container.user:last .message.user").append(
-          "<p class='grammarcorrection' style='color: red'><strong>이렇게 말하는 것이 더 좋아요:</strong> " +
-            fullFixedAnswer +
-            "</p>"+
-            "<p class='grammarcorrection' style='color: #034aa6'><strong>틀린 이유:</strong> " +
-            answerReason +
-            "</p>"
-        );
-        
+        let grammarCorrectionElement;
 
-        // 'hocam is thinking'이 지속되는 것을 멈춥니다
+        // Remove 'hocam is thinking'
         $(".message-container.machine.thinking").remove();
         stopThinkingAnimation();
-        // 2000ms 이후 화면에 띄웁니다.
+
+        // If 'doğrudur' is included in the corrected answer, append specific message
+        if (
+          fullFixedAnswer.includes("doğrudur") ||
+          fullFixedAnswer.includes("doğru") ||
+          answerReason.includes("doğru") ||
+          answerReason.includes("doğrudur")
+        ) {
+          grammarCorrectionElement =
+            "<div class='message-container machine grammarcorrection'>" +
+            "<div class='message machine grammarcorrection right'><strong>✔ 완벽해요</strong></div>" +
+            "<div class='message user'><strong>You:</strong>" +
+            message +
+            "</div>" +
+            "<div class= 'message machine grammarcorrection'><strong>자연스럽게 표현했어요</strong></div>" +
+            "</div>";
+        } else {
+          grammarCorrectionElement =
+            "<div class='message-container machine grammarcorrection'>" +
+            "<div class='message machine grammarcorrection wrong'><strong>✘ 교정이 필요해요 </strong></div>" +
+            "<div class='message user'><strong>You:</strong> " +
+            message +
+            "</div>" +
+            "<div class='message machine grammarcorrection wrong'>👉 이렇게 말해봐요:  " +
+            fullFixedAnswer +
+            "</div>" +
+            "<div class='message machine grammarcorrection'><strong>💡</strong> " +
+            answerReason +
+            "</div>" +
+            "</div>";
+        }
+
+        // Append user message and grammar correction in the same container
+        $(".message-container.user:last").html(grammarCorrectionElement);
+
+        // 2000ms after, display it on the screen.
         setTimeout(function () {
-          // 응답에 대한 새로운 챗 컨테이너를 생성합니다.
+          // Create a new chat container for the response.
           $("#chatbox").append(
             "<div class='message-container machine'><p class='message machine'>" +
               response.answer +
@@ -98,7 +124,8 @@ let interimTranscript = "";
 recognition.onresult = (event) => {
   for (let i = event.resultIndex; i < event.results.length; i++) {
     const transcriptText = event.results[i][0].transcript;
-    if (event.results[i].isFinal) {                             // 문장부호 추가를 위한 조건 생성
+    if (event.results[i].isFinal) {
+      // 문장부호 추가를 위한 조건 생성
       if (
         transcriptText.trim().startsWith("Neyin") ||
         transcriptText.trim().startsWith("Niçin") ||
@@ -167,8 +194,8 @@ function sendText() {
 
   // 챗박스에 사용자 입력값을 붙여넣습니다.
   const message = transcript.val();
-
-  // If transcript is empty, show an alert and return.
+  socket.lastMessage = message;
+  // sendbox 비어있으면 alert
   if (!message.trim()) {
     alert("하고싶은 말을 적어주세요");
     return;
@@ -203,7 +230,6 @@ sendButton.on("click", sendText);
 // transcript에 enter 눌렸을 때 sendtext 실행
 transcript.on("keypress", (event) => {
   if (event.which === 13) {
-    // 13 is the keycode for Enter
     event.preventDefault(); // Prevents the default action to be triggered (here it prevents the newline)
     sendText();
   }

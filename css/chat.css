@@ -1,3 +1,8 @@
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
 * {
   box-sizing: border-box;
 }
@@ -60,6 +65,8 @@ nav img {
   height: 100%;
 }
 .chatbox {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 90%;
   padding: 20px;
@@ -84,13 +91,29 @@ nav img {
 
 .message-container {
   display: flex;
-  justify-content: flex-start;
   align-items: center;
   margin-bottom: 10px;
+  max-width: 700px; 
+  word-wrap: break-word;
+  animation: fadeIn 1s;
+}
+
+.message-container.machine {
+  align-self: flex-start;
+}
+
+.message-container.machine.grammarcorrection {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  align-items: flex-start;
 }
 
 .message-container.user {
-  justify-content: flex-end;
+  align-self: flex-end;
 }
 
 .message {
@@ -114,6 +137,19 @@ nav img {
   color: #080808;
 }
 
+.message.machine.grammarcorrection {
+  background-color: #fffefe;
+  color: #034aa6;
+}
+.message.machine.grammarcorrection.wrong {
+  background-color: #fffefe;
+  color: red;
+}
+.message.machine.grammarcorrection.right {
+  background-color: #fffefe;
+  color: green;
+}
+
 .send-area #send-content {
   width: 10%;
   border-radius: 20px;
@@ -126,6 +162,9 @@ nav img {
   background-color: #033c87;
   transition: 0.5s;
 }
+
+
+
 
 /* controls(화면 우측, 녹음 버튼 있는 부분) */
 .controls {
