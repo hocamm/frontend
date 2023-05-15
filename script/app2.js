@@ -41,25 +41,22 @@ function SocketEventHandlers() {
       let response = JSON.parse(event.data);
       if (response.type === "machine") {
         console.log("Hocam said: ", response.answer);
-        if (response.grammarCorrection) {
-          let grammarfix = JSON.parse(response.grammarCorrection);
-          if (grammarfix[1] && grammarfix[1].grammarFixedOutput) {
-            let correctedSentence =
-              grammarfix[1].grammarFixedOutput.split('"')[1] + ".";
-            console.log(grammarfix[1].grammarFixedOutput);
+        console.log(response);
+        console.log("Grammar Correction: ", response.grammarFixedAnswer);
+        console.log("What is wrong: ", response.grammarFixedReason);
+        // 고친 문장 기존 채팅 밑에 붙임
+        let fullFixedAnswer = response.grammarFixedAnswer;
+        let trimedFixedAnswer = fullFixedAnswer.split(": ")[1];
 
-            // 고친 문장 기존 채팅 밑에 붙임
-            $(".message-container.user:last .message.user").append(
-              "<p class='grammarcorrection' style='color: red'><strong>이렇게 말하는 것이 더 좋아요:</strong> " +
-                correctedSentence +
-                "</p>"
-            );
+        $(".message-container.user:last .message.user").append(
+          "<p class='grammarcorrection' style='color: red'><strong>이렇게 말하는 것이 더 좋아요:</strong> " +
+            trimedFixedAnswer +
+            "</p>"
+        );
 
-            // Remove "thinking" message and stop the animation
-            $(".message-container.machine.thinking").remove();
-            stopThinkingAnimation();
-          }
-        }
+        // Remove "thinking" message and stop the animation
+        $(".message-container.machine.thinking").remove();
+        stopThinkingAnimation();
 
         setTimeout(function () {
           // 응답에 대한 새로운 챗 버블 생성
@@ -176,6 +173,7 @@ function scrollToBottom() {
   chatbox.scrollTop = chatbox.scrollHeight;
 }
 
+// observer 활용하여 hocam is thinking 동적으로 구현
 let observer = new MutationObserver(function (mutations) {
   mutations.forEach(function (mutation) {
     if (mutation.type === "childList") {
