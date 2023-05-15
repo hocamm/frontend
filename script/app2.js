@@ -7,6 +7,7 @@ let recognition;
 let isRecording = false;
 let socket;
 
+// roomID를 로컬 스토리지에 저장하여 대화를 지속할 수 있게 하는 함수
 function getRoomId() {
   return $.ajax({
     url: "http://43.200.123.232:8080/chat",
@@ -35,6 +36,7 @@ function getRoomId() {
     });
 }
 
+// socket에 대한 event를 핸들링 하는 함수
 function SocketEventHandlers() {
   if (socket) {
     socket.onmessage = function (event) {
@@ -44,22 +46,22 @@ function SocketEventHandlers() {
         console.log(response);
         console.log("Grammar Correction: ", response.grammarFixedAnswer);
         console.log("What is wrong: ", response.grammarFixedReason);
-        // 고친 문장 기존 채팅 밑에 붙임
+
         let fullFixedAnswer = response.grammarFixedAnswer;
         let trimedFixedAnswer = fullFixedAnswer.split(": ")[1];
-
+        // 고친 문장을 기존 유저 채팅 컨테이너 안, 유저의 말 하단에 붙입니다.
         $(".message-container.user:last .message.user").append(
           "<p class='grammarcorrection' style='color: red'><strong>이렇게 말하는 것이 더 좋아요:</strong> " +
             trimedFixedAnswer +
             "</p>"
         );
 
-        // Remove "thinking" message and stop the animation
+        // 'hocam is thinking'이 지속되는 것을 멈춥니다
         $(".message-container.machine.thinking").remove();
         stopThinkingAnimation();
-
+        // 2000ms 이후 화면에 띄웁니다.
         setTimeout(function () {
-          // 응답에 대한 새로운 챗 버블 생성
+          // 응답에 대한 새로운 챗 컨테이너를 생성합니다.
           $("#chatbox").append(
             "<div class='message-container machine'><p class='message machine'>" +
               response.answer +
@@ -74,6 +76,7 @@ function SocketEventHandlers() {
 
 getRoomId().then(SocketEventHandlers);
 
+// speech recognition 핸들링
 if (window.SpeechRecognition || window.webkitSpeechRecognition) {
   recognition = new (window.SpeechRecognition ||
     window.webkitSpeechRecognition)();
@@ -87,12 +90,25 @@ if (window.SpeechRecognition || window.webkitSpeechRecognition) {
 }
 
 let interimTranscript = "";
-
 recognition.onresult = (event) => {
   for (let i = event.resultIndex; i < event.results.length; i++) {
     const transcriptText = event.results[i][0].transcript;
     if (event.results[i].isFinal) {
-      interimTranscript += transcriptText + ".";
+      if (
+        transcriptText.trim().startsWith("Neyin") ||
+        transcriptText.trim().startsWith("Niçin") ||
+        transcriptText.trim().startsWith("Nerede") ||
+        transcriptText.trim().startsWith("Ne zaman") ||
+        transcriptText.trim().startsWith("Nasıl") ||
+        transcriptText.trim().endsWith("mi") ||
+        transcriptText.trim().endsWith("mü") ||
+        transcriptText.trim().endsWith("mı") ||
+        transcriptText.trim().endsWith("mu")
+      ) {
+        interimTranscript += transcriptText + "?";
+      } else {
+        interimTranscript += transcriptText + ".";
+      }
     }
   }
 
@@ -130,7 +146,7 @@ function sendText() {
   // 위에서 로컬스토리지에 저장했던 roomID 가져와요
   const roomId = localStorage.getItem("roomId");
 
-  // 챗박스에 사용자 input 붙여넣는거
+  // 챗박스에 사용자 입력값을 붙여넣습니다.
   const message = transcript.val();
   $("#chatbox").append(
     "<div class='message-container user'><p class='message user'><strong>You:</strong> " +
@@ -143,7 +159,7 @@ function sendText() {
   socket.send(request);
   console.log("You Said: ", message);
 
-  transcript.val(""); // 메세지 박스 비워서 뒤에 연결되지 않게 해요
+  transcript.val(""); // transcript를 비워서 뒤에 사용자 입력이 이어지지 않게 합니다.
 
   $("#chatbox").append(
     "<div class='message-container machine thinking'><p class='message machine' style='font-size: 30px'>" +
