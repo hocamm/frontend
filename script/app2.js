@@ -52,7 +52,7 @@ function SocketEventHandlers() {
         let answerReason = response.grammarFixedReason;
         let grammarCorrectionElement;
 
-        // Remove 'hocam is thinking'
+        // Remove ''
         $(".message-container.machine.thinking").remove();
         stopThinkingAnimation();
 
@@ -66,7 +66,7 @@ function SocketEventHandlers() {
           grammarCorrectionElement =
             "<div class='message-container machine grammarcorrection'>" +
             "<div class='message machine grammarcorrection right'><strong>✔ 완벽해요</strong></div>" +
-            "<div class='message user'><strong>You:</strong>" +
+            "<div class='message user'>" +
             message +
             "</div>" +
             "<div class= 'message machine grammarcorrection'><strong>자연스럽게 표현했어요</strong></div>" +
@@ -214,15 +214,19 @@ function sendText() {
 
   transcript.val(""); // transcript를 비워서 뒤에 사용자 입력이 이어지지 않게 합니다.
 
-  $("#chatbox").append(
-    "<div class='message-container machine thinking'><p class='message machine' style='font-size: 30px'>" +
-      "Hocam is thinking." +
-      "</p></div>"
-  );
+  // Add a delay before appending 'thinking' message.
+  setTimeout(() => {
+    $("#chatbox").append(
+      "<div class='message-container machine thinking'><p class='message machine thinking'>" +
+        "." +
+        "</p></div>"
+    );
 
-  setTimeout(startThinkingAnimation, 0);
-  scrollToBottom();
+    setTimeout(startThinkingAnimation, 0);
+    scrollToBottom();
+  }, 1500);
 }
+
 
 // send 버튼 click시 sendtext 실행
 sendButton.on("click", sendText);
@@ -230,7 +234,7 @@ sendButton.on("click", sendText);
 // transcript에 enter 눌렸을 때 sendtext 실행
 transcript.on("keypress", (event) => {
   if (event.which === 13) {
-    event.preventDefault(); // Prevents the default action to be triggered (here it prevents the newline)
+    event.preventDefault();
     sendText();
   }
 });
@@ -241,12 +245,12 @@ function scrollToBottom() {
   chatbox.scrollTop = chatbox.scrollHeight;
 }
 
-// observer 활용하여 hocam is thinking 동적으로 구현
+// observer 활용하여  동적으로 구현
 let observer = new MutationObserver(function (mutations) {
   mutations.forEach(function (mutation) {
     if (mutation.type === "childList") {
       const thinkingMessageElement = document.querySelector(
-        ".message-container.machine.thinking .message.machine"
+        ".message-container.machine.thinking.message.machine"
       );
       if (thinkingMessageElement) {
         startThinkingAnimation();
@@ -262,24 +266,24 @@ function startThinkingAnimation() {
 
   thinkingAnimationInterval = setInterval(() => {
     const thinkingMessageElement = document.querySelector(
-      ".message-container.machine.thinking .message.machine"
+      ".message-container.machine.thinking .message.machine.thinking"
     );
 
     if (thinkingMessageElement) {
       switch (count % 3) {
         case 0:
-          thinkingMessageElement.innerText = "Hocam is thinking.";
+          thinkingMessageElement.innerText = ".";
           break;
         case 1:
-          thinkingMessageElement.innerText = "Hocam is thinking..";
+          thinkingMessageElement.innerText = ". .";
           break;
         case 2:
-          thinkingMessageElement.innerText = "Hocam is thinking...";
+          thinkingMessageElement.innerText = ". . .";
           break;
       }
       count++;
     }
-  }, 400);
+  }, 450);
 }
 
 function stopThinkingAnimation() {
