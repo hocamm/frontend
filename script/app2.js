@@ -52,7 +52,7 @@ function SocketEventHandlers() {
         // 고친 문장을 기존 유저 채팅 컨테이너 안, 유저의 말 하단에 붙입니다.
         $(".message-container.user:last .message.user").append(
           "<p class='grammarcorrection' style='color: red'><strong>이렇게 말하는 것이 더 좋아요:</strong> " +
-            trimedFixedAnswer +
+            fullFixedAnswer +
             "</p>"
         );
 
@@ -105,7 +105,19 @@ recognition.onresult = (event) => {
         transcriptText.trim().endsWith("mı") ||
         transcriptText.trim().endsWith("mu") ||
         transcriptText.trim().endsWith("nasılsınız") ||
-        transcriptText.trim().endsWith("nasılsln")
+        transcriptText.trim().endsWith("nasılsln") ||
+        transcriptText.trim().endsWith("muyum") ||
+        transcriptText.trim().endsWith("musun") ||
+        transcriptText.trim().endsWith("musunuz") ||
+        transcriptText.trim().endsWith("miyim") ||
+        transcriptText.trim().endsWith("misin") ||
+        transcriptText.trim().endsWith("misiniz") ||
+        transcriptText.trim().endsWith("müyüm") ||
+        transcriptText.trim().endsWith("müsün") ||
+        transcriptText.trim().endsWith("müsünüz") ||
+        transcriptText.trim().endsWith("mıyım") ||
+        transcriptText.trim().endsWith("mısın") ||
+        transcriptText.trim().endsWith("mısınız")
       ) {
         interimTranscript += transcriptText + "?";
       } else {
@@ -150,6 +162,13 @@ function sendText() {
 
   // 챗박스에 사용자 입력값을 붙여넣습니다.
   const message = transcript.val();
+
+  // If transcript is empty, show an alert and return.
+  if (!message.trim()) {
+    alert("하고싶은 말을 적어주세요");
+    return;
+  }
+
   $("#chatbox").append(
     "<div class='message-container user'><p class='message user'><strong>You:</strong> " +
       message +
