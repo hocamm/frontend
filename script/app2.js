@@ -103,7 +103,9 @@ recognition.onresult = (event) => {
         transcriptText.trim().endsWith("mi") ||
         transcriptText.trim().endsWith("mü") ||
         transcriptText.trim().endsWith("mı") ||
-        transcriptText.trim().endsWith("mu")
+        transcriptText.trim().endsWith("mu") ||
+        transcriptText.trim().endsWith("nasılsınız") ||
+        transcriptText.trim().endsWith("nasılsln")
       ) {
         interimTranscript += transcriptText + "?";
       } else {
