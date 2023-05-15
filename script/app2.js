@@ -48,13 +48,18 @@ function SocketEventHandlers() {
         console.log("What is wrong: ", response.grammarFixedReason);
 
         let fullFixedAnswer = response.grammarFixedAnswer;
+        let answerReason = response.grammarFixedReason;
         let trimedFixedAnswer = fullFixedAnswer.split(": ")[1];
         // 고친 문장을 기존 유저 채팅 컨테이너 안, 유저의 말 하단에 붙입니다.
         $(".message-container.user:last .message.user").append(
           "<p class='grammarcorrection' style='color: red'><strong>이렇게 말하는 것이 더 좋아요:</strong> " +
             fullFixedAnswer +
+            "</p>"+
+            "<p class='grammarcorrection' style='color: #034aa6'><strong>틀린 이유:</strong> " +
+            answerReason +
             "</p>"
         );
+        
 
         // 'hocam is thinking'이 지속되는 것을 멈춥니다
         $(".message-container.machine.thinking").remove();
@@ -93,7 +98,7 @@ let interimTranscript = "";
 recognition.onresult = (event) => {
   for (let i = event.resultIndex; i < event.results.length; i++) {
     const transcriptText = event.results[i][0].transcript;
-    if (event.results[i].isFinal) {
+    if (event.results[i].isFinal) {                             // 문장부호 추가를 위한 조건 생성
       if (
         transcriptText.trim().startsWith("Neyin") ||
         transcriptText.trim().startsWith("Niçin") ||

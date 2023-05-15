@@ -100,18 +100,18 @@ nav img {
 }
 
 .message.user {
-  background-color: #cce5ff;
-  color: #004085;
+  background-color: #ffffff;
+  color: #080808;
 }
 
 .message.user.grammarcorrection {
-  background-color: #cce5ff;
+  background-color: #ffffff;
   color: red;
 }
 
 .message.machine {
-  background-color: #d4edda;
-  color: #155724;
+  background-color: #c4c4c4;
+  color: #080808;
 }
 
 .send-area #send-content {
