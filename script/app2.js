@@ -52,11 +52,10 @@ function SocketEventHandlers() {
         let answerReason = response.grammarFixedReason;
         let grammarCorrectionElement;
 
-        // Remove ''
         $(".message-container.machine.thinking").remove();
         stopThinkingAnimation();
 
-        // If 'doğrudur' is included in the corrected answer, append specific message
+        // 조건에 맞으면 맞다고 말해줌
         if (
           fullFixedAnswer.includes("doğrudur") ||
           fullFixedAnswer.includes("doğru") ||
@@ -87,12 +86,10 @@ function SocketEventHandlers() {
             "</div>";
         }
 
-        // Append user message and grammar correction in the same container
+        // message, grammarcorrection 같은 컨테이너 안에 넢음
         $(".message-container.user:last").html(grammarCorrectionElement);
-
-        // 2000ms after, display it on the screen.
+        scrollToBottom();
         setTimeout(function () {
-          // Create a new chat container for the response.
           $("#chatbox").append(
             "<div class='message-container machine'><p class='message machine'>" +
               response.answer +
@@ -149,9 +146,21 @@ recognition.onresult = (event) => {
         transcriptText.trim().endsWith("müsünüz") ||
         transcriptText.trim().endsWith("mıyım") ||
         transcriptText.trim().endsWith("mısın") ||
-        transcriptText.trim().endsWith("mısınız")
+        transcriptText.trim().endsWith("mısınız") ||
+        transcriptText.trim().endsWith("nedir") ||
+        transcriptText.trim().startsWith("ne").endsWith("demek") ||
+        transcriptText.trim().startsWith("ne").endsWith("diyorsun") ||
+        transcriptText.trim().startsWith("ne").endsWith("diyorsunuz")
       ) {
         interimTranscript += transcriptText + "?";
+      }
+      if (
+        transcriptText.trim().endsWith("Merhaba") ||
+        transcriptText.trim().endsWith("merhaba") ||
+        transcriptText.trim().endsWith("salam") ||
+        transcriptText.trim().endsWith("Salam")
+      ) {
+        interimTranscript += transcriptText + "!";
       } else {
         interimTranscript += transcriptText + ".";
       }
@@ -214,7 +223,7 @@ function sendText() {
 
   transcript.val(""); // transcript를 비워서 뒤에 사용자 입력이 이어지지 않게 합니다.
 
-  // Add a delay before appending 'thinking' message.
+  // thinking 메세지 나오기 전 딜레이
   setTimeout(() => {
     $("#chatbox").append(
       "<div class='message-container machine thinking'><p class='message machine thinking'>" +
@@ -226,7 +235,6 @@ function sendText() {
     scrollToBottom();
   }, 1500);
 }
-
 
 // send 버튼 click시 sendtext 실행
 sendButton.on("click", sendText);
