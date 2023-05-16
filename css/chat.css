@@ -204,3 +204,20 @@ nav img {
   background-color: #c4c4c4;
   transition: 0.5s;
 }
+
+.finish {
+  position: fixed;
+  bottom: 25px;
+}
+
+.finish-btn {
+  font-size: medium;
+  color: #080808;
+  text-decoration: none;
+  bottom: 0px;
+}
+
+.finish-btn:hover {
+  background-color: #efefef;
+  transition: 0.5s;
+}
