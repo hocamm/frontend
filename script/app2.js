@@ -247,7 +247,7 @@ transcript.on("keypress", (event) => {
   }
 });
 
-// 스크롤 자동으로 밑으로 내림 - test 필요
+// 스크롤 자동으로 밑으로 내림
 function scrollToBottom() {
   const chatbox = document.getElementById("chatbox");
   chatbox.scrollTop = chatbox.scrollHeight;
