@@ -130,6 +130,9 @@ main .dashboard {
     font-size: 1rem;
     display: inline;
 }
+.my-page {
+    margin-top: 2rem;
+}
 
 .my-page-btn {
     width:auto;
