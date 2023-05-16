@@ -1,6 +1,7 @@
 const startButton = $("#start-recording");
 const stopButton = $("#stop-recording");
 const sendButton = $("#send-content");
+const finishButton = $("#finish-studying")
 const transcript = $("#transcript");
 
 let recognition;
@@ -210,6 +211,11 @@ stopButton.on("click", () => {
   interimTranscript = "";
 });
 
+finishButton.on("click", () => {
+  if (confirm('정말 종료하시겠습니까?')){
+    location.href = './home.html'
+  }
+});
 // sendText는 엔터치거나 send 누르면 보내짐
 function sendText() {
   // Fetch the roomID from localStorage
@@ -290,6 +296,8 @@ let observer = new MutationObserver(function (mutations) {
 });
 
 observer.observe(document.querySelector("#chatbox"), { childList: true });
+
+
 
 function startThinkingAnimation() {
   let count = 0;

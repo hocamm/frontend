@@ -207,7 +207,7 @@ nav img {
 
 .finish {
   position: fixed;
-  bottom: 25px;
+  bottom: 34px;
 }
 
 .finish-btn {
@@ -219,5 +219,4 @@ nav img {
 
 .finish-btn:hover {
   background-color: #efefef;
-  transition: 0.5s;
 }
