@@ -78,14 +78,14 @@ nav img {
   justify-content: center;
   margin-top: 5px;
   padding: 0px 10px;
-  height: 30px;
+  height: 40px;
 }
 
 .message-box {
-  border-radius: 20px;
+  border-radius: 10px;
   padding-left: 20px;
-  border-width: 1px;
-  width: 90%;
+  border-width: 1.5px;
+  width: 75%;
   margin-right: 10px;
 }
 
@@ -156,8 +156,9 @@ nav img {
 }
 
 .send-area #send-content {
-  width: 10%;
-  border-radius: 20px;
+  font-weight: bold;
+  width: 20%;
+  border-radius: 10px;
   border-width: 0px;
   background-color: #034aa6;
   color: #ffffff;
@@ -165,7 +166,7 @@ nav img {
 
 .send-area #send-content:hover {
   background-color: #033c87;
-  transition: 0.5s;
+  
 }
 
 
@@ -202,7 +203,7 @@ nav img {
 
 .buttons button:hover {
   background-color: #c4c4c4;
-  transition: 0.5s;
+  transition: 0.3s;
 }
 
 .finish {
