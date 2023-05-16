@@ -117,60 +117,74 @@ if (window.SpeechRecognition || window.webkitSpeechRecognition) {
   );
 }
 
+let punctuation = false; 
 let interimTranscript = "";
+let finalTranscript = "";
+
 recognition.onresult = (event) => {
+  let interimTranscript = "";
+
   for (let i = event.resultIndex; i < event.results.length; i++) {
     const transcriptText = event.results[i][0].transcript;
     if (event.results[i].isFinal) {
-      // 문장부호 추가를 위한 조건 생성
+      finalTranscript += transcriptText + ' ';
+      Punctuation = false;
+
       if (
-        transcriptText.trim().startsWith("Neyin") ||
-        transcriptText.trim().startsWith("Niçin") ||
-        transcriptText.trim().startsWith("Nerede") ||
-        transcriptText.trim().startsWith("Ne zaman") ||
-        transcriptText.trim().startsWith("Nasıl") ||
-        transcriptText.trim().endsWith("mi") ||
-        transcriptText.trim().endsWith("mü") ||
-        transcriptText.trim().endsWith("mı") ||
-        transcriptText.trim().endsWith("mu") ||
-        transcriptText.trim().endsWith("nasılsınız") ||
-        transcriptText.trim().endsWith("nasılsln") ||
-        transcriptText.trim().endsWith("muyum") ||
-        transcriptText.trim().endsWith("musun") ||
-        transcriptText.trim().endsWith("musunuz") ||
-        transcriptText.trim().endsWith("miyim") ||
-        transcriptText.trim().endsWith("misin") ||
-        transcriptText.trim().endsWith("misiniz") ||
-        transcriptText.trim().endsWith("müyüm") ||
-        transcriptText.trim().endsWith("müsün") ||
-        transcriptText.trim().endsWith("müsünüz") ||
-        transcriptText.trim().endsWith("mıyım") ||
-        transcriptText.trim().endsWith("mısın") ||
-        transcriptText.trim().endsWith("mısınız") ||
-        transcriptText.trim().endsWith("nedir") ||
-        transcriptText.trim().startsWith("ne").endsWith("demek") ||
-        transcriptText.trim().startsWith("ne").endsWith("diyorsun") ||
-        transcriptText.trim().startsWith("ne").endsWith("diyorsunuz")
+        !Punctuation &&
+        (
+          transcriptText.trim().startsWith("Neyin") ||
+          transcriptText.trim().startsWith("Niçin") ||
+          transcriptText.trim().startsWith("Nerede") ||
+          transcriptText.trim().startsWith("Ne zaman") ||
+          transcriptText.trim().startsWith("Nasıl") ||
+          transcriptText.trim().endsWith("mi") ||
+          transcriptText.trim().endsWith("mü") ||
+          transcriptText.trim().endsWith("mı") ||
+          transcriptText.trim().endsWith("mu") ||
+          transcriptText.trim().endsWith("nasılsınız") ||
+          transcriptText.trim().endsWith("nasılsın") ||
+          transcriptText.trim().endsWith("muyum") ||
+          transcriptText.trim().endsWith("musun") ||
+          transcriptText.trim().endsWith("musunuz") ||
+          transcriptText.trim().endsWith("miyim") ||
+          transcriptText.trim().endsWith("misin") ||
+          transcriptText.trim().endsWith("misiniz") ||
+          transcriptText.trim().endsWith("müyüm") ||
+          transcriptText.trim().endsWith("müsün") ||
+          transcriptText.trim().endsWith("müsünüz") ||
+          transcriptText.trim().endsWith("mıyım") ||
+          transcriptText.trim().endsWith("mısın") ||
+          transcriptText.trim().endsWith("mısınız") ||
+          transcriptText.trim().endsWith("nedir")
+        )
       ) {
-        interimTranscript += transcriptText + "?";
-      }
-      if (
-        transcriptText.trim().endsWith("Merhaba") ||
-        transcriptText.trim().endsWith("merhaba") ||
-        transcriptText.trim().endsWith("salam") ||
-        transcriptText.trim().endsWith("Salam")
+        finalTranscript += "?";
+        Punctuation = true;
+      } else if (
+        !Punctuation &&
+        (
+          transcriptText.trim().endsWith("Merhaba") ||
+          transcriptText.trim().endsWith("merhaba") ||
+          transcriptText.trim().endsWith("salam") ||
+          transcriptText.trim().endsWith("Salam")
+        )
       ) {
-        interimTranscript += transcriptText + "!";
-      } else {
-        interimTranscript += transcriptText + ".";
+        finalTranscript += "!";
+        Punctuation = true;
+      } else if (!Punctuation) {
+        finalTranscript += ".";
+        Punctuation = true;
       }
+    } else {
+      interimTranscript += transcriptText;
     }
   }
 
-  if (interimTranscript) {
-    transcript.val(interimTranscript);
-  }
+  // Display the final transcript plus the current interim transcript
+  transcript.val(finalTranscript + interimTranscript);
 };
+
 
 recognition.onerror = (event) => {
   console.error("Recognition error:", event.error);
@@ -198,15 +212,16 @@ stopButton.on("click", () => {
 
 // sendText는 엔터치거나 send 누르면 보내짐
 function sendText() {
-  // 위에서 로컬스토리지에 저장했던 roomID 가져와요
+  // Fetch the roomID from localStorage
   const roomId = localStorage.getItem("roomId");
 
-  // 챗박스에 사용자 입력값을 붙여넣습니다.
+  // Append user's input to chatbox
   const message = transcript.val();
   socket.lastMessage = message;
-  // sendbox 비어있으면 alert
+
+  // If sendbox is empty, alert
   if (!message.trim()) {
-    alert("하고싶은 말을 적어주세요");
+    alert("Please enter your message");
     return;
   }
 
@@ -215,15 +230,18 @@ function sendText() {
       message +
       "</p></div>"
   );
+  startButton.prop("disabled", false);
+  stopButton.prop("disabled", true);
 
   const request = JSON.stringify({ roomId, content: message });
 
   socket.send(request);
   console.log("You Said: ", message);
 
-  transcript.val(""); // transcript를 비워서 뒤에 사용자 입력이 이어지지 않게 합니다.
-
-  // thinking 메세지 나오기 전 딜레이
+  transcript.val(""); // Clear the transcript so that user input does not continue
+  finalTranscript = ""; // Clear the finalTranscript variable
+  
+  // Delay before the thinking message appears
   setTimeout(() => {
     $("#chatbox").append(
       "<div class='message-container machine thinking'><p class='message machine thinking'>" +
@@ -236,14 +254,18 @@ function sendText() {
   }, 1500);
 }
 
+
 // send 버튼 click시 sendtext 실행
 sendButton.on("click", sendText);
 
 // transcript에 enter 눌렸을 때 sendtext 실행
 transcript.on("keypress", (event) => {
   if (event.which === 13) {
+    startButton.prop("disabled", false);
+    stopButton.prop("disabled", true);
     event.preventDefault();
     sendText();
+    changeImgStop();
   }
 });
 
@@ -300,10 +322,9 @@ function stopThinkingAnimation() {
 
 // 클릭시 녹음 모양 아이콘 변함
 function changeImgStart() {
-  document.getElementById("recording-btn").src = "../images/stop-recording.png";
+  $("#recording-btn").attr("src", "../images/stop-recording.png");
 }
 
 function changeImgStop() {
-  document.getElementById("recording-btn").src =
-    "../images/start-recording.png";
+  $("#recording-btn").attr("src", "../images/start-recording.png");
 }
