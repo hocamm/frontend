@@ -23,14 +23,6 @@ function getRoomId() {
 
       // roomID 로컬 스토리지에 저장해서 사용해요
       localStorage.setItem("roomId", userroomid);
-
-      socket.onerror = function (error) {
-        console.error("WebSocket Error: ", error);
-      };
-
-      socket.onclose = function (event) {
-        console.log("WebSocket is closed now.", event);
-      };
     })
     .fail(function (error) {
       console.error("Error:", error);
@@ -100,6 +92,15 @@ function SocketEventHandlers() {
         }, 2000);
       }
     };
+
+    socket.onerror = function (error) {
+      alert("호잠에 문제가 생겼습니다. 새로고침 해주세요")
+    };
+
+    socket.onclose = function (event) {
+      console.log("WebSocket is closed now.", event);
+      alert("오류가 생겼습니다. 새로고침 해주세요. 지금까지 학습된 내용은 저장됩니다.")
+    };
   }
 }
 
@@ -129,10 +130,10 @@ recognition.onresult = (event) => {
     const transcriptText = event.results[i][0].transcript;
     if (event.results[i].isFinal) {
       finalTranscript += transcriptText + ' ';
-      Punctuation = false;
+      punctuation = false;
 
       if (
-        !Punctuation &&
+        !punctuation &&
         (
           transcriptText.trim().startsWith("Neyin") ||
           transcriptText.trim().startsWith("Niçin") ||
@@ -161,9 +162,9 @@ recognition.onresult = (event) => {
         )
       ) {
         finalTranscript += "?";
-        Punctuation = true;
+        punctuation = true;
       } else if (
-        !Punctuation &&
+        !punctuation &&
         (
           transcriptText.trim().endsWith("Merhaba") ||
           transcriptText.trim().endsWith("merhaba") ||
@@ -172,20 +173,19 @@ recognition.onresult = (event) => {
         )
       ) {
         finalTranscript += "!";
-        Punctuation = true;
-      } else if (!Punctuation) {
+        punctuation = true;
+      } else if (!punctuation) {
         finalTranscript += ".";
-        Punctuation = true;
+        punctuation = true;
       }
     } else {
       interimTranscript += transcriptText;
     }
   }
 
-  // Display the final transcript plus the current interim transcript
+  // finalTranscript와 동시에 interimTranscript 출력
   transcript.val(finalTranscript + interimTranscript);
 };
-
 
 recognition.onerror = (event) => {
   console.error("Recognition error:", event.error);
@@ -218,16 +218,16 @@ finishButton.on("click", () => {
 });
 // sendText는 엔터치거나 send 누르면 보내짐
 function sendText() {
-  // Fetch the roomID from localStorage
+  // 로컬스토리지에서 roomId fetch
   const roomId = localStorage.getItem("roomId");
 
-  // Append user's input to chatbox
+  // chatbox에 transcript 된 user input 넣음
   const message = transcript.val();
   socket.lastMessage = message;
 
-  // If sendbox is empty, alert
+  // sendbox가 비어있으면 alert
   if (!message.trim()) {
-    alert("Please enter your message");
+    alert("하고싶은 말을 적어주세요");
     return;
   }
 
@@ -236,6 +236,7 @@ function sendText() {
       message +
       "</p></div>"
   );
+
   startButton.prop("disabled", false);
   stopButton.prop("disabled", true);
 
@@ -244,10 +245,10 @@ function sendText() {
   socket.send(request);
   console.log("You Said: ", message);
 
-  transcript.val(""); // Clear the transcript so that user input does not continue
-  finalTranscript = ""; // Clear the finalTranscript variable
+  transcript.val(""); // user input이 transcript에 계속되지 않게 비워줌
+  finalTranscript = ""; // finalTranscript도 같이 비워줌
   
-  // Delay before the thinking message appears
+  // 호잠이 생각할 시간을 줌
   setTimeout(() => {
     $("#chatbox").append(
       "<div class='message-container machine thinking'><p class='message machine thinking'>" +
