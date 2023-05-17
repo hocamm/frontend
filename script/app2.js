@@ -35,6 +35,7 @@ function SocketEventHandlers() {
     socket.onmessage = function (event) {
       let response = JSON.parse(event.data);
       let userInput = response.content;
+      let isRight = response.isRight
       let answer = response.answer;
       let message = socket.lastMessage;
       let FixedAnswer = response.grammarFixedAnswer;
@@ -52,9 +53,7 @@ function SocketEventHandlers() {
 
         // 조건에 따라 정답 판별
         if (
-          userInput == FixedAnswer.substring(14) ||
-          answerReason.includes("Gramer doğru") ||
-          answerReason.includes("Gramer açısından herhangi bir yanlışlık yok")
+          isRight == 'true'
         ) {
           grammarCorrectionElement =
             "<div class='message-container machine grammarcorrection'>" +
@@ -132,7 +131,7 @@ recognition.onresult = (event) => {
   for (let i = event.resultIndex; i < event.results.length; i++) {
     const transcriptText = event.results[i][0].transcript;
     if (event.results[i].isFinal) {
-      finalTranscript += transcriptText + " ";
+      finalTranscript += transcriptText + "";
       punctuation = false;
 
       if (
@@ -243,7 +242,6 @@ function sendText() {
 
   socket.send(request);
   console.log("You Said: ", message);
-  console.log(response);
 
   transcript.val(""); // user input이 transcript에 계속되지 않게 비워줌
   finalTranscript = ""; // finalTranscript도 같이 비워줌
