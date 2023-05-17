@@ -1,7 +1,7 @@
 const startButton = $("#start-recording");
 const stopButton = $("#stop-recording");
 const sendButton = $("#send-content");
-const finishButton = $("#finish-studying")
+const finishButton = $("#finish-studying");
 const transcript = $("#transcript");
 
 let recognition;
@@ -34,26 +34,27 @@ function SocketEventHandlers() {
   if (socket) {
     socket.onmessage = function (event) {
       let response = JSON.parse(event.data);
+      let userInput = response.content;
+      let answer = response.answer;
       let message = socket.lastMessage;
-      if (response.type === "machine") {
-        console.log("Hocam said: ", response.answer);
-        console.log(response);
-        console.log("Grammar Correction: ", response.grammarFixedAnswer);
-        console.log("What is wrong: ", response.grammarFixedReason);
+      let FixedAnswer = response.grammarFixedAnswer;
+      let answerReason = response.grammarFixedReason;
+      let grammarCorrectionElement;
 
-        let fullFixedAnswer = response.grammarFixedAnswer;
-        let answerReason = response.grammarFixedReason;
-        let grammarCorrectionElement;
+      if (response.type === "machine") {
+        console.log("호잠:", answer);
+        console.log(response);
+        console.log("정답:", FixedAnswer.substring(14));
+        console.log("문장 분석:", answerReason);
 
         $(".message-container.machine.thinking").remove();
         stopThinkingAnimation();
 
-        // 조건에 맞으면 맞다고 말해줌
+        // 조건에 따라 정답 판별
         if (
-          fullFixedAnswer.includes("doğrudur") ||
-          fullFixedAnswer.includes("doğru") ||
-          answerReason.includes("doğru") ||
-          answerReason.includes("doğrudur")
+          userInput == FixedAnswer.substring(14) ||
+          answerReason.includes("Gramer doğru") ||
+          answerReason.includes("Gramer açısından herhangi bir yanlışlık yok")
         ) {
           grammarCorrectionElement =
             "<div class='message-container machine grammarcorrection'>" +
@@ -71,7 +72,7 @@ function SocketEventHandlers() {
             message +
             "</div>" +
             "<div class='message machine grammarcorrection wrong'>👉 이렇게 말해봐요:  " +
-            fullFixedAnswer +
+            FixedAnswer.substring(13) +
             "</div>" +
             "<div class='message machine grammarcorrection'><strong>💡</strong> " +
             answerReason +
@@ -94,12 +95,14 @@ function SocketEventHandlers() {
     };
 
     socket.onerror = function (error) {
-      alert("호잠에 문제가 생겼습니다. 새로고침 해주세요")
+      alert("호잠에 문제가 생겼습니다. 새로고침 해주세요");
     };
 
     socket.onclose = function (event) {
       console.log("WebSocket is closed now.", event);
-      alert("오류가 생겼습니다. 새로고침 해주세요. 지금까지 학습된 내용은 저장됩니다.")
+      alert(
+        "오류가 생겼습니다. 새로고침 해주세요. 지금까지 학습된 내용은 저장됩니다."
+      );
     };
   }
 }
@@ -119,7 +122,7 @@ if (window.SpeechRecognition || window.webkitSpeechRecognition) {
   );
 }
 
-let punctuation = false; 
+let punctuation = false;
 let interimTranscript = "";
 let finalTranscript = "";
 
@@ -129,13 +132,12 @@ recognition.onresult = (event) => {
   for (let i = event.resultIndex; i < event.results.length; i++) {
     const transcriptText = event.results[i][0].transcript;
     if (event.results[i].isFinal) {
-      finalTranscript += transcriptText + ' ';
+      finalTranscript += transcriptText + " ";
       punctuation = false;
 
       if (
         !punctuation &&
-        (
-          transcriptText.trim().startsWith("Neyin") ||
+        (transcriptText.trim().startsWith("Neyin") ||
           transcriptText.trim().startsWith("Niçin") ||
           transcriptText.trim().startsWith("Nerede") ||
           transcriptText.trim().startsWith("Ne zaman") ||
@@ -158,19 +160,16 @@ recognition.onresult = (event) => {
           transcriptText.trim().endsWith("mıyım") ||
           transcriptText.trim().endsWith("mısın") ||
           transcriptText.trim().endsWith("mısınız") ||
-          transcriptText.trim().endsWith("nedir")
-        )
+          transcriptText.trim().endsWith("nedir"))
       ) {
         finalTranscript += "?";
         punctuation = true;
       } else if (
         !punctuation &&
-        (
-          transcriptText.trim().endsWith("Merhaba") ||
+        (transcriptText.trim().endsWith("Merhaba") ||
           transcriptText.trim().endsWith("merhaba") ||
           transcriptText.trim().endsWith("salam") ||
-          transcriptText.trim().endsWith("Salam")
-        )
+          transcriptText.trim().endsWith("Salam"))
       ) {
         finalTranscript += "!";
         punctuation = true;
@@ -212,8 +211,8 @@ stopButton.on("click", () => {
 });
 
 finishButton.on("click", () => {
-  if (confirm('정말 종료하시겠습니까?')){
-    location.href = './home.html'
+  if (confirm("정말 종료하시겠습니까?")) {
+    location.href = "./home.html";
   }
 });
 // sendText는 엔터치거나 send 누르면 보내짐
@@ -244,10 +243,11 @@ function sendText() {
 
   socket.send(request);
   console.log("You Said: ", message);
+  console.log(response);
 
   transcript.val(""); // user input이 transcript에 계속되지 않게 비워줌
   finalTranscript = ""; // finalTranscript도 같이 비워줌
-  
+
   // 호잠이 생각할 시간을 줌
   setTimeout(() => {
     $("#chatbox").append(
@@ -260,7 +260,6 @@ function sendText() {
     scrollToBottom();
   }, 1500);
 }
-
 
 // send 버튼 click시 sendtext 실행
 sendButton.on("click", sendText);
@@ -297,8 +296,6 @@ let observer = new MutationObserver(function (mutations) {
 });
 
 observer.observe(document.querySelector("#chatbox"), { childList: true });
-
-
 
 function startThinkingAnimation() {
   let count = 0;
