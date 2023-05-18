@@ -34,17 +34,20 @@ function SocketEventHandlers() {
   if (socket) {
     socket.onmessage = function (event) {
       let response = JSON.parse(event.data);
-      let userInput = response.content;
-      let isRight = response.isRight
+      let userInput = response;
+      // let isRight = response.isRight;
       let answer = response.answer;
       let message = socket.lastMessage;
       let FixedAnswer = response.grammarFixedAnswer;
       let answerReason = response.grammarFixedReason;
+      let answerReasonTrans = response.translatedReason;
       let grammarCorrectionElement;
 
       if (response.type === "machine") {
         console.log("호잠:", answer);
-        console.log(response);
+        console.log(message);
+        console.log(userInput)
+        console.log(message)
         console.log("정답:", FixedAnswer.substring(14));
         console.log("문장 분석:", answerReason);
 
@@ -53,17 +56,9 @@ function SocketEventHandlers() {
 
         // 조건에 따라 정답 판별
         if (
-          isRight == 'true'
+          answerReason.includes("yanlış") ||
+          answerReason.includes("Doğru cümle şu şekilde olmalıdır")
         ) {
-          grammarCorrectionElement =
-            "<div class='message-container machine grammarcorrection'>" +
-            "<div class='message machine grammarcorrection right'><strong>✔ 완벽해요</strong></div>" +
-            "<div class='message user'>" +
-            message +
-            "</div>" +
-            "<div class= 'message machine grammarcorrection'><strong>자연스럽게 표현했어요</strong></div>" +
-            "</div>";
-        } else {
           grammarCorrectionElement =
             "<div class='message-container machine grammarcorrection'>" +
             "<div class='message machine grammarcorrection wrong'><strong>✘ 교정이 필요해요 </strong></div>" +
@@ -74,8 +69,22 @@ function SocketEventHandlers() {
             FixedAnswer.substring(13) +
             "</div>" +
             "<div class='message machine grammarcorrection'><strong>💡</strong> " +
-            answerReason +
+            answerReasonTrans +
             "</div>" +
+            "</div>";
+        } else if (
+          answerReason.includes("doğru") ||
+          answerReason.includes("doğrudur") ||
+          FixedAnswer.includes("doğru") ||
+          FixedAnswer.includes("doğrudur")
+        ) {
+          grammarCorrectionElement =
+            "<div class='message-container machine grammarcorrection'>" +
+            "<div class='message machine grammarcorrection right'><strong>✔ 완벽해요</strong></div>" +
+            "<div class='message user'>" +
+            message +
+            "</div>" +
+            "<div class= 'message machine grammarcorrection'><strong>자연스럽게 표현했어요</strong></div>" +
             "</div>";
         }
 
