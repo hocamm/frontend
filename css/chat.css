@@ -1,6 +1,10 @@
 @keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 * {
@@ -93,7 +97,7 @@ nav img {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-  max-width: 700px; 
+  max-width: 700px;
   word-wrap: break-word;
   animation: fadeIn 1s;
 }
@@ -114,6 +118,9 @@ nav img {
 
 .message-container.user {
   align-self: flex-end;
+}
+.translation-container {
+  align-self: flex-start;
 }
 
 .message {
@@ -166,11 +173,7 @@ nav img {
 
 .send-area #send-content:hover {
   background-color: #033c87;
-  
 }
-
-
-
 
 /* controls(화면 우측, 녹음 버튼 있는 부분) */
 .controls {
@@ -220,4 +223,18 @@ nav img {
 
 .finish-btn:hover {
   background-color: #efefef;
+}
+
+.translateBtn {
+  margin: 10px;
+  margin-left: auto;
+  border-color: #034aa6;
+  border-radius: 10px;
+  border-width: 3px;
+  padding: 5px 10px;
+  background-color: #efefef;
+}
+
+.translateBtn :hover{
+  background-color: #c4c4c4;
 }

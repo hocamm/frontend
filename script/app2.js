@@ -46,19 +46,17 @@ function SocketEventHandlers() {
       if (response.type === "machine") {
         console.log("호잠:", answer);
         console.log(message);
-        console.log(userInput)
-        console.log(message)
+        console.log(userInput);
+        console.log(message);
         console.log("정답:", FixedAnswer.substring(14));
         console.log("문장 분석:", answerReason);
 
         $(".message-container.machine.thinking").remove();
         stopThinkingAnimation();
+        scrollToBottom();
 
         // 조건에 따라 정답 판별
-        if (
-          answerReason.includes("yanlış") ||
-          answerReason.includes("Doğru cümle şu şekilde olmalıdır")
-        ) {
+        if (answerReason.includes("Doğru cümle şu şekilde olmalıdır")) {
           grammarCorrectionElement =
             "<div class='message-container machine grammarcorrection'>" +
             "<div class='message machine grammarcorrection wrong'><strong>✘ 교정이 필요해요 </strong></div>" +
@@ -76,7 +74,9 @@ function SocketEventHandlers() {
           answerReason.includes("doğru") ||
           answerReason.includes("doğrudur") ||
           FixedAnswer.includes("doğru") ||
-          FixedAnswer.includes("doğrudur")
+          FixedAnswer.includes("doğrudur") ||
+          FixedAnswer.includes("맞습니다") ||
+          FixedAnswer.includes("yanlışlık yok")
         ) {
           grammarCorrectionElement =
             "<div class='message-container machine grammarcorrection'>" +
@@ -87,16 +87,29 @@ function SocketEventHandlers() {
             "<div class= 'message machine grammarcorrection'><strong>자연스럽게 표현했어요</strong></div>" +
             "</div>";
         }
+        scrollToBottom();
 
         // message, grammarcorrection 같은 컨테이너 안에 넢음
         $(".message-container.user:last").html(grammarCorrectionElement);
         scrollToBottom();
         setTimeout(function () {
           $("#chatbox").append(
-            "<div class='message-container machine'><p class='message machine'>" +
-              response.answer +
-              "</p></div>"
+            "<div class='message-container machine'>" +
+              "<div class='message machine'>" +
+              answer +
+              "<div class='translation-container'>" +
+              "<button class='translateBtn'>번역</button>" +
+              "<span class='translation' style='display:none'>" +
+              answerReasonTrans +
+              "</span>" +
+              "</div>" +
+              "</div>" +
+              "</div>"
           );
+          $(document).on("click", ".translateBtn", function () {
+            $(this).next(".translation").toggle();
+          });
+
           scrollToBottom();
         }, 2000);
       }
@@ -142,7 +155,6 @@ recognition.onresult = (event) => {
     if (event.results[i].isFinal) {
       finalTranscript += transcriptText + "";
       punctuation = false;
-
       if (
         !punctuation &&
         (transcriptText.trim().startsWith("Neyin") ||
@@ -264,8 +276,8 @@ function sendText() {
     );
 
     setTimeout(startThinkingAnimation, 0);
-    scrollToBottom();
   }, 1500);
+  scrollToBottom();
 }
 
 // send 버튼 click시 sendtext 실행

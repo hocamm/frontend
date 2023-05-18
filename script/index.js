@@ -36,17 +36,6 @@ function getAccessToken() {
   return $.session.get("access_token");
 }
 
-$.ajax({
-  url: "/api/user",
-  type: "GET",
-  headers: {
-    "Authorization": "Bearer " + getAccessToken()
-  },
-  success: function(data) {
-  },
-  error: function() {
-  }
-});
 
 $(function () {
   $("#login-Btn").click(function () {
@@ -68,7 +57,7 @@ $(function () {
       },
       error: function (jqXHR) {
         console.error("로그인 실패: " + jqXHR);
-        alert("아이디나 비밀번호가 다릅니다")
+        alert("아이디나 비밀번호가 다릅니다");
       },
     });
   });
