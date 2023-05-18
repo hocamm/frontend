@@ -239,7 +239,7 @@ function sendText() {
   }
 
   $("#chatbox").append(
-    "<div class='message-container user'><p class='message user'><strong>You:</strong> " +
+    "<div class='message-container user'><p class='message user'>" +
       message +
       "</p></div>"
   );
@@ -326,7 +326,7 @@ function startThinkingAnimation() {
       }
       count++;
     }
-  }, 450);
+  }, 600);
 }
 
 function stopThinkingAnimation() {
