@@ -106,12 +106,9 @@ function SocketEventHandlers() {
               "</div>" +
               "</div>"
           );
-          $(document).on("click", ".translateBtn", function () {
-            $(this).next(".translation").toggle();
-          });
 
           scrollToBottom();
-        }, 2000);
+        }, 1000);
       }
     };
 
@@ -127,6 +124,10 @@ function SocketEventHandlers() {
     };
   }
 }
+
+$(document).on("click", ".translateBtn", function () {
+  $(this).next(".translation").toggle();
+});
 
 getRoomId().then(SocketEventHandlers);
 
