@@ -35,7 +35,6 @@ function SocketEventHandlers() {
     socket.onmessage = function (event) {
       let response = JSON.parse(event.data);
       let userInput = response;
-      // let isRight = response.isRight;
       let answer = response.answer;
       let message = socket.lastMessage;
       let FixedAnswer = response.grammarFixedAnswer;
@@ -89,7 +88,7 @@ function SocketEventHandlers() {
         }
         scrollToBottom();
 
-        // message, grammarcorrection 같은 컨테이너 안에 넢음
+        // message, grammarcorrection 같은 컨테이너 안에 넣음
         $(".message-container.user:last").html(grammarCorrectionElement);
         scrollToBottom();
         setTimeout(function () {

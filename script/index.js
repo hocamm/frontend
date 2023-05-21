@@ -27,18 +27,30 @@ $.check = function () {
 };
 
 $("#login-btn").click($.check);
+
 function saveAccessToken(loginData) {
   var accessToken = loginData.data;
-  $.session.set("access_token", accessToken);
+  document.cookie = "access_token=" + accessToken; 
 }
 
 function getAccessToken() {
-  return $.session.get("access_token");
+  var name = "access_token=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
 }
 
-
 $(function () {
-  $("#login-Btn").click(function () {
+  $("#login-btn").on('click', function () {
     var userid = $("#id").val();
     var userpw = $("#pw").val();
     var data = {
@@ -50,13 +62,13 @@ $(function () {
       method: "POST",
       data: data,
       success: function (data) {
-        saveAccessToken(data.data);
+        saveAccessToken(data);
         console.log("로그인 성공");
         alert("로그인 되었습니다");
         window.location.href = "./home.html";
       },
-      error: function (jqXHR) {
-        console.error("로그인 실패: " + jqXHR);
+      error: function (error) {
+        console.error("로그인 실패: " + error);
         alert("아이디나 비밀번호가 다릅니다");
       },
     });
