@@ -28,29 +28,8 @@ $.check = function () {
 
 $("#login-btn").click($.check);
 
-function saveAccessToken(loginData) {
-  var accessToken = loginData.data;
-  document.cookie = "access_token=" + accessToken; 
-}
-
-function getAccessToken() {
-  var name = "access_token=";
-  var decodedCookie = decodeURIComponent(document.cookie);
-  var ca = decodedCookie.split(';');
-  for(var i = 0; i <ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-}
-
 $(function () {
-  $("#login-btn").on('click', function () {
+  $("#login-btn").on("click", function () {
     var userid = $("#id").val();
     var userpw = $("#pw").val();
     var data = {
@@ -58,14 +37,17 @@ $(function () {
       password: userpw,
     };
     $.ajax({
-      url: "http://43.200.123.232:8080/auth/login",
+      url: "http://43.200.123.232:8080/user/login",
       method: "POST",
-      data: data,
-      success: function (data) {
-        saveAccessToken(data);
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      xhrFields: {
+        withCredentials: true,
+      },
+      data: JSON.stringify(data),
+      success: function (data, textStatus, jqXHR) {
         console.log("로그인 성공");
         alert("로그인 되었습니다");
-        window.location.href = "./home.html";
       },
       error: function (error) {
         console.error("로그인 실패: " + error);

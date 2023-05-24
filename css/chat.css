@@ -122,7 +122,9 @@ nav img {
 .translation-container {
   align-self: flex-start;
 }
-
+.tts-container{
+  align-self: flex-start;
+}
 .message {
   padding: 10px;
   border-radius: 5px;
@@ -235,6 +237,16 @@ nav img {
   background-color: #efefef;
 }
 
-.translateBtn :hover{
+.ttsBtn {
+  margin: 10px;
+  margin-left: auto;
+  border-color: #034aa6;
+  border-radius: 10px;
+  border-width: 3px;
+  padding: 5px 10px;
+  background-color: #efefef;
+}
+
+.translateBtn :hover {
   background-color: #c4c4c4;
 }

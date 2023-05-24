@@ -102,6 +102,9 @@ function SocketEventHandlers() {
               answerReasonTrans +
               "</span>" +
               "</div>" +
+              "<div class='tts-conatiner'" +
+              "<button class='ttsBtn'>tts</button>"+
+              "</div>" +
               "</div>" +
               "</div>"
           );
@@ -112,7 +115,7 @@ function SocketEventHandlers() {
     };
 
     socket.onerror = function (error) {
-      alert("호잠에 문제가 생겼습니다. 새로고침 해주세요");
+      alert("호잠에 문제가 생겼습니다. 새로고침 해주세요", error);
     };
 
     socket.onclose = function (event) {
