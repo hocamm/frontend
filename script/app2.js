@@ -1,6 +1,7 @@
 const startButton = $("#start-recording");
 const stopButton = $("#stop-recording");
 const sendButton = $("#send-content");
+const finishButton = $("#finish-studying");
 const transcript = $("#transcript");
 
 let recognition;
@@ -22,14 +23,6 @@ function getRoomId() {
 
       // roomID 로컬 스토리지에 저장해서 사용해요
       localStorage.setItem("roomId", userroomid);
-
-      socket.onerror = function (error) {
-        console.error("WebSocket Error: ", error);
-      };
-
-      socket.onclose = function (event) {
-        console.log("WebSocket is closed now.", event);
-      };
     })
     .fail(function (error) {
       console.error("Error:", error);
@@ -41,26 +34,48 @@ function SocketEventHandlers() {
   if (socket) {
     socket.onmessage = function (event) {
       let response = JSON.parse(event.data);
+      let userInput = response;
+      let answer = response.answer;
       let message = socket.lastMessage;
-      if (response.type === "machine") {
-        console.log("Hocam said: ", response.answer);
-        console.log(response);
-        console.log("Grammar Correction: ", response.grammarFixedAnswer);
-        console.log("What is wrong: ", response.grammarFixedReason);
+      let FixedAnswer = response.grammarFixedAnswer;
+      let answerReason = response.grammarFixedReason;
+      let answerReasonTrans = response.translatedReason;
+      let grammarCorrectionElement;
 
-        let fullFixedAnswer = response.grammarFixedAnswer;
-        let answerReason = response.grammarFixedReason;
-        let grammarCorrectionElement;
+      if (response.type === "machine") {
+        console.log("호잠:", answer);
+        console.log(message);
+        console.log(userInput);
+        console.log(message);
+        console.log("정답:", FixedAnswer.substring(14));
+        console.log("문장 분석:", answerReason);
 
         $(".message-container.machine.thinking").remove();
         stopThinkingAnimation();
+        scrollToBottom();
 
-        // 조건에 맞으면 맞다고 말해줌
-        if (
-          fullFixedAnswer.includes("doğrudur") ||
-          fullFixedAnswer.includes("doğru") ||
+        // 조건에 따라 정답 판별
+        if (answerReason.includes("Doğru cümle şu şekilde olmalıdır")) {
+          grammarCorrectionElement =
+            "<div class='message-container machine grammarcorrection'>" +
+            "<div class='message machine grammarcorrection wrong'><strong>✘ 교정이 필요해요 </strong></div>" +
+            "<div class='message user'><strong>You:</strong> " +
+            message +
+            "</div>" +
+            "<div class='message machine grammarcorrection wrong'>👉 이렇게 말해봐요:  " +
+            FixedAnswer.substring(13) +
+            "</div>" +
+            "<div class='message machine grammarcorrection'><strong>💡</strong> " +
+            answerReasonTrans +
+            "</div>" +
+            "</div>";
+        } else if (
           answerReason.includes("doğru") ||
-          answerReason.includes("doğrudur")
+          answerReason.includes("doğrudur") ||
+          FixedAnswer.includes("doğru") ||
+          FixedAnswer.includes("doğrudur") ||
+          FixedAnswer.includes("맞습니다") ||
+          FixedAnswer.includes("yanlışlık yok")
         ) {
           grammarCorrectionElement =
             "<div class='message-container machine grammarcorrection'>" +
@@ -70,37 +85,51 @@ function SocketEventHandlers() {
             "</div>" +
             "<div class= 'message machine grammarcorrection'><strong>자연스럽게 표현했어요</strong></div>" +
             "</div>";
-        } else {
-          grammarCorrectionElement =
-            "<div class='message-container machine grammarcorrection'>" +
-            "<div class='message machine grammarcorrection wrong'><strong>✘ 교정이 필요해요 </strong></div>" +
-            "<div class='message user'><strong>You:</strong> " +
-            message +
-            "</div>" +
-            "<div class='message machine grammarcorrection wrong'>👉 이렇게 말해봐요:  " +
-            fullFixedAnswer +
-            "</div>" +
-            "<div class='message machine grammarcorrection'><strong>💡</strong> " +
-            answerReason +
-            "</div>" +
-            "</div>";
         }
+        scrollToBottom();
 
-        // message, grammarcorrection 같은 컨테이너 안에 넢음
+        // message, grammarcorrection 같은 컨테이너 안에 넣음
         $(".message-container.user:last").html(grammarCorrectionElement);
         scrollToBottom();
         setTimeout(function () {
           $("#chatbox").append(
-            "<div class='message-container machine'><p class='message machine'>" +
-              response.answer +
-              "</p></div>"
+            "<div class='message-container machine'>" +
+              "<div class='message machine'>" +
+              answer +
+              "<div class='translation-container'>" +
+              "<button class='translateBtn'>번역</button>" +
+              "<span class='translation' style='display:none'>" +
+              answerReasonTrans +
+              "</span>" +
+              "</div>" +
+              "<div class='tts-conatiner'" +
+              "<button class='ttsBtn'>tts</button>"+
+              "</div>" +
+              "</div>" +
+              "</div>"
           );
+
           scrollToBottom();
-        }, 2000);
+        }, 1000);
       }
+    };
+
+    socket.onerror = function (error) {
+      alert("호잠에 문제가 생겼습니다. 새로고침 해주세요", error);
+    };
+
+    socket.onclose = function (event) {
+      console.log("WebSocket is closed now.", event);
+      alert(
+        "오류가 생겼습니다. 새로고침 해주세요. 지금까지 학습된 내용은 저장됩니다."
+      );
     };
   }
 }
+
+$(document).on("click", ".translateBtn", function () {
+  $(this).next(".translation").toggle();
+});
 
 getRoomId().then(SocketEventHandlers);
 
@@ -117,59 +146,67 @@ if (window.SpeechRecognition || window.webkitSpeechRecognition) {
   );
 }
 
+let punctuation = false;
 let interimTranscript = "";
+let finalTranscript = "";
+
 recognition.onresult = (event) => {
+  let interimTranscript = "";
+
   for (let i = event.resultIndex; i < event.results.length; i++) {
     const transcriptText = event.results[i][0].transcript;
     if (event.results[i].isFinal) {
-      // 문장부호 추가를 위한 조건 생성
+      finalTranscript += transcriptText + "";
+      punctuation = false;
       if (
-        transcriptText.trim().startsWith("Neyin") ||
-        transcriptText.trim().startsWith("Niçin") ||
-        transcriptText.trim().startsWith("Nerede") ||
-        transcriptText.trim().startsWith("Ne zaman") ||
-        transcriptText.trim().startsWith("Nasıl") ||
-        transcriptText.trim().endsWith("mi") ||
-        transcriptText.trim().endsWith("mü") ||
-        transcriptText.trim().endsWith("mı") ||
-        transcriptText.trim().endsWith("mu") ||
-        transcriptText.trim().endsWith("nasılsınız") ||
-        transcriptText.trim().endsWith("nasılsln") ||
-        transcriptText.trim().endsWith("muyum") ||
-        transcriptText.trim().endsWith("musun") ||
-        transcriptText.trim().endsWith("musunuz") ||
-        transcriptText.trim().endsWith("miyim") ||
-        transcriptText.trim().endsWith("misin") ||
-        transcriptText.trim().endsWith("misiniz") ||
-        transcriptText.trim().endsWith("müyüm") ||
-        transcriptText.trim().endsWith("müsün") ||
-        transcriptText.trim().endsWith("müsünüz") ||
-        transcriptText.trim().endsWith("mıyım") ||
-        transcriptText.trim().endsWith("mısın") ||
-        transcriptText.trim().endsWith("mısınız") ||
-        transcriptText.trim().endsWith("nedir") ||
-        transcriptText.trim().startsWith("ne").endsWith("demek") ||
-        transcriptText.trim().startsWith("ne").endsWith("diyorsun") ||
-        transcriptText.trim().startsWith("ne").endsWith("diyorsunuz")
+        !punctuation &&
+        (transcriptText.trim().startsWith("Neyin") ||
+          transcriptText.trim().startsWith("Niçin") ||
+          transcriptText.trim().startsWith("Nerede") ||
+          transcriptText.trim().startsWith("Ne zaman") ||
+          transcriptText.trim().startsWith("Nasıl") ||
+          transcriptText.trim().endsWith("mi") ||
+          transcriptText.trim().endsWith("mü") ||
+          transcriptText.trim().endsWith("mı") ||
+          transcriptText.trim().endsWith("mu") ||
+          transcriptText.trim().endsWith("nasılsınız") ||
+          transcriptText.trim().endsWith("nasılsın") ||
+          transcriptText.trim().endsWith("muyum") ||
+          transcriptText.trim().endsWith("musun") ||
+          transcriptText.trim().endsWith("musunuz") ||
+          transcriptText.trim().endsWith("miyim") ||
+          transcriptText.trim().endsWith("misin") ||
+          transcriptText.trim().endsWith("misiniz") ||
+          transcriptText.trim().endsWith("müyüm") ||
+          transcriptText.trim().endsWith("müsün") ||
+          transcriptText.trim().endsWith("müsünüz") ||
+          transcriptText.trim().endsWith("mıyım") ||
+          transcriptText.trim().endsWith("mısın") ||
+          transcriptText.trim().endsWith("mısınız") ||
+          transcriptText.trim().endsWith("nedir"))
       ) {
-        interimTranscript += transcriptText + "?";
-      }
-      if (
-        transcriptText.trim().endsWith("Merhaba") ||
-        transcriptText.trim().endsWith("merhaba") ||
-        transcriptText.trim().endsWith("salam") ||
-        transcriptText.trim().endsWith("Salam")
+        finalTranscript += "?";
+        punctuation = true;
+      } else if (
+        !punctuation &&
+        (transcriptText.trim().endsWith("Merhaba") ||
+          transcriptText.trim().endsWith("merhaba") ||
+          transcriptText.trim().endsWith("salam") ||
+          transcriptText.trim().endsWith("Salam"))
       ) {
-        interimTranscript += transcriptText + "!";
-      } else {
-        interimTranscript += transcriptText + ".";
+        finalTranscript += "!";
+        punctuation = true;
+      } else if (!punctuation) {
+        finalTranscript += ".";
+        punctuation = true;
       }
+    } else {
+      interimTranscript += transcriptText;
     }
   }
 
-  if (interimTranscript) {
-    transcript.val(interimTranscript);
-  }
+  // finalTranscript와 동시에 interimTranscript 출력
+  transcript.val(finalTranscript + interimTranscript);
 };
 
 recognition.onerror = (event) => {
@@ -196,34 +233,44 @@ stopButton.on("click", () => {
   interimTranscript = "";
 });
 
+finishButton.on("click", () => {
+  if (confirm("정말 종료하시겠습니까?")) {
+    location.href = "./home.html";
+  }
+});
 // sendText는 엔터치거나 send 누르면 보내짐
 function sendText() {
-  // 위에서 로컬스토리지에 저장했던 roomID 가져와요
+  // 로컬스토리지에서 roomId fetch
   const roomId = localStorage.getItem("roomId");
 
-  // 챗박스에 사용자 입력값을 붙여넣습니다.
+  // chatbox에 transcript 된 user input 넣음
   const message = transcript.val();
   socket.lastMessage = message;
-  // sendbox 비어있으면 alert
+
+  // sendbox가 비어있으면 alert
   if (!message.trim()) {
     alert("하고싶은 말을 적어주세요");
     return;
   }
 
   $("#chatbox").append(
-    "<div class='message-container user'><p class='message user'><strong>You:</strong> " +
+    "<div class='message-container user'><p class='message user'>" +
       message +
       "</p></div>"
   );
+
+  startButton.prop("disabled", false);
+  stopButton.prop("disabled", true);
 
   const request = JSON.stringify({ roomId, content: message });
 
   socket.send(request);
   console.log("You Said: ", message);
 
-  transcript.val(""); // transcript를 비워서 뒤에 사용자 입력이 이어지지 않게 합니다.
+  transcript.val(""); // user input이 transcript에 계속되지 않게 비워줌
+  finalTranscript = ""; // finalTranscript도 같이 비워줌
 
-  // thinking 메세지 나오기 전 딜레이
+  // 호잠이 생각할 시간을 줌
   setTimeout(() => {
     $("#chatbox").append(
       "<div class='message-container machine thinking'><p class='message machine thinking'>" +
@@ -232,8 +279,8 @@ function sendText() {
     );
 
     setTimeout(startThinkingAnimation, 0);
-    scrollToBottom();
   }, 1500);
+  scrollToBottom();
 }
 
 // send 버튼 click시 sendtext 실행
@@ -242,12 +289,15 @@ sendButton.on("click", sendText);
 // transcript에 enter 눌렸을 때 sendtext 실행
 transcript.on("keypress", (event) => {
   if (event.which === 13) {
+    startButton.prop("disabled", false);
+    stopButton.prop("disabled", true);
     event.preventDefault();
     sendText();
+    changeImgStop();
   }
 });
 
-// 스크롤 자동으로 밑으로 내림 - test 필요
+// 스크롤 자동으로 밑으로 내림
 function scrollToBottom() {
   const chatbox = document.getElementById("chatbox");
   chatbox.scrollTop = chatbox.scrollHeight;
@@ -291,7 +341,7 @@ function startThinkingAnimation() {
       }
       count++;
     }
-  }, 450);
+  }, 600);
 }
 
 function stopThinkingAnimation() {
@@ -300,10 +350,9 @@ function stopThinkingAnimation() {
 
 // 클릭시 녹음 모양 아이콘 변함
 function changeImgStart() {
-  document.getElementById("recording-btn").src = "../images/stop-recording.png";
+  $("#recording-btn").attr("src", "../images/stop-recording.png");
 }
 
 function changeImgStop() {
-  document.getElementById("recording-btn").src =
-    "../images/start-recording.png";
+  $("#recording-btn").attr("src", "../images/start-recording.png");
 }

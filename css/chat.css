@@ -1,6 +1,10 @@
 @keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 * {
@@ -52,7 +56,7 @@ nav img {
 .chatbox-container {
   display: flex;
   width: 100%;
-  height: calc(100vh - 4rem); /* adjust this */
+  height: calc(100vh - 4rem);
   align-items: stretch;
 }
 
@@ -78,14 +82,14 @@ nav img {
   justify-content: center;
   margin-top: 5px;
   padding: 0px 10px;
-  height: 30px;
+  height: 40px;
 }
 
 .message-box {
-  border-radius: 20px;
+  border-radius: 10px;
   padding-left: 20px;
-  border-width: 1px;
-  width: 90%;
+  border-width: 1.5px;
+  width: 75%;
   margin-right: 10px;
 }
 
@@ -93,7 +97,7 @@ nav img {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-  max-width: 700px; 
+  max-width: 700px;
   word-wrap: break-word;
   animation: fadeIn 1s;
 }
@@ -115,7 +119,12 @@ nav img {
 .message-container.user {
   align-self: flex-end;
 }
-
+.translation-container {
+  align-self: flex-start;
+}
+.tts-container{
+  align-self: flex-start;
+}
 .message {
   padding: 10px;
   border-radius: 5px;
@@ -157,8 +166,9 @@ nav img {
 }
 
 .send-area #send-content {
-  width: 10%;
-  border-radius: 20px;
+  font-weight: bold;
+  width: 20%;
+  border-radius: 10px;
   border-width: 0px;
   background-color: #034aa6;
   color: #ffffff;
@@ -166,11 +176,7 @@ nav img {
 
 .send-area #send-content:hover {
   background-color: #033c87;
-  transition: 0.5s;
 }
-
-
-
 
 /* controls(화면 우측, 녹음 버튼 있는 부분) */
 .controls {
@@ -203,12 +209,12 @@ nav img {
 
 .buttons button:hover {
   background-color: #c4c4c4;
-  transition: 0.5s;
+  transition: 0.3s;
 }
 
 .finish {
   position: fixed;
-  bottom: 25px;
+  bottom: 34px;
 }
 
 .finish-btn {
@@ -220,5 +226,28 @@ nav img {
 
 .finish-btn:hover {
   background-color: #efefef;
-  transition: 0.5s;
+}
+
+.translateBtn {
+  margin: 10px;
+  margin-left: auto;
+  border-color: #034aa6;
+  border-radius: 10px;
+  border-width: 3px;
+  padding: 5px 10px;
+  background-color: #efefef;
+}
+
+.ttsBtn {
+  margin: 10px;
+  margin-left: auto;
+  border-color: #034aa6;
+  border-radius: 10px;
+  border-width: 3px;
+  padding: 5px 10px;
+  background-color: #efefef;
+}
+
+.translateBtn :hover {
+  background-color: #c4c4c4;
 }
