@@ -145,6 +145,7 @@ nav img {
 .message.machine.grammarcorrection {
   background-color: #fffefe;
   color: #034aa6;
+  margin-left: 10px;
 }
 .message.machine.grammarcorrection.wrong {
   background-color: #fffefe;
