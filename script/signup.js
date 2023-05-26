@@ -68,7 +68,6 @@ $(document).ready(function () {
       error: function(response) {
         alert("회원가입에 실패했습니다.");
         console.log(response)
-        window.location.href = "./home.html"
       },
     });
   });

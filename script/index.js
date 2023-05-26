@@ -49,10 +49,15 @@ $(function () {
         console.log("로그인 성공");
         alert("로그인 되었습니다");
       },
-      error: function (error) {
-        console.error("로그인 실패: " + error);
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.error("로그인 실패: " + errorThrown);
         alert("아이디나 비밀번호가 다릅니다");
       },
+      complete: function(jqXHR, textStatus) {
+        console.log("Response Headers: ", jqXHR.getAllResponseHeaders());
+        console.log("Response Body: ", jqXHR.responseText);
+      }
     });
+    
   });
 });
