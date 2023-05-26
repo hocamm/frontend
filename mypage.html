@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>호잠</title>
+
+    <link rel="stylesheet" href="./css/mypage.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.4.js"
+        integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./script/mypage.js"></script>
+</head>
+
+<body>
+    <nav>
+        <div class="container">
+            <img src="./images/mainlogo_lil.png" alt="MainLogo" id="mainlogo" />
+        </div>
+    </nav>
+    <main>
+        <div class="dashboard">
+            <div class="content-wrap">
+                <div class="content-left">
+                    <table class="Calendar">
+                        <thead>
+                            <tr>
+                                <td onClick="prevCalendar();" style="cursor:pointer;" id="prev">&#60;</td>
+                                <td colspan="5">
+                                    <span id="calYear"></span>년
+                                    <span id="calMonth"></span>월
+                                </td>
+                                <td onClick="nextCalendar();" style="cursor:pointer;" id="next">&#62;</td>
+                            </tr>
+                            <!-- <tr>
+                                <td>일</td>
+                                <td>월</td>
+                                <td>화</td>
+                                <td>수</td>
+                                <td>목</td>
+                                <td>금</td>
+                                <td>토</td>
+                            </tr> -->
+                        </thead>
+                        
+                        <tbody>
+                    
+                        </tbody>
+                    </table>
+                </div>
+                <div class="content-right">
+                    <div class="main-wrap">
+                        <span id="mainYear"></span>년
+                        <span id="mainMonth"></span>월
+                        <span id="mainDay"></span>일
+                        <p class="user">이가은 님 학습리스트</p>
+                    </div>
+                    <div class="history-wrap">
+                        <!-- 학습기록 리스트 뜨는 부분입니다. -->
+                    </div>
+                    <img src="./images/memoticon.png" alt="memoticon">
+                </div>
+            </div>
+        </div>
+    </main>
+    
+</body>
+
+</html>
