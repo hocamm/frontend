@@ -137,14 +137,22 @@ main .dashboard {
 .my-page-btn {
     width:auto;
     height: auto;
-    background-color:none;
+    background-color: #ffffff;
     border: 1px solid #ffffff;
     border-radius: 3px;
-    padding: 3px;
-
-    color: #ffffff;
-    font-size: 0.7rem;
+    padding: 5px;
+    box-shadow: 3px 3px 3px black;
+    color: black;
+    font-size: 1rem;
     text-decoration: none;
+}
+
+.my-page-btn:active{
+    background-color: #034AA6;
+    border: #034AA6;
+    box-shadow: none;
+    transform: translateY(4px);
+
 }
 
 .memoticon {
