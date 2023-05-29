@@ -18,7 +18,7 @@ function getRoomId() {
     data: {},
   })
     .done(function (data) {
-      socket = new WebSocket(`wss://www.hocam.kr/ws/chat`);
+      socket = new WebSocket('wss://www.hocam.kr/ws/chat');
       console.log(data);
 
       let userroomid = data.data.roomId;
