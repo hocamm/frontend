@@ -7,16 +7,18 @@ const transcript = $("#transcript");
 let recognition;
 let isRecording = false;
 let socket;
+let waitingForResponse = false;
+let error = false;
 
 // roomID를 로컬 스토리지에 저장하여 대화를 지속할 수 있게 하는 함수
 function getRoomId() {
   return $.ajax({
-    url: "http://43.200.123.232:8080/chat",
+    url: "wss://www.hocam.kr/ws/chat",
     method: "POST",
     data: {},
   })
     .done(function (data) {
-      socket = new WebSocket(`ws://43.200.123.232:8080/ws/chat`);
+      socket = new WebSocket('wss://www.hocam.kr/ws/chat');
       console.log(data);
 
       let userroomid = data.data.roomId;
@@ -103,19 +105,20 @@ function SocketEventHandlers() {
               "</span>" +
               "</div>" +
               "<div class='tts-conatiner'" +
-              "<button class='ttsBtn'>tts</button>"+
+              "<button class='ttsBtn'>tts</button>" +
               "</div>" +
               "</div>" +
               "</div>"
           );
-
           scrollToBottom();
         }, 1000);
       }
     };
 
-    socket.onerror = function (error) {
-      alert("호잠에 문제가 생겼습니다. 새로고침 해주세요", error);
+    socket.onerror = function (errors) {
+      alert("호잠에 문제가 생겼습니다. 새로고침 해주세요", errors);
+      sendButton.prop("disabled", true);
+      error = true;
     };
 
     socket.onclose = function (event) {
@@ -123,6 +126,8 @@ function SocketEventHandlers() {
       alert(
         "오류가 생겼습니다. 새로고침 해주세요. 지금까지 학습된 내용은 저장됩니다."
       );
+      sendButton.prop("disabled", true);
+      error = true;
     };
   }
 }
@@ -252,15 +257,16 @@ function sendText() {
     alert("하고싶은 말을 적어주세요");
     return;
   }
+  if (error != true) {
+    $("#chatbox").append(
+      "<div class='message-container user'><p class='message user'>" +
+        message +
+        "</p></div>"
+    );
 
-  $("#chatbox").append(
-    "<div class='message-container user'><p class='message user'>" +
-      message +
-      "</p></div>"
-  );
-
-  startButton.prop("disabled", false);
-  stopButton.prop("disabled", true);
+    startButton.prop("disabled", false);
+    stopButton.prop("disabled", true);
+  }
 
   const request = JSON.stringify({ roomId, content: message });
 
@@ -272,12 +278,13 @@ function sendText() {
 
   // 호잠이 생각할 시간을 줌
   setTimeout(() => {
-    $("#chatbox").append(
-      "<div class='message-container machine thinking'><p class='message machine thinking'>" +
-        "." +
-        "</p></div>"
-    );
-
+    if (error != true) {
+      $("#chatbox").append(
+        "<div class='message-container machine thinking'><p class='message machine thinking'>" +
+          "." +
+          "</p></div>"
+      );
+    }
     setTimeout(startThinkingAnimation, 0);
   }, 1500);
   scrollToBottom();
@@ -287,6 +294,7 @@ function sendText() {
 sendButton.on("click", sendText);
 
 // transcript에 enter 눌렸을 때 sendtext 실행
+
 transcript.on("keypress", (event) => {
   if (event.which === 13) {
     startButton.prop("disabled", false);
@@ -321,7 +329,6 @@ observer.observe(document.querySelector("#chatbox"), { childList: true });
 
 function startThinkingAnimation() {
   let count = 0;
-
   thinkingAnimationInterval = setInterval(() => {
     const thinkingMessageElement = document.querySelector(
       ".message-container.machine.thinking .message.machine.thinking"
