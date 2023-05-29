@@ -49,25 +49,27 @@ $(document).ready(function () {
     var userpw = $("#pw").val();
 
     var data = {
-      "email": userid,
-      "password": userpw,
-      "nickname": nickname,
+      email: userid,
+      password: userpw,
+      nickname: nickname,
     };
 
     $.ajax({
       url: "https://www.hocam.kr/user/register",
       type: "POST",
-      dataType : "json",
+      dataType: "json",
       data: JSON.stringify(data),
-      contentType : "application/json; charset=utf-8",
-      success: function(response) {
-          alert("회원가입이 완료되었습니다.");
-          console.log(response)
-          window.location.href = "./home.html"
-        },
-      error: function(response) {
-        alert("회원가입에 실패했습니다.");
-        console.log(response)
+      contentType: "application/json; charset=utf-8",
+      success: function (response) {
+        alert("회원가입이 완료되었습니다. 로그인을 해주세요");
+        console.log(response);
+        window.location.href = "./index.html";
+      },
+      error: function (response) {
+        if (response.responseJSON.status == 409) {
+          alert(response.responseJSON.message);
+          console.log(response);
+        }
       },
     });
   });
