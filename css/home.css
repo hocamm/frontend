@@ -106,13 +106,13 @@ main .dashboard {
     padding-bottom: 5px;
 }
 
-.name{
+.nickname{
     width: auto;
     height: 3rem;
     margin-top: 3rem;
 }
 
-.user-name {
+.user-nickname {
     color:#ffffff;
     font-size: 1.7rem;
     display: inline;
