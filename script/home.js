@@ -8,8 +8,8 @@ $(document).ready(function() {
         success: function(response) {
             if (response.status === 200) {
                 console.log(response.data)
-                $(".nickname").text(response.data["nickname"] + "님 오랜만이에요!");
-                $(".email").text("email: " + response.data["email"]);
+                $("#user-nickname").text(response.data["nickname"] + "님 오랜만이에요!");
+                $("#user-email").text("email: " + response.data["email"]);
             }
         },
         error: function(error) {
