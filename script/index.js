@@ -37,7 +37,7 @@ $(function () {
       password: userpw,
     };
     $.ajax({
-      url: "http://43.200.123.232:8080/user/login",
+      url: "https://www.hocam.kr/user/login",
       method: "POST",
       contentType: "application/json; charset=utf-8",
       dataType: "json",

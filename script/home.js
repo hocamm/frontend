@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $.ajax({
-        url: 'http://43.200.123.232:8080/user/info',
+        url: 'https://www.hocam.kr/user/info',
         method: 'GET',
         xhrFields: {
             withCredentials: true

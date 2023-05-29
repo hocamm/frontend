@@ -55,7 +55,7 @@ $(document).ready(function () {
     };
 
     $.ajax({
-      url: "http://43.200.123.232:8080/user/register",
+      url: "https://www.hocam.kr/user/register",
       type: "POST",
       dataType : "json",
       data: JSON.stringify(data),
