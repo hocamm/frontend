@@ -18,7 +18,7 @@ function getRoomId() {
     data: {},
   })
     .done(function (data) {
-      socket = new WebSocket("wss://www.hocam.kr", null, {
+      socket = new WebSocket("wss://www.hocam.kr/ws/chat", null, {
         crossOrigin: "https://hocamm.github.io/",
       });
       console.log(data);
