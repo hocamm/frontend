@@ -29,7 +29,7 @@ $.check = function () {
 $("#login-btn").click($.check);
 
 $(document).ready(function () {
-  $("#pw").keypress(function (event) {
+  $("#login-btn").keypress(function (event) {
     if (event.which == 13) {
       event.preventDefault();
       $("#login-btn").click();
