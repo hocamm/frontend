@@ -150,9 +150,6 @@ main .dashboard {
 .my-page-btn:active{
     background-color: #034AA6;
     border: #034AA6;
-    box-shadow: none;
-    transform: translateY(4px);
-
 }
 
 .memoticon {
