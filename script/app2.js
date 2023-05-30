@@ -12,12 +12,12 @@ let error = false;
 // roomID를 로컬 스토리지에 저장하여 대화를 지속할 수 있게 하는 함수
 function getRoomId() {
   return $.ajax({
-    url: "http://www.hocam.kr/ws/chat",
+    url: "https://www.hocam.kr/ws/chat",
     method: "POST",
     data: {},
   })
     .done(function (data) {
-      socket = new WebSocket("http://www.hocam.kr/ws/chat");
+      socket = new WebSocket("https://www.hocam.kr/ws/chat");
       console.log(data);
       let userroomid = data.data.roomId;
       // roomID 로컬 스토리지에 저장해서 사용해요
