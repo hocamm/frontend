@@ -354,9 +354,9 @@ function stopThinkingAnimation() {
 
 // 클릭시 녹음 모양 아이콘 변함
 function changeImgStart() {
-  $("#recording-btn").attr("src", "./images/stop-recording.png");
+  $("#recording-btn").attr("src", "/images/stop-recording.png");
 }
 
 function changeImgStop() {
-  $("#recording-btn").attr("src", "./images/start-recording.png");
+  $("#recording-btn").attr("src", "/images/start-recording.png");
 }
