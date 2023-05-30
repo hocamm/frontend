@@ -6,7 +6,6 @@ const transcript = $("#transcript");
 
 let recognition;
 let isRecording = false;
-let socket;
 let waitingForResponse = false;
 let error = false;
 
