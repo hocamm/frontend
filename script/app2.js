@@ -27,7 +27,7 @@ function getRoomId() {
     });
 }
 
-let socket = new WebSocket("wws://www.hocam.kr/ws/chat");
+let socket = new WebSocket("wss://www.hocam.kr/ws/chat");
 
 // socket에 대한 event를 핸들링 하는 함수
 function SocketEventHandlers() {
