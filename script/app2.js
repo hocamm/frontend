@@ -6,32 +6,27 @@ const transcript = $("#transcript");
 
 let recognition;
 let isRecording = false;
-let socket;
 let waitingForResponse = false;
 let error = false;
 
 // roomID를 로컬 스토리지에 저장하여 대화를 지속할 수 있게 하는 함수
 function getRoomId() {
   return $.ajax({
-    url: "wss://www.hocam.kr/ws/chat",
+    url: "https://www.hocam.kr/chat",
     method: "POST",
     data: {},
   })
     .done(function (data) {
-      socket = new WebSocket("wss://www.hocam.kr/ws/chat", null, {
-        crossOrigin: "https://hocamm.github.io/",
-      });
       console.log(data);
-
       let userroomid = data.data.roomId;
-
-      // roomID 로컬 스토리지에 저장해서 사용해요
       localStorage.setItem("roomId", userroomid);
     })
     .fail(function (error) {
       console.error("Error:", error);
     });
 }
+
+let socket = new WebSocket("wss://www.hocam.kr/ws/chat");
 
 // socket에 대한 event를 핸들링 하는 함수
 function SocketEventHandlers() {
@@ -296,7 +291,6 @@ function sendText() {
 sendButton.on("click", sendText);
 
 // transcript에 enter 눌렸을 때 sendtext 실행
-
 transcript.on("keypress", (event) => {
   if (event.which === 13) {
     startButton.prop("disabled", false);
@@ -359,9 +353,9 @@ function stopThinkingAnimation() {
 
 // 클릭시 녹음 모양 아이콘 변함
 function changeImgStart() {
-  $("#recording-btn").attr("src", "../images/stop-recording.png");
+  $("#recording-btn").attr("src", "images/stop-recording.png");
 }
 
 function changeImgStop() {
-  $("#recording-btn").attr("src", "../images/start-recording.png");
+  $("#recording-btn").attr("src", "images/start-recording.png");
 }
