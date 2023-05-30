@@ -13,7 +13,7 @@ let error = false;
 function getRoomId() {
   return $.ajax({
     url: "https://www.hocam.kr/ws/chat",
-    method: "POST",
+    method: "GET",
     data: {},
   })
     .done(function (data) {
