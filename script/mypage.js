@@ -1,4 +1,4 @@
-window.onload = function () { buildCalendar(); showMain(); }
+window.onload = function () { buildCalendar(); showMain(today.getFullYear(), today.getMonth()+1, today.getDate()); }
 
 let nowMonth = new Date();
 let today = new Date();
@@ -37,7 +37,7 @@ function buildCalendar() {
             nowRow = tbody_Calendar.insertRow();    // 새로운 행 추가
         }
 
-        nowColumn.onclick = function () { choiceDate(this, nowDay); }   // 클릭되었을 때
+        nowColumn.onclick = function () { choiceDate(this); showMain(nowMonth.getFullYear(), nowMonth.getMonth() + 1, nowColumn.innerText)}   // 클릭되었을 때
 
         if (nowDay.getFullYear() == today.getFullYear() && nowDay.getMonth() == today.getMonth() && nowDay.getDate() == today.getDate()) { // 오늘인 경우
             nowColumn.className = "today";
@@ -49,26 +49,25 @@ function buildCalendar() {
 }
 
 // 날짜 선택
-function choiceDate(nowColumn, nowDay) {
+function choiceDate(nowColumn) {
     if (document.getElementsByClassName("choiceDay")[0]) {                              // 기존에 선택한 날짜가 있으면
         document.getElementsByClassName("choiceDay")[0].classList.remove("choiceDay");  // 해당 날짜의 "choiceDay" class 제거
     }
     nowColumn.classList.add("choiceDay");           // 선택된 날짜에 "choiceDay" class 추가
-    showMain(nowColumn, nowDay);
 }
 
 // 이전달 버튼 클릭
 function prevCalendar() {
     nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() - 1, nowMonth.getDate());   // 현재 달을 1 감소
     buildCalendar();    // 달력 다시 생성
-    showMain();
+    showMain(nowMonth.getFullYear(), nowMonth.getMonth() + 1, nowColumn.innerText);
 }
 
 // 다음달 버튼 클릭
 function nextCalendar() {
     nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, nowMonth.getDate());   // 현재 달을 1 증가
     buildCalendar();    // 달력 다시 생성
-    showMain();
+    showMain(nowMonth.getFullYear(), nowMonth.getMonth() + 1, nowColumn.innerText);
 }
 
 function leftPad(value) {
@@ -80,49 +79,8 @@ function leftPad(value) {
 }
 
 // 학습 기록
-function showMain(nowColumn, nowDay) {
-    if(nowColumn === undefined) {
-        document.getElementById('mainYear').innerText = today.getFullYear();
-        document.getElementById('mainMonth').innerText = today.getMonth() + 1;
-        document.getElementById('mainDay').innerText = today.getDate(); 
-    }
-    document.getElementById('mainYear').innerText = nowDay.getFullYear();
-    document.getElementById('mainMonth').innerText = nowDay.getMonth();
-    document.getElementById('mainDay').innerText = nowColumn.innerText;      
+function showMain(givenYear, givenMonth, givenDate) {
+    document.getElementById('mainYear').innerText = givenYear;
+    document.getElementById('mainMonth').innerText = givenMonth;
+    document.getElementById('mainDay').innerText = givenDate;      
 }
-
-var first = new Date(today.getFullYear(), today.getMonth(), 1);
-var leapYear=[31,29,31,30,31,30,31,31,30,31,30,31];
-var notLeapYear=[31,28,31,30,31,30,31,31,30,31,30,31];
-var pageYear;
-if(first.getFullYear() % 4 === 0){
-    pageYear = leapYear;
-}else{
-    pageYear = notLeapYear;
-}
-var clickedDate1 = document.getElementById(today.getDate());
-clickedDate1.classList.add('active');
-
-var tdGroup = [];
-function clickStart() {
-
-    for (let i = 1; i <= pageYear[first.getMonth()]; i++) {
-        tdGroup[i] = document.getElementById(i);
-        tdGroup[i].addEventListener('click', changeToday);
-    }
-}
-
-function changeToday(e) {
-
-    for(let i = 1; i <= pageYear[first.getMonth()]; i++) {
-        if (tdGroup[i].classList.contains('active')){
-            tdGroup[i].classList.remove('active');
-        }
-    }
-    clickedDate1 = e.currentTarget;
-    clickedDate1.classList.add('active');
-    today = new Date(today.getFullYear(), today.getMonth(), clickedDate1.id);
-    showMain();
-    keyValue = today.getFullYear() + '' + today.getMonth()+ '' + today.getDate();
-}
-
