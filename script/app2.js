@@ -12,30 +12,23 @@ let error = false;
 
 // roomID를 로컬 스토리지에 저장하여 대화를 지속할 수 있게 하는 함수
 function getRoomId() {
-  socket = new WebSocket("wss://www.hocam.kr/ws/chat");
-
-  socket.onopen = function (event) {
-    console.log("Connected to the WebSocket server", event);
-    // 여기에서 서버에 메시지를 보내거나 다른 동작을 수행할 수 있습니다.
-  };
-
-  socket.onmessage = function (event) {
-    console.log("Received data from the WebSocket server", event.data);
-    let userroomid = event.data.roomId;
-    // roomID 로컬 스토리지에 저장해서 사용해요
-    localStorage.setItem("roomId", userroomid);
-
-    // 이곳에서 서버로부터 수신한 데이터를 처리할 수 있습니다.
-    // 예를 들어, room ID를 로컬 스토리지에 저장하는 것이 있습니다.
-  };
-
-  socket.onerror = function (error) {
-    console.error("Error occurred with the WebSocket connection", error);
-  };
-
-  socket.onclose = function (event) {
-    console.log("WebSocket connection closed", event);
-  };
+  return $.ajax({
+    url: "wss://www.hocam.kr/ws/chat",
+    method: "POST",
+    data: {},
+  })
+    .done(function (data) {
+      socket = new WebSocket("wss://www.hocam.kr/ws/chat", null, {
+        crossOrigin: "https://hocamm.github.io/",
+      });
+      console.log(data);
+      let userroomid = data.data.roomId;
+      // roomID 로컬 스토리지에 저장해서 사용해요
+      localStorage.setItem("roomId", userroomid);
+    })
+    .fail(function (error) {
+      console.error("Error:", error);
+    });
 }
 
 // socket에 대한 event를 핸들링 하는 함수
