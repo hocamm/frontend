@@ -12,7 +12,7 @@ let error = false;
 // roomID를 로컬 스토리지에 저장하여 대화를 지속할 수 있게 하는 함수
 function getRoomId() {
   return $.ajax({
-    url: "wss://www.hocam.kr/ws/chat",
+    url: "https://www.hocam.kr/ws/chat",
     method: "GET",
     data: {},
   })
@@ -27,7 +27,7 @@ function getRoomId() {
     });
 }
 
-let socket = new WebSocket("wss://www.hocam.kr/ws/chat");
+let socket = new WebSocket("https://www.hocam.kr/ws/chat");
 
 // socket에 대한 event를 핸들링 하는 함수
 function SocketEventHandlers() {
