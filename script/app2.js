@@ -8,6 +8,7 @@ let recognition;
 let isRecording = false;
 let waitingForResponse = false;
 let error = false;
+let studyLogs = [];
 
 // roomID를 로컬 스토리지에 저장하여 대화를 지속할 수 있게 하는 함수
 function getRoomId() {
@@ -48,6 +49,12 @@ function SocketEventHandlers() {
         console.log(message);
         console.log("정답:", FixedAnswer.substring(14));
         console.log("문장 분석:", answerReason);
+
+        studyLogs.push({
+          userInput: message,
+          fixedAnswer: FixedAnswer.substring(14),
+          reason: answerReason,
+        });
 
         $(".message-container.machine.thinking").remove();
         stopThinkingAnimation();
@@ -116,6 +123,7 @@ function SocketEventHandlers() {
       alert("호잠에 문제가 생겼습니다. 새로고침 해주세요", errors);
       sendButton.prop("disabled", true);
       error = true;
+      sendStudyLogs();
     };
 
     socket.onclose = function (event) {
@@ -125,6 +133,7 @@ function SocketEventHandlers() {
       );
       sendButton.prop("disabled", true);
       error = true;
+      sendStudyLogs();
     };
   }
 }
@@ -237,6 +246,7 @@ stopButton.on("click", () => {
 
 finishButton.on("click", () => {
   if (confirm("정말 종료하시겠습니까?")) {
+    sendStudyLogs();
     location.href = "./home.html";
   }
 });
@@ -358,4 +368,28 @@ function changeImgStart() {
 
 function changeImgStop() {
   $("#recording-btn").attr("src", "images/start-recording.png");
+}
+
+function sendStudyLogs() {
+  const today = new Date();
+  const data = {
+    studyLogs: studyLogs,
+    year: today.getFullYear(),
+    month: today.getMonth() + 1,
+    day: today.getDate(),
+  };
+
+  $.ajax({
+    url: "https://www.hocam.kr/study",
+    method: "POST",
+    data: JSON.stringify(data),
+    contentType: "application/json",
+  })
+    .done(function () {
+      console.log("공부 기록 저장 완료.");
+      console.log(JSON.stringify(data))
+    })
+    .fail(function (error) {
+      console.error("에러:", error);
+    });
 }

@@ -10,7 +10,7 @@ $(document).ready(function () {
     var url = "./signup.html";
     window.location.href = url;
   });
-  $("#login-btn").keypress(function (event) {
+  $("#pw").keypress(function (event) {
     if (event.which == 13) {
       event.preventDefault();
       $("#login-btn").click();
