@@ -77,7 +77,7 @@ function buildCalendar() {
         success: function (response) {
           for (var i = 0; i < response.data.length; i++) {
             console.log(response.data[i]);
-            $("#history-wrap").append(response.data[i]);
+            $("#history-wrap").append(<div>response.data[i].userInput</div>);
           }
         },
       });
