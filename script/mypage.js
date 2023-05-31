@@ -59,14 +59,21 @@ function buildCalendar() {
         nowColumn.innerText
       );
 
-      let urldate = 'https://www.hocam.kr/' + 'study?year=' + nowMonth.getFullYear() + '&' + 'month=' + (nowMonth.getMonth()+1)
+      let urldate =
+        "https://www.hocam.kr/" +
+        "study?year=" +
+        nowMonth.getFullYear() +
+        "&" +
+        "month=" +
+        (nowMonth.getMonth() + 1);
 
       $.ajax({
         url: urldate,
         type: "GET",
         dataType: "json",
-        data: {},
-        contentType: "application/json; charset=utf-8",
+        xhrFields: {
+          withCredentials: true,
+        },
         success: function (response) {
           for (var i = 0; i < response.data.length; i++) {
             $("#history-wrap").append(response.data[i]);
