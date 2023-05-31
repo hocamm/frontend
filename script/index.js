@@ -10,6 +10,12 @@ $(document).ready(function () {
     var url = "./signup.html";
     window.location.href = url;
   });
+  $("#login-btn").keypress(function (event) {
+    if (event.which == 13) {
+      event.preventDefault();
+      $("#login-btn").click();
+    }
+  });
 });
 
 $.check = function () {
@@ -26,19 +32,9 @@ $.check = function () {
   }
 };
 
-$("#login-btn").click($.check);
-
-$(document).ready(function () {
-  $("#login-btn").keypress(function (event) {
-    if (event.which == 13) {
-      event.preventDefault();
-      $("#login-btn").click();
-    }
-  });
-});
-
 $(function () {
   $("#login-btn").on("click", function () {
+    $("#login-btn").click($.check);
     var userid = $("#id").val();
     var userpw = $("#pw").val();
     var data = {
