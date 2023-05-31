@@ -16,6 +16,9 @@ function getRoomId() {
     url: "https://www.hocam.kr/chat",
     method: "POST",
     data: {},
+    xhrFields: {
+      withCredentials: true,
+    },
   })
     .done(function (data) {
       console.log(data);
@@ -247,7 +250,7 @@ stopButton.on("click", () => {
 finishButton.on("click", () => {
   if (confirm("정말 종료하시겠습니까?")) {
     sendStudyLogs();
-    location.href = "./home.html";
+    // location.href = "./home.html";
   }
 });
 // sendText는 엔터치거나 send 누르면 보내짐
@@ -384,10 +387,13 @@ function sendStudyLogs() {
     method: "POST",
     data: JSON.stringify(data),
     contentType: "application/json",
+    xhrFields: {
+      withCredentials: true,
+    },
   })
     .done(function () {
       console.log("공부 기록 저장 완료.");
-      console.log(JSON.stringify(data))
+      console.log(JSON.stringify(data));
     })
     .fail(function (error) {
       console.error("에러:", error);
