@@ -1,6 +1,24 @@
 window.onload = function () {
   buildCalendar();
   showMain(today.getFullYear(), today.getMonth() + 1, today.getDate());
+  $(document).ready(function() {
+    $.ajax({
+        url: 'https://www.hocam.kr/user/info',
+        method: 'GET',
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function(response) {
+            if (response.status === 200) {
+                $('#user').text(response.data["nickname"] + "님 학습데이터")
+                console.log(response.data)
+            }
+        },
+        error: function(error) {
+            console.error("데이터 수신 실패: " + error);
+        },
+    });
+});
 };
 
 let nowMonth = new Date();
