@@ -151,6 +151,16 @@ tbody td {
     font-size: 15px;
 }
 
+.studyLog{
+    text-decoration: none;
+    padding: 5px 20px;
+    border: 1px solid #ffffff;
+    border-radius: 8px;
+    background-color: #ffffff;
+    text-align: left;
+    margin: 0px 0px 0px 16px;
+}
+
 .content-right img {
     position: absolute;
     right: -10px;
