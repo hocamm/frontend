@@ -68,8 +68,8 @@ function buildCalendar() {
         data: {},
         contentType: "application/json; charset=utf-8",
         success: function (response) {
-          for (var i = 0; i < response.studyLogs.length; i++) {
-            $("#history-wrap").append(response.studyLogs[i]);
+          for (var i = 0; i < response.data.length; i++) {
+            $("#history-wrap").append(response.data[i]);
           }
         },
       });
