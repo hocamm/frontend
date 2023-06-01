@@ -203,6 +203,13 @@ tbody td {
   overflow: auto;
 }
 
+.modal-content-log {
+  background-color: #888;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+}
+
 .close {
   color: #aaaaaa;
   float: right;
