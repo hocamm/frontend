@@ -9,6 +9,8 @@ let isRecording = false;
 let waitingForResponse = false;
 let error = false;
 let studyLogs = [];
+let selectedTopic = sessionStorage.getItem('selectedTopic');
+
 
 // roomID를 로컬 스토리지에 저장하여 대화를 지속할 수 있게 하는 함수
 function getRoomId() {
@@ -41,6 +43,7 @@ function SocketEventHandlers() {
       let answer = response.answer;
       let message = socket.lastMessage;
       let FixedAnswer = response.grammarFixedAnswer;
+      let isRight = response.isRight;
       let answerReason = response.grammarFixedReason;
       let answerReasonTrans = response.translatedReason;
       let grammarCorrectionElement;
@@ -49,14 +52,11 @@ function SocketEventHandlers() {
         console.log("호잠:", answer);
         console.log(message);
         console.log(userInput);
-        console.log(message);
-        console.log("정답:", FixedAnswer.substring(14));
-        console.log("문장 분석:", answerReason);
 
         studyLogs.push({
           userInput: message,
           fixedAnswer: FixedAnswer.substring(14),
-          reason: answerReason,
+          reason: answerReasonTrans,
         });
 
         $(".message-container.machine.thinking").remove();
@@ -64,7 +64,7 @@ function SocketEventHandlers() {
         scrollToBottom();
 
         // 조건에 따라 정답 판별
-        if (answerReason.includes("Doğru cümle şu şekilde olmalıdır")) {
+        if (isRight == false) {
           grammarCorrectionElement =
             "<div class='message-container machine grammarcorrection'>" +
             "<div class='message machine grammarcorrection wrong'><strong>✘ 교정이 필요해요 </strong></div>" +
@@ -78,14 +78,7 @@ function SocketEventHandlers() {
             answerReasonTrans +
             "</div>" +
             "</div>";
-        } else if (
-          answerReason.includes("doğru") ||
-          answerReason.includes("doğrudur") ||
-          FixedAnswer.includes("doğru") ||
-          FixedAnswer.includes("doğrudur") ||
-          FixedAnswer.includes("맞습니다") ||
-          FixedAnswer.includes("yanlışlık yok")
-        ) {
+        } else if (isRight == true) {
           grammarCorrectionElement =
             "<div class='message-container machine grammarcorrection'>" +
             "<div class='message machine grammarcorrection right'><strong>✔ 완벽해요</strong></div>" +
@@ -281,7 +274,6 @@ function sendText() {
   const request = JSON.stringify({ roomId, content: message });
 
   socket.send(request);
-  console.log("You Said: ", message);
 
   transcript.val(""); // user input이 transcript에 계속되지 않게 비워줌
   finalTranscript = ""; // finalTranscript도 같이 비워줌
@@ -381,6 +373,7 @@ function sendStudyLogs() {
     month: today.getMonth() + 1,
     day: today.getDate(),
   };
+  console.log(data);
 
   $.ajax({
     url: "https://www.hocam.kr/study",
