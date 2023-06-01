@@ -104,13 +104,22 @@ function buildCalendar() {
                 "<div class='studyLog'>" + response.data[i].userInput + "</div>"
               );
               newLog.click(function () {
-                showModal(response.data);
+                showModal(
+                  "<div>" +
+                    response.data[i].userInput +
+                    "</div>" +
+                    "<div>" +
+                    response.data[i].fixedAnswer +
+                    "</div>" +
+                    "<div>" +
+                    response.data[i].reason +
+                    "</div>"
+                );
               });
               $("#history-wrap").append(newLog);
             }
           }
         },
-        
       });
       function showModal(data) {
         $("#modal-data").append(data); // 모달 창 채우기
