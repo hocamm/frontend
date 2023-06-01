@@ -119,20 +119,22 @@ function buildCalendar() {
               );
               newLog.click(function () {
                 $("#modal-data").empty();
-                showModal(
-                  "<div>" +
-                    "이렇게 말하셨어요: " +
-                    response.data[i].studyLogDtos[0].userInput +
-                    "</div>" +
+                for (let j = 0; j < response.data[i].studyLogDtos.length; j++){
+                  showModal(
                     "<div>" +
-                    "이렇게 말하는게 더 좋아요: " +
-                    response.data[i].studyLogDtos[0].fixedAnswer +
-                    "</div>" +
-                    "틀린 이유: " +
-                    "<div>" +
-                    response.data[i].studyLogDtos[0].reason +
-                    "</div>"
-                );
+                      "이렇게 말하셨어요: " +
+                      response.data[i].studyLogDtos[j].userInput +
+                      "</div>" +
+                      "<div>" +
+                      "이렇게 말하는게 더 좋아요: " +
+                      response.data[i].studyLogDtos[j].fixedAnswer +
+                      "</div>" +
+                      "틀린 이유: " +
+                      "<div>" +
+                      response.data[i].studyLogDtos[j].reason +
+                      "</div>"
+                  );
+                }
               });
               $("#history-wrap").append(newLog);
             }

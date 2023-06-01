@@ -70,7 +70,7 @@ function SocketEventHandlers() {
           grammarCorrectionElement =
             "<div class='message-container machine grammarcorrection'>" +
             "<div class='message machine grammarcorrection wrong'><strong>✘ 교정이 필요해요 </strong></div>" +
-            "<div class='message user'><strong>You:</strong> " +
+            "<div class='message user'>" +
             message +
             "</div>" +
             "<div class='message machine grammarcorrection wrong'>👉 이렇게 말해봐요:  " +
