@@ -104,13 +104,17 @@ function buildCalendar() {
                 "<div class='studyLog'>" + response.data[i].userInput + "</div>"
               );
               newLog.click(function () {
+                $("#modal-data").empty();
                 showModal(
                   "<div>" +
+                    +"이렇게 말하셨어요: " +
                     response.data[i].userInput +
                     "</div>" +
                     "<div>" +
+                    "이렇게 말하는게 더 좋아요: " +
                     response.data[i].fixedAnswer +
                     "</div>" +
+                    "틀린 이유: " +
                     "<div>" +
                     response.data[i].reason +
                     "</div>"
