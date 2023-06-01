@@ -95,26 +95,26 @@ function buildCalendar() {
         success: function (response) {
           $("#history-wrap").empty();
           console.log(response.data);
-            let newLog = $(
-              "<div class='studyLog'>" + response.data.userInput + "</div>"
-            );
-            newLog.click(function () {
-              showModal(response.data);
-            });
-            $("#history-wrap").append(newLog);
+          let newLog = $(
+            "<div class='studyLog'>" + response.data[0].userInput + "</div>"
+          );
+          newLog.click(function () {
+            showModal(response.data);
+          });
+          $("#history-wrap").append(newLog);
         },
       });
 
       function showModal(text) {
-        $("#modal-text").text(text); // Fill the modal with content
-        $("#myModal").show(); 
+        $("#modal-text").text(text); // 모달 창 채우기
+        $("#myModal").show();
 
-        // Close the modal when the user clicks on <span> (x)
+        // <span> (x) 누르면 꺼짐
         $(".close").click(function () {
           $("#myModal").hide();
         });
 
-        // Close the modal when the user clicks anywhere outside of it
+        // 모달 창 바깥 누르면 꺼짐
         $(window).click(function (event) {
           if (event.target == $("#myModal").get(0)) {
             $("#myModal").hide();

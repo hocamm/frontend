@@ -194,11 +194,13 @@ tbody td {
 }
 
 .modal-content {
+  color: black;
   background-color: #fefefe;
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
+  height: 80%;
 }
 
 .close {
