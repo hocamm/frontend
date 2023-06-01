@@ -4,9 +4,9 @@ $(document).ready(function () {
       window.location.href = url;
     });
     $('.topic-first, .topic-mid, .topic-last').on('click', function(event) {
-      event.preventDefault();
-      const topicName = $(this).find('.content').text().trim().replace(/\s+/g, ' ');
-      sessionStorage.setItem('selectedTopic', topicName);
+      event.preventDefault(); 
+      const topicId = $(this).attr('id');  // Get the ID of the clicked element
+      sessionStorage.setItem('selectedTopicId', topicId);
       window.location.href = $(this).attr('href');
     });
 });

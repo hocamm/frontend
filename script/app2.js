@@ -66,7 +66,7 @@ function SocketEventHandlers() {
         scrollToBottom();
 
         // 조건에 따라 정답 판별
-        if (isRight === false) {
+        if (isRight === "false") {
           grammarCorrectionElement =
             "<div class='message-container machine grammarcorrection'>" +
             "<div class='message machine grammarcorrection wrong'><strong>✘ 교정이 필요해요 </strong></div>" +
@@ -80,7 +80,7 @@ function SocketEventHandlers() {
             answerReasonTrans +
             "</div>" +
             "</div>";
-        } else if (isRight === true) {
+        } else if (isRight === "true") {
           grammarCorrectionElement =
             "<div class='message-container machine grammarcorrection'>" +
             "<div class='message machine grammarcorrection right'><strong>✔ 완벽해요</strong></div>" +

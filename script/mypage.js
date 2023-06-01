@@ -96,27 +96,28 @@ function buildCalendar() {
           $("#history-wrap").empty();
           console.log(response.data);
           console.log(nowColumn.innerText);
-          let selectedDay = nowColumn.innerText; // 날짜 선택
+          let selectedDay = nowMonth.getFullYear + '-' (nowMonth.getMonth()+1) + '-' + nowColumn.innerText;
+          console.log(selectedDay) // 날짜 선택
           for (let i = 0; i < response.data.length; i++) {
             //선택한 날짜만 log에 넣음
-            if (response.data[i].day == selectedDay) {
+            if (response.data[i].date == selectedDay) {
               let newLog = $(
-                "<div class='studyLog'>" + response.data[i].userInput + "</div>"
+                "<div class='studyLog'>" + response.data[i].topic + "</div>"
               );
               newLog.click(function () {
                 $("#modal-data").empty();
                 showModal(
                   "<div>" +
                     "이렇게 말하셨어요: " +
-                    response.data[i].userInput +
+                    response.data[i].studyLogDtos[0].userInput +
                     "</div>" +
                     "<div>" +
                     "이렇게 말하는게 더 좋아요: " +
-                    response.data[i].fixedAnswer +
+                    response.data[i].studyLogDtos[0].fixedAnswer +
                     "</div>" +
                     "틀린 이유: " +
                     "<div>" +
-                    response.data[i].reason +
+                    response.data[i].studyLogDtos[0].reason +
                     "</div>"
                 );
               });
