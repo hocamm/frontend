@@ -95,18 +95,24 @@ function buildCalendar() {
         success: function (response) {
           $("#history-wrap").empty();
           console.log(response.data);
-          let newLog = $(
-            "<div class='studyLog'>" + response.data[0].userInput + "</div>"
-          );
-          newLog.click(function () {
-            showModal(response.data);
-          });
-          $("#history-wrap").append(newLog);
+          let selectedDay = nowColumn.innerText; // 날짜 선택
+          for (let i = 0; i < response.data.length; i++) {
+            //선택한 날짜만 log에 넣음
+            if (response.data[i].day === selectedDay) {
+              let newLog = $(
+                "<div class='studyLog'>" + response.data[i].userInput + "</div>"
+              );
+              newLog.click(function () {
+                showModal(response.data);
+              });
+              $("#history-wrap").append(newLog);
+            }
+          }
         },
+        
       });
-
-      function showModal(text) {
-        $("#modal-text").text(text); // 모달 창 채우기
+      function showModal(data) {
+        $("#modal-data").append(data); // 모달 창 채우기
         $("#myModal").show();
 
         // <span> (x) 누르면 꺼짐
