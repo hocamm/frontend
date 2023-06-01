@@ -96,13 +96,20 @@ function buildCalendar() {
           $("#history-wrap").empty();
           console.log(response.data);
           console.log(nowColumn.innerText);
-          let selectedDate
+          let selectedDate;
+          let selectedMonth;
+          let selectedYear = nowMonth.getFullYear();
           if (nowColumn.innerText < 10){
             selectedDate = '0'+ nowColumn.innerText
-          } else if (nowColumn.innerText > 10) {
+          } else if (nowColumn.innerText >= 10) {
             selectedDate = nowColumn.innerText
           };
-          let selectedDay = nowMonth.getFullYear + '-' + (nowMonth.getMonth()+1) + '-' + selectedDate;
+          if (nowMonth.getMonth()+1 < 10){
+            selectedMonth = '0' + (nowMonth.getMonth()+1)
+          } else if (nowMonth.getMonth()+1 >= 10) {
+            selectedMonth = nowMonth.getMonth()+1
+          }
+          let selectedDay = selectedYear + '-' + selectedMonth + '-' + selectedDate;
           console.log(selectedDay) // 날짜 선택
           for (let i = 0; i < response.data.length; i++) {
             //선택한 날짜만 log에 넣음

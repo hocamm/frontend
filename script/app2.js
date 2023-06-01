@@ -371,9 +371,6 @@ function sendStudyLogs() {
   const today = new Date();
   const data = {
     studyLogs: studyLogs,
-    year: today.getFullYear(),
-    month: today.getMonth() + 1,
-    day: today.getDate(),
     topic: selectedTopic
   };
   console.log(data);
