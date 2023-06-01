@@ -96,12 +96,33 @@ function buildCalendar() {
           $("#history-wrap").empty();
           for (var i = 0; i < response.data.length; i++) {
             console.log(response.data[i]);
-            $("#history-wrap").append(
+            let newLog = $(
               "<div class='studyLog'>" + response.data[i].userInput + "</div>"
             );
+            newLog.click(function () {
+              showModal(response.data[i]);
+            });
+            $("#history-wrap").append(newLog);
           }
         },
       });
+
+      function showModal(text) {
+        $("#modal-text").text(text); // Fill the modal with content
+        $("#myModal").show(); 
+
+        // Close the modal when the user clicks on <span> (x)
+        $(".close").click(function () {
+          $("#myModal").hide();
+        });
+
+        // Close the modal when the user clicks anywhere outside of it
+        $(window).click(function (event) {
+          if (event.target == $("#myModal").get(0)) {
+            $("#myModal").hide();
+          }
+        });
+      }
     }; // 클릭되었을 때
 
     if (
