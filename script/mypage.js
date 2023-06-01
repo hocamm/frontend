@@ -107,7 +107,7 @@ function buildCalendar() {
                 $("#modal-data").empty();
                 showModal(
                   "<div>" +
-                    +"이렇게 말하셨어요: " +
+                    "이렇게 말하셨어요: " +
                     response.data[i].userInput +
                     "</div>" +
                     "<div>" +
