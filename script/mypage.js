@@ -94,16 +94,14 @@ function buildCalendar() {
         },
         success: function (response) {
           $("#history-wrap").empty();
-          for (var i = 0; i < response.data.length; i++) {
-            console.log(response.data[i]);
+          console.log(response.data);
             let newLog = $(
-              "<div class='studyLog'>" + response.data[i].userInput + "</div>"
+              "<div class='studyLog'>" + response.data.userInput + "</div>"
             );
             newLog.click(function () {
-              showModal(response.data[i]);
+              showModal(response.data);
             });
             $("#history-wrap").append(newLog);
-          }
         },
       });
 
