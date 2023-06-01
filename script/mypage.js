@@ -95,10 +95,11 @@ function buildCalendar() {
         success: function (response) {
           $("#history-wrap").empty();
           console.log(response.data);
+          console.log(nowColumn.innerText);
           let selectedDay = nowColumn.innerText; // 날짜 선택
           for (let i = 0; i < response.data.length; i++) {
             //선택한 날짜만 log에 넣음
-            if (response.data[i].day === selectedDay) {
+            if (response.data[i].day == selectedDay) {
               let newLog = $(
                 "<div class='studyLog'>" + response.data[i].userInput + "</div>"
               );
