@@ -236,3 +236,17 @@ tbody td {
   text-decoration: none;
   cursor: pointer;
 }
+
+/* 뒤로가기 화살표 */
+footer {
+  position: absolute;
+  bottom: 0px;
+  padding: 0 1.25rem 1rem 1rem;
+}
+footer i {
+  font-size: 25px;
+  color: #034aa677;
+}
+footer i:hover {
+  color: #034AA6;
+}
