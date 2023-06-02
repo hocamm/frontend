@@ -154,19 +154,55 @@ tbody td {
   max-height: 200px;
 }
 
+/* 모달창 관련 css */
+.log-review-buttons {
+  display: flex;
+  flex-direction: row;
+}
+
 .studyLog {
   color: black;
   text-decoration: none;
   padding: 10px;
   border: 1px solid #ffffff;
-  border-radius: 8px;
+  border-radius: 8px 0px 0px 8px;
   background-color: #ffffff;
   text-align: left;
-  margin: 10px;
+  font-size: 15px;
+  font-weight:600;
+  margin: 10px 0 10px 10px;
   transition: all 0.3s;
+  width: 65%;
+}
+
+.studyLog:hover {
+  cursor: pointer;
 }
 
 .studyLog:active {
+  background-color: #c4c4c4;
+  border: #c4c4c4;
+}
+
+.reviewBtn {
+  color: black;
+  text-decoration: none;
+  padding: 10px 2px;
+  border: 1px solid #efefef;
+  border-radius: 0px 8px 8px 0px;
+  background-color: #efefef;
+  text-align: center;
+  font-size: 13px;
+  margin: 10px 10px 10px 0;
+  transition: all 0.3s;
+  width: 35%;
+}
+
+.reviewBtn:hover {
+  cursor: pointer;
+}
+
+.reviewBtn:active {
   background-color: #c4c4c4;
   border: #c4c4c4;
 }
