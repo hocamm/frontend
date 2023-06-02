@@ -9,10 +9,9 @@ let isRecording = false;
 let waitingForResponse = false;
 let error = false;
 let studyLogs = [];
-let selectedTopic = sessionStorage.getItem('selectedTopic');
+let selectedTopic = sessionStorage.getItem("selectedTopic");
 
 console.log(selectedTopic);
-
 
 // roomID를 로컬 스토리지에 저장하여 대화를 지속할 수 있게 하는 함수
 function getRoomId() {
@@ -368,10 +367,9 @@ function changeImgStop() {
 }
 
 function sendStudyLogs() {
-  const today = new Date();
   const data = {
     studyLogs: studyLogs,
-    topic: selectedTopic
+    topic: selectedTopic,
   };
   console.log(data);
 
@@ -387,6 +385,7 @@ function sendStudyLogs() {
     .done(function () {
       console.log("공부 기록 저장 완료.");
       console.log(JSON.stringify(data));
+      sessionStorage.clear();
     })
     .fail(function (error) {
       console.error("에러:", error);
