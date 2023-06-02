@@ -174,58 +174,7 @@ function playAudio(arrayBuffer) {
     audio.play();
 }
 
-// Event listener on TTS button
-$(document).on("click", ".ttsBtn", function () {
-  let answerForTts = $(this)
-    .closest(".message-container.machine")
-    .find(".message.machine .answer")
-    .text();
-    
-  fetchTTS(answerForTts);
-});
 
-
-// Function to play audio content
-function playAudio(audioContent) {
-    const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
-    audio.play();
-}
-
-// Event listener on TTS button
-$(document).on("click", ".ttsBtn", function () {
-  let answerForTts = $(this)
-    .closest(".message-container.machine")
-    .find(".message.machine .answer")
-    .text();
-    
-  fetchTTS(answerForTts);
-});
-
-
-function fetchTTS(text) {
-    fetch('https://texttospeech.googleapis.com/v1beta1/text:synthesize', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer YOUR_SERVICE_ACCOUNT_TOKEN`
-        },
-        body: JSON.stringify({
-            input: { text },
-            voice: { languageCode: 'tr-TR', name: 'tr-TR-Standard-A' },
-            audioConfig: { audioEncoding: 'MP3' },
-        }),
-    })
-    .then(response => response.json())
-    .then(({ audioContent }) => playAudio(audioContent));
-}
-
-// Function to play audio content
-function playAudio(audioContent) {
-    const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
-    audio.play();
-}
-
-// Event listener on TTS button
 $(document).on("click", ".ttsBtn", function () {
   let answerForTts = $(this)
     .closest(".message-container.machine")
