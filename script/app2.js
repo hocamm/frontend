@@ -153,6 +153,24 @@ $(document).on("click", ".translateBtn", function () {
   });
 });
 
+let utterance = new SpeechSynthesisUtterance();
+utterance.lang = "tr-TR"; // Turkish
+
+utterance.onstart = function () {
+  $(".ttsBtn .material-icons").text("volume_off"); // Change the icon to indicate speaking
+};
+
+utterance.onend = function () {
+  $(".ttsBtn .material-icons").text("volume_up"); // Change the icon back when finished speaking
+};
+
+$(document).on("click", ".ttsBtn", function () {
+  let answer = $(this).closest(".message-container.machine").find(".message.machine").text();
+  utterance.text = answer;
+  window.speechSynthesis.speak(utterance);
+});
+
+
 getRoomId().then(SocketEventHandlers);
 
 // speech recognition 핸들링
