@@ -104,13 +104,20 @@ function SocketEventHandlers() {
               "<div class='message machine'>" +
               answer +
               "<div class='translation-container'>" +
-              "<button class='translateBtn'>번역</button>" +
+
+              "<div class='tts-translate-buttons'" +
+              "<button class='ttsBtn'>" +
+              "<span class='material-icons'>volume_up</span>" +
+              "</button>" +
+              "<button class='translateBtn'>" +
+              "<span class='material-icons'>translate</span>" +
+              "</button>" +
+              "</div>" +
+
               "<span class='translation' style='display:none'>" +
               answerReasonTrans +
               "</span>" +
-              "</div>" +
-              "<div class='tts-conatiner'" +
-              "<button class='ttsBtn'>tts</button>" +
+
               "</div>" +
               "</div>" +
               "</div>"
@@ -140,7 +147,14 @@ function SocketEventHandlers() {
 }
 
 $(document).on("click", ".translateBtn", function () {
-  $(this).next(".translation").toggle();
+  $(".translation").toggle("slow", function() {
+    
+    if($(".translation").is(':visible')){
+      $(".translateBtn").css("color", "#454545")
+    }else{
+      $(".translateBtn").css("color", "#858585")
+    }
+  }); 
 });
 
 getRoomId().then(SocketEventHandlers);
