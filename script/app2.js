@@ -439,7 +439,6 @@ function sendStudyLogs() {
     });
 }
 
-const ttsButton = $(".ttsBtn");
 
 function fetchTTS(text) {
   fetch(
@@ -466,7 +465,7 @@ function playAudio(audioContent) {
   audio.play();
 }
 
-ttsButton.on("click", function () {
+(document).on("click", ".ttsBtn", function () {
   $(".ttsBtn .material-icons").text("volume_up");
   let answerForTts = $(this)
     .closest(".message-container.machine")
