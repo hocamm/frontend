@@ -167,6 +167,8 @@ utterance.onend = function () {
 $(document).on("click", ".ttsBtn", function () {
   let answerForTts = $(this).closest(".message-container.machine").find(".message.machine").text();
   utterance.text = answerForTts;
+  console.log(utterance.text)
+  console.log(utterance)
   window.speechSynthesis.speak(utterance);
 });
 
