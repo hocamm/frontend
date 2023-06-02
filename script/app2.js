@@ -159,8 +159,8 @@ $(document).on("click", ".translateBtn", function () {
 // tts 기능
 let voices = window.speechSynthesis.getVoices();
 let turkishVoices = voices.filter(voice => voice.lang === "tr-TR");
-utterance.voice = turkishVoices[0]; 
 let utterance = new SpeechSynthesisUtterance();
+utterance.voice = turkishVoices[0]; 
 utterance.lang = "tr-TR";
 
 utterance.onstart = function () {
