@@ -12,7 +12,7 @@ let studyLogs = [];
 let selectedTopic = sessionStorage.getItem("selectedTopic");
 
 if (selectedTopic == null) {
-  selectedTopic = '자유 주제'
+  selectedTopic = "자유 주제";
 }
 
 console.log(selectedTopic);
@@ -104,7 +104,6 @@ function SocketEventHandlers() {
               "<div class='message machine'>" +
               answer +
               "<div class='translation-container'>" +
-
               "<div class='tts-translate-buttons'" +
               "<button class='ttsBtn'>" +
               "<span class='material-icons'>volume_up</span>" +
@@ -113,11 +112,9 @@ function SocketEventHandlers() {
               "<span class='material-icons'>translate</span>" +
               "</button>" +
               "</div>" +
-
               "<span class='translation' style='display:none'>" +
               answerReasonTrans +
               "</span>" +
-
               "</div>" +
               "</div>" +
               "</div>"
@@ -147,14 +144,13 @@ function SocketEventHandlers() {
 }
 
 $(document).on("click", ".translateBtn", function () {
-  $(".translation").toggle("slow", function() {
-    
-    if($(".translation").is(':visible')){
-      $(".translateBtn").css("color", "#454545")
-    }else{
-      $(".translateBtn").css("color", "#858585")
+  $(".translation").toggle(800, function () {
+    if ($(".translation").is(":visible")) {
+      $(".translateBtn").css("color", "#454545");
+    } else {
+      $(".translateBtn").css("color", "#858585");
     }
-  }); 
+  });
 });
 
 getRoomId().then(SocketEventHandlers);
