@@ -54,18 +54,18 @@ function SocketEventHandlers() {
         console.log(message);
         console.log(userInput);
 
-        studyLogs.push({
-          userInput: message,
-          fixedAnswer: FixedAnswer.substring(14),
-          reason: answerReasonTrans,
-        });
-
         $(".message-container.machine.thinking").remove();
         stopThinkingAnimation();
         scrollToBottom();
 
         // 조건에 따라 정답 판별
         if (isRight === "false") {
+          studyLogs.push({
+            userInput: message,
+            fixedAnswer: FixedAnswer.substring(14),
+            reason: answerReasonTrans,
+          });
+          
           grammarCorrectionElement =
             "<div class='message-container machine grammarcorrection'>" +
             "<div class='message machine grammarcorrection wrong'><strong>✘ 교정이 필요해요 </strong></div>" +
@@ -373,23 +373,21 @@ function sendStudyLogs() {
   };
   console.log(data);
 
-  if (isRight == "false") {
-    $.ajax({
-      url: "https://www.hocam.kr/study",
-      method: "POST",
-      data: JSON.stringify(data),
-      contentType: "application/json",
-      xhrFields: {
-        withCredentials: true,
-      },
+  $.ajax({
+    url: "https://www.hocam.kr/study",
+    method: "POST",
+    data: JSON.stringify(data),
+    contentType: "application/json",
+    xhrFields: {
+      withCredentials: true,
+    },
+  })
+    .done(function () {
+      console.log("공부 기록 저장 완료.");
+      console.log(JSON.stringify(data));
+      sessionStorage.clear();
     })
-      .done(function () {
-        console.log("공부 기록 저장 완료.");
-        console.log(JSON.stringify(data));
-        sessionStorage.clear();
-      })
-      .fail(function (error) {
-        console.error("에러:", error);
-      });
-  }
+    .fail(function (error) {
+      console.error("에러:", error);
+    });
 }
