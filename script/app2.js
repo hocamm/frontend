@@ -155,6 +155,42 @@ $(document).on("click", ".translateBtn", function () {
   });
 });
 
+function fetchTTS(text) {
+  fetch(
+    "https://example.googleapis.com/v1/fictitiousApiMethod?key=AIzaSyDJjjGLu3DXYnZFDNkWzykZDU6KIXmN3S4",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        input: { text },
+        voice: { languageCode: "tr-TR", name: "tr-TR-Standard-A" },
+        audioConfig: { audioEncoding: "MP3" },
+      }),
+    }
+  )
+    .then((response) => response.json())
+    .then(({ audioContent }) => playAudio(audioContent));
+    $(".ttsBtn .material-icons").text("volume_off");
+}
+
+function playAudio(audioContent) {
+  const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
+  audio.play();
+}
+
+$(document).on("click", ".ttsBtn", function () {
+  $(".ttsBtn .material-icons").text("volume_up");
+  let answerForTts = $(this)
+    .closest(".message-container.machine")
+    .find(".message.machine .answer")
+    .text();
+
+  fetchTTS(answerForTts);
+});
+
+
 // tts 기능
 // let voices = window.speechSynthesis.getVoices();
 // let turkishVoices = voices.filter(voice => voice.lang === "tr-TR");
@@ -440,37 +476,3 @@ function sendStudyLogs() {
 }
 
 
-function fetchTTS(text) {
-  fetch(
-    "https://example.googleapis.com/v1/fictitiousApiMethod?key=AIzaSyDJjjGLu3DXYnZFDNkWzykZDU6KIXmN3S4",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        input: { text },
-        voice: { languageCode: "tr-TR", name: "tr-TR-Standard-A" },
-        audioConfig: { audioEncoding: "MP3" },
-      }),
-    }
-  )
-    .then((response) => response.json())
-    .then(({ audioContent }) => playAudio(audioContent));
-    $(".ttsBtn .material-icons").text("volume_off");
-}
-
-function playAudio(audioContent) {
-  const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
-  audio.play();
-}
-
-(document).on("click", ".ttsBtn", function () {
-  $(".ttsBtn .material-icons").text("volume_up");
-  let answerForTts = $(this)
-    .closest(".message-container.machine")
-    .find(".message.machine .answer")
-    .text();
-
-  fetchTTS(answerForTts);
-});
