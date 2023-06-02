@@ -155,38 +155,83 @@ $(document).on("click", ".translateBtn", function () {
   });
 });
 
+
 function fetchTTS(text) {
-  fetch(
-    "https://example.googleapis.com/v1/fictitiousApiMethod?key=AIzaSyDJjjGLu3DXYnZFDNkWzykZDU6KIXmN3S4",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        input: { text },
-        voice: { languageCode: "tr-TR", name: "tr-TR-Standard-A" },
-        audioConfig: { audioEncoding: "MP3" },
-      }),
-    }
-  )
-    .then((response) => response.json())
-    .then(({ audioContent }) => playAudio(audioContent));
-    $(".ttsBtn .material-icons").text("volume_off");
+    fetch('https://tts-afih67jd3q-uc.a.run.app', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text }),
+    })
+    .then(response => response.arrayBuffer())
+    .then(arrayBuffer => playAudio(arrayBuffer));
 }
 
-function playAudio(audioContent) {
-  const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
-  audio.play();
+
+function playAudio(arrayBuffer) {
+    const audio = new Audio(URL.createObjectURL(new Blob([arrayBuffer])));
+    audio.play();
 }
 
+// Event listener on TTS button
 $(document).on("click", ".ttsBtn", function () {
-  $(".ttsBtn .material-icons").text("volume_up");
   let answerForTts = $(this)
     .closest(".message-container.machine")
     .find(".message.machine .answer")
     .text();
+    
+  fetchTTS(answerForTts);
+});
 
+
+// Function to play audio content
+function playAudio(audioContent) {
+    const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
+    audio.play();
+}
+
+// Event listener on TTS button
+$(document).on("click", ".ttsBtn", function () {
+  let answerForTts = $(this)
+    .closest(".message-container.machine")
+    .find(".message.machine .answer")
+    .text();
+    
+  fetchTTS(answerForTts);
+});
+
+
+function fetchTTS(text) {
+    fetch('https://texttospeech.googleapis.com/v1beta1/text:synthesize', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer YOUR_SERVICE_ACCOUNT_TOKEN`
+        },
+        body: JSON.stringify({
+            input: { text },
+            voice: { languageCode: 'tr-TR', name: 'tr-TR-Standard-A' },
+            audioConfig: { audioEncoding: 'MP3' },
+        }),
+    })
+    .then(response => response.json())
+    .then(({ audioContent }) => playAudio(audioContent));
+}
+
+// Function to play audio content
+function playAudio(audioContent) {
+    const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
+    audio.play();
+}
+
+// Event listener on TTS button
+$(document).on("click", ".ttsBtn", function () {
+  let answerForTts = $(this)
+    .closest(".message-container.machine")
+    .find(".message.machine .answer")
+    .text();
+    
   fetchTTS(answerForTts);
 });
 

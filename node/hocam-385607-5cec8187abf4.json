@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "hocam-385607",
+  "private_key_id": "5cec8187abf4a00343afda9ef96d158c8b070ff3",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQD6PdwjbqcfVHBk\n88VxBm45s9+yHjGi+CG4u5AYY6wHpY5D00+jjr3UY+ch+tVMOZoMruE9nWZHkJnt\nbJ3F2G1NRhks6cSA4DvPe6QhVfklMBeC9WvAUYvAO2pyJ/CHjcIsSWxg4Ftb6Qlu\n/mGP5mkbin61F5rT0marhZLWToFmOQFUaYzI3AlO9NEv5woZy14WvZXX9AgnYp0N\n4hWyzkM/tHhY0yPlxIUMV5KMvh3rMOWrn55/e82Ua6/U47Zqb9bglrauwXybn4/y\nABV2OTFTNsbIrW5s3ej3Cy58+kwouM+5UrYj14QtzsueEI3wk4Y78Qu9en8CfAeq\niGjnFtuzAgMBAAECggEAM3WnIG4v1eSCXHA4yP5eimUv+iv1XyMRpDCF+E3+4W+t\nKst4lBTVeqi0risr08oAoN0Rmp8UmmDlFosAgt/30i05HiBQdYQnKIqvfN92JayX\nGSoo51qdl4FgaWtHLkj7hinvLJjWkLcCZp3PKE1kjfJUDh91ilu5G0qToJhySbfF\nMeXBAQdK2i/QWZBVFaI9UmLjniP6aMeF0u5Vhq8zPzGE5KlWPIr0m1Gefw7htL2O\nWdzhfXnIAW1t97x93Co3KBEonFvIIJTXERumiBEpHwTfM4tLeSAAV0OkLVktLU4h\nLpjcyXuNrsb8uCxhMc29tWWdLxcjaLy9VtSX5tuEOQKBgQD+GekAUZTdj4aQqaBy\nL43BrNrtOg8Rn+ow6n4Gx+sX814wKrIJLJvZ6RDPKnOoRmdKJ/3ZHibmb8Rr3BBa\n0viGUBN1TSktZXBSFVX4CjM4THGrHBlF6wGwoCxLbUQHmX0pHII755AxLzHfbNAp\nIP3Vqa38huAlp00+vKgoV6ANRQKBgQD8HJEE/tKxniNhm3FNNQAHa+A6KIyHgZBr\nyadoMfkcK6GsOaLYKns4J2TksFq+Noifa1UeQKePuQSBjTo0xZD4phXeEFgw42Jw\n09FsUJ5x1VND0oWgYPhmeVQZRjPuT8OIvPQf2WHqHXe4aHgUwtcP2WmNSndGMTgh\nDoLgUk9olwKBgQCVOPQbas2Im9wDoooF5KVUAsYCoKDu0cG/fkYKh2cphpNeqAQr\n3RWdkAB+GMkZHldUNk4eLlXb5/ErAm5cWB75CZeTwH+ZGEQxADSfWKYhvsrWGMdC\nxzMT3cyFcyKLb/kPpp1YvrFwIO4h7o4ESUqoKmBxt2d01V5IpJQANQ1aHQKBgQDp\nRwGFDskkIsB4U52+I/l35IChL94AkIlywy/NANiREWpScy5UONK1PfZkiS4d7VXz\ntRwYlxi0qy0ZNvWR2PFwsjVvuc3wxqXS4pxYTiyeBhc6nXSZ1sBiCYggrs3kiBfU\n0YpOYhXwy/14O+pIw5S+DJ1XaHz/DRHzvHqrWF4z1wKBgQCYo4O46ptpIyA2HN9U\nLrMqM4IC48kyzduf4Yw82ccdUg6X+IE3vByo+N4NKOTTI7t/6I/BT+g3o+ADM3tW\n5pkYetFThGrwoDLtQ84b6B6MKShRuDJt4op1cJd7zLV2fO9/Ynjz8WFeeE1GsVBq\nfjO1qkilPByhR3KK3rhd1I4HQA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "hocam-client@hocam-385607.iam.gserviceaccount.com",
+  "client_id": "118168050427306944984",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/hocam-client%40hocam-385607.iam.gserviceaccount.com"
+}
