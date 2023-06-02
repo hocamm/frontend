@@ -169,7 +169,7 @@ utterance.onend = function () {
 $(document).on("click", ".ttsBtn", function () {
   let answerForTts = $(this)
     .closest(".message-container.machine")
-    .find(".message.machine.answer")
+    .find(".message.machine .answer")
     .text();
   utterance.text = answerForTts;
   console.log(utterance.text);
