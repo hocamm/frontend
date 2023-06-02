@@ -11,7 +11,7 @@ let error = false;
 let studyLogs = [];
 let selectedTopic = sessionStorage.getItem("selectedTopic");
 
-if (selectedTopic == 'null') {
+if (selectedTopic == null) {
   selectedTopic = '자유 주제'
 }
 
