@@ -154,18 +154,19 @@ $(document).on("click", ".translateBtn", function () {
 });
 
 let utterance = new SpeechSynthesisUtterance();
-utterance.lang = "tr-TR"; // Turkish
+utterance.lang = "tr-TR";
 
 utterance.onstart = function () {
-  $(".ttsBtn .material-icons").text("volume_up"); // Change the icon to indicate speaking
+  $(".ttsBtn .material-icons").text("volume_up");
 };
 
 utterance.onend = function () {
-  $(".ttsBtn .material-icons").text("volume_off"); // Change the icon back when finished speaking
+  $(".ttsBtn .material-icons").text("volume_off");
 };
 
 $(document).on("click", ".ttsBtn", function () {
-  utterance.text = answer;
+  let answerForTts = $(this).closest(".message-container.machine").find(".message.machine").text();
+  utterance.text = answerForTts;
   window.speechSynthesis.speak(utterance);
 });
 
