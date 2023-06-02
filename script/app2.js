@@ -104,7 +104,7 @@ function SocketEventHandlers() {
               "<div class='message machine'>" +
               answer +
               "<div class='translation-container'>" +
-              "<div class='tts-translate-buttons'" +
+              "<div class='tts-translate-buttons'>" +
               "<button class='ttsBtn'>" +
               "<span class='material-icons'>volume_up</span>" +
               "</button>" +
