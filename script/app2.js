@@ -11,6 +11,10 @@ let error = false;
 let studyLogs = [];
 let selectedTopic = sessionStorage.getItem("selectedTopic");
 
+if (selectedTopic == 'null') {
+  selectedTopic = '자유 주제'
+}
+
 console.log(selectedTopic);
 
 // roomID를 로컬 스토리지에 저장하여 대화를 지속할 수 있게 하는 함수
@@ -65,7 +69,7 @@ function SocketEventHandlers() {
             fixedAnswer: FixedAnswer.substring(14),
             reason: answerReasonTrans,
           });
-          
+
           grammarCorrectionElement =
             "<div class='message-container machine grammarcorrection'>" +
             "<div class='message machine grammarcorrection wrong'><strong>✘ 교정이 필요해요 </strong></div>" +
