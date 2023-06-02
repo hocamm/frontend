@@ -69,7 +69,6 @@ function buildCalendar() {
     }
 
     nowColumn.onclick = function () {
-      console.log();
       choiceDate(this);
       showMain(
         nowMonth.getFullYear(),
@@ -95,26 +94,47 @@ function buildCalendar() {
         success: function (response) {
           $("#history-wrap").empty();
           console.log(response.data);
-          console.log(nowColumn.innerText);
-          let selectedDay = nowColumn.innerText; // 날짜 선택
+          let selectedDate;
+          let selectedMonth;
+          let selectedYear = nowMonth.getFullYear();
+          if (nowColumn.innerText < 10) {
+            selectedDate = "0" + nowColumn.innerText;
+          } else if (nowColumn.innerText >= 10) {
+            selectedDate = nowColumn.innerText;
+          }
+          if (nowMonth.getMonth() + 1 < 10) {
+            selectedMonth = "0" + (nowMonth.getMonth() + 1);
+          } else if (nowMonth.getMonth() + 1 >= 10) {
+            selectedMonth = nowMonth.getMonth() + 1;
+          }
+          let selectedDay =
+            selectedYear + "-" + selectedMonth + "-" + selectedDate;
           for (let i = 0; i < response.data.length; i++) {
             //선택한 날짜만 log에 넣음
-            if (response.data[i].day == selectedDay) {
+            if (response.data[i].date == selectedDay) {
               let newLog = $(
-                "<div class='studyLog'>" + response.data[i].userInput + "</div>"
+                "<div class='studyLog'>" + response.data[i].topic + "</div>"
               );
               newLog.click(function () {
-                showModal(
-                  "<div>" +
-                    response.data[i].userInput +
-                    "</div>" +
-                    "<div>" +
-                    response.data[i].fixedAnswer +
-                    "</div>" +
-                    "<div>" +
-                    response.data[i].reason +
-                    "</div>"
-                );
+                $("#modal-data").empty();
+                for (let j = 0; j < response.data[i].studyLogDtos.length; j++) {
+                  showModal(
+                    "<div class='modal-content-log'>" +
+                      "<div>" +
+                      "이렇게 말하셨어요: " +
+                      response.data[i].studyLogDtos[j].userInput +
+                      "</div>" +
+                      "<div>" +
+                      "이렇게 말하는게 더 좋아요: " +
+                      response.data[i].studyLogDtos[j].fixedAnswer +
+                      "</div>" +
+                      "틀린 이유: " +
+                      "<div>" +
+                      response.data[i].studyLogDtos[j].reason +
+                      "</div>" +
+                      "</div>"
+                  );
+                }
               });
               $("#history-wrap").append(newLog);
             }
