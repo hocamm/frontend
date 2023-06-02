@@ -155,7 +155,7 @@ $(document).on("click", ".translateBtn", function () {
   });
 });
 
-
+// TTS 버튼 동작
 function fetchTTS(text) {
     fetch('https://tts-afih67jd3q-uc.a.run.app', {
         method: 'POST',
@@ -184,32 +184,6 @@ $(document).on("click", ".ttsBtn", function () {
   fetchTTS(answerForTts);
 });
 
-
-// tts 기능
-// let voices = window.speechSynthesis.getVoices();
-// let turkishVoices = voices.filter(voice => voice.lang === "tr-TR");
-// let utterance = new SpeechSynthesisUtterance();
-// utterance.voice = turkishVoices[0];
-// utterance.lang = "tr-TR";
-
-// utterance.onstart = function () {
-//   $(".ttsBtn .material-icons").text("volume_up");
-// };
-
-// utterance.onend = function () {
-//   $(".ttsBtn .material-icons").text("volume_off");
-// };
-
-// $(document).on("click", ".ttsBtn", function () {
-//   let answerForTts = $(this)
-//     .closest(".message-container.machine")
-//     .find(".message.machine .answer")
-//     .text();
-//   utterance.text = answerForTts;
-//   console.log(utterance.text);
-//   console.log(utterance);
-//   window.speechSynthesis.speak(utterance);
-// });
 
 //hocam 로고를 눌렀을 때 경고 알림
 $(document).on("click", ".hocamBtn", function () {
