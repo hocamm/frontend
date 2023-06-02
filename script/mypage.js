@@ -94,7 +94,6 @@ function buildCalendar() {
         success: function (response) {
           $("#history-wrap").empty();
           console.log(response.data);
-          console.log(nowColumn.innerText);
           let selectedDate;
           let selectedMonth;
           let selectedYear = nowMonth.getFullYear();

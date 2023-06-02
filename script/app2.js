@@ -373,21 +373,23 @@ function sendStudyLogs() {
   };
   console.log(data);
 
-  $.ajax({
-    url: "https://www.hocam.kr/study",
-    method: "POST",
-    data: JSON.stringify(data),
-    contentType: "application/json",
-    xhrFields: {
-      withCredentials: true,
-    },
-  })
-    .done(function () {
-      console.log("공부 기록 저장 완료.");
-      console.log(JSON.stringify(data));
-      sessionStorage.clear();
+  if (isRight == "false") {
+    $.ajax({
+      url: "https://www.hocam.kr/study",
+      method: "POST",
+      data: JSON.stringify(data),
+      contentType: "application/json",
+      xhrFields: {
+        withCredentials: true,
+      },
     })
-    .fail(function (error) {
-      console.error("에러:", error);
-    });
+      .done(function () {
+        console.log("공부 기록 저장 완료.");
+        console.log(JSON.stringify(data));
+        sessionStorage.clear();
+      })
+      .fail(function (error) {
+        console.error("에러:", error);
+      });
+  }
 }
