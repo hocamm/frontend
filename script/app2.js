@@ -102,7 +102,9 @@ function SocketEventHandlers() {
           $("#chatbox").append(
             "<div class='message-container machine'>" +
               "<div class='message machine'>" +
+              "<div class='answer'>" +
               answer +
+              "</div>" +
               "<div class='translation-container'>" +
               "<div class='tts-translate-buttons'>" +
               "<button class='ttsBtn'>" +
@@ -165,13 +167,15 @@ utterance.onend = function () {
 };
 
 $(document).on("click", ".ttsBtn", function () {
-  let answerForTts = $(this).closest(".message-container.machine").find(".message.machine").text();
+  let answerForTts = $(this)
+    .closest(".message-container.machine")
+    .find(".message.machine.answer")
+    .text();
   utterance.text = answerForTts;
-  console.log(utterance.text)
-  console.log(utterance)
+  console.log(utterance.text);
+  console.log(utterance);
   window.speechSynthesis.speak(utterance);
 });
-
 
 getRoomId().then(SocketEventHandlers);
 
