@@ -114,9 +114,11 @@ function buildCalendar() {
             if (response.data[i].date == selectedDay) {
               let newLog = $(
                 "<div class='log-review-buttons'>" +
-                "<div class='studyLog'>" + response.data[i].topic + "</div>" +
-                "<div class='reviewBtn'>복습하기</div>" +
-                "</div>"
+                  "<div class='studyLog'>" +
+                  response.data[i].topic +
+                  "</div>" +
+                  "<div class='reviewBtn'>복습하기</div>" +
+                  "</div>"
               );
               $(".studyLog").click(function () {
                 $("#modal-data").empty();
@@ -141,31 +143,77 @@ function buildCalendar() {
               });
               $(".reviewBtn").click(function () {
                 $("#modal-data").empty();
-                showModal(
-
-                );
-              });
+                showModal(null, true);
+            
+                // Assuming response.data is an array of study logs, each with 'userInput' and 'fixedAnswer' properties
+                let quizData = response.data[i].studyLogDtos;
+                let quizIndex = 0;
+            
+                function loadQuizItem(index) {
+                    $('#question').text("Question: " + quizData[index].userInput);
+                    $('#answer').text("Answer: " + quizData[index].fixedAnswer);
+                }
+            
+                loadQuizItem(quizIndex);
+            
+                $('#prev').click(function() {
+                    if (quizIndex > 0) {
+                        quizIndex--;
+                        loadQuizItem(quizIndex);
+                    }
+                });
+            
+                $('#next').click(function() {
+                    if (quizIndex < quizData.length - 1) {
+                        quizIndex++;
+                        loadQuizItem(quizIndex);
+                    }
+                });
+            });
+            
+              // $(".reviewBtn").click(function () {
+              //   $("#modal-data").empty();
+              //   showModal(
+              //     "<div class ='modal-content-quiz'>" + "</div>"
+              //   );
+              // });
               $("#history-wrap").append(newLog);
             }
           }
         },
       });
-      function showModal(data) {
-        $("#modal-data").append(data); // 모달 창 채우기
+      function showModal(data, review = false) {
+        if (review) {
+            let quizContent = $("<div class ='modal-content-quiz'></div>");
+            let question = $("<div id='question'></div>");
+            let answer = $("<div id='answer'></div>");
+            let prevButton = $("<button id='prev'>Previous</button>");
+            let nextButton = $("<button id='next'>Next</button>");
+    
+            quizContent.append(question, answer, prevButton, nextButton);
+            $("#modal-data").append(quizContent);
+        } else {
+            $("#modal-data").append(data);
+        }
         $("#myModal").show();
+    }
+    
+      // function showModal(data) {
+      //   $("#modal-data").append(data); // 모달 창 채우기
+      //   $("#myModal").show();
 
-        // <span> (x) 누르면 꺼짐
-        $(".close").click(function () {
-          $("#myModal").hide();
-        });
+      //   // <span> (x) 누르면 꺼짐
+      //   $(".close").click(function () {
+      //     $("#myModal").hide();
+      //   });
 
-        // 모달 창 바깥 누르면 꺼짐
-        $(window).click(function (event) {
-          if (event.target == $("#myModal").get(0)) {
-            $("#myModal").hide();
-          }
-        });
-      }
+      //   // 모달 창 바깥 누르면 꺼짐
+      //   $(window).click(function (event) {
+      //     if (event.target == $("#myModal").get(0)) {
+      //       $("#myModal").hide();
+      //     }
+      //   });
+      // }
     }; // 클릭되었을 때
 
     if (
