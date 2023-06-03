@@ -121,7 +121,6 @@ function buildCalendar() {
                   "</div>"
               );
               $(".studyLog").click(function () {
-                showModal(null, true);
                 $("#modal-data").empty();
                 for (let j = 0; j < response.data[i].studyLogDtos.length; j++) {
                   showModal(
