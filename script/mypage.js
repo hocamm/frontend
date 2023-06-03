@@ -109,7 +109,14 @@ function buildCalendar() {
           }
           let selectedDay =
             selectedYear + "-" + selectedMonth + "-" + selectedDate;
-          for (let i = 0; i < response.data.length; i++) {
+          for (let k = 0; k < response.data.length; k++) {
+            let selectedDayCounts = 0
+            if (response.data[k].date == selectedDay){
+              selectedDayCounts ++
+            }
+          }
+
+          for (let i = 0; i < response.data.selectedDayCounts; i++) {
             //선택한 날짜만 log에 넣음
             if (response.data[i].date == selectedDay) {
               let newLog = $(
@@ -122,6 +129,7 @@ function buildCalendar() {
               );
               $(".studyLog").click(function () {
                 $("#modal-data").empty();
+
                 for (let j = 0; j < response.data[i].studyLogDtos.length; j++) {
                   showModal(
                     "<div class='modal-content-log'>" +
@@ -143,17 +151,59 @@ function buildCalendar() {
               });
               $(".reviewBtn").click(function () {
                 $("#modal-data").empty();
-                showModal(
-                  
-                );
+                showModal(null, true);
+
+                // Assuming response.data is an array of study logs, each with 'userInput' and 'fixedAnswer' properties
+                let quizData = response.data[i].studyLogDtos;
+                let quizIndex = 0;
+
+                function loadQuizItem(index) {
+                  $("#question").text("Question: " + quizData[index].userInput);
+                  $("#answer").text("Answer: " + quizData[index].fixedAnswer);
+                }
+
+                loadQuizItem(quizIndex);
+
+                $("#prev").click(function () {
+                  if (quizIndex > 0) {
+                    quizIndex--;
+                    loadQuizItem(quizIndex);
+                  }
+                });
+
+                $("#next").click(function () {
+                  if (quizIndex < quizData.length - 1) {
+                    quizIndex++;
+                    loadQuizItem(quizIndex);
+                  }
+                });
               });
+
               $("#history-wrap").append(newLog);
             }
           }
         },
       });
-      function showModal(data) {
-        $("#modal-data").append(data); // 모달 창 채우기
+      function showModal(data, review = false) {
+        if (review) {
+          let quizContent = $("<div class ='modal-content-quiz'></div>");
+          let question = $("<div id='question'></div>");
+          let answer = $("<div id='answer'></div>");
+          let userAnswer = $("<input class='underline' type='text'></input>");
+          let prevButton = $("<button id='prev'>Previous</button>");
+          let nextButton = $("<button id='next'>Next</button>");
+
+          quizContent.append(
+            question,
+            answer,
+            userAnswer,
+            prevButton,
+            nextButton
+          );
+          $("#modal-data").append(quizContent);
+        } else {
+          $("#modal-data").append(data);
+        }
         $("#myModal").show();
 
         // <span> (x) 누르면 꺼짐
@@ -168,6 +218,12 @@ function buildCalendar() {
           }
         });
       }
+
+      // function showModal(data) {
+      //   $("#modal-data").append(data); // 모달 창 채우기
+      //   $("#myModal").show();
+
+      // }
     }; // 클릭되었을 때
 
     if (
