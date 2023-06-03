@@ -387,6 +387,12 @@ let observer = new MutationObserver(function (mutations) {
 
 observer.observe(document.querySelector("#chatbox"), { childList: true });
 
+let thinkingAnimationInterval
+
+function stopThinkingAnimation() {
+  clearInterval(thinkingAnimationInterval);
+}
+
 function startThinkingAnimation() {
   let count = 0;
   thinkingAnimationInterval = setInterval(() => {
@@ -411,9 +417,7 @@ function startThinkingAnimation() {
   }, 600);
 }
 
-function stopThinkingAnimation() {
-  clearInterval(thinkingAnimationInterval);
-}
+
 
 // 클릭시 녹음 모양 아이콘 변함
 function changeImgStart() {
