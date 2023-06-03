@@ -134,15 +134,15 @@ function buildCalendar() {
                     "<div class='modal-content-log'>" +
                       "<div>" +
                       "이렇게 말하셨어요: " +
-                      response.data[i].studyLogDtos[j].userInput +
+                      response.data[i-1].studyLogDtos[j].userInput +
                       "</div>" +
                       "<div>" +
                       "이렇게 말하는게 더 좋아요: " +
-                      response.data[i].studyLogDtos[j].fixedAnswer +
+                      response.data[i-1].studyLogDtos[j].fixedAnswer +
                       "</div>" +
                       "틀린 이유: " +
                       "<div>" +
-                      response.data[i].studyLogDtos[j].reason +
+                      response.data[i-1].studyLogDtos[j].reason +
                       "</div>" +
                       "</div>"
                   );
