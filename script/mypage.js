@@ -117,7 +117,6 @@ function buildCalendar() {
           }
 
           for (let i = 0; i < response.data.length; i++) {
-            //선택한 날짜만 log에 넣음
             if (response.data[i].date == selectedDay) {
               let newLog = $(
                 "<div class='log-review-buttons'>" +
@@ -127,57 +126,75 @@ function buildCalendar() {
                   "<div class='reviewBtn'>복습하기</div>" +
                   "</div>"
               );
-              $(".studyLog").click(function () {
-                $("#modal-data").empty();
-                for (let j = 0; j < response.data[i-1].studyLogDtos.length; j++) {
-                  showModal(
-                    "<div class='modal-content-log'>" +
-                      "<div>" +
-                      "이렇게 말하셨어요: " +
-                      response.data[i-1].studyLogDtos[j].userInput +
-                      "</div>" +
-                      "<div>" +
-                      "이렇게 말하는게 더 좋아요: " +
-                      response.data[i-1].studyLogDtos[j].fixedAnswer +
-                      "</div>" +
-                      "틀린 이유: " +
-                      "<div>" +
-                      response.data[i-1].studyLogDtos[j].reason +
-                      "</div>" +
-                      "</div>"
-                  );
-                }
-                return;
-              });
-              $(".reviewBtn").click(function () {
-                $("#modal-data").empty();
-                showModal(null, true);
 
-                // Assuming response.data is an array of study logs, each with 'userInput' and 'fixedAnswer' properties
-                let quizData = response.data[i].studyLogDtos;
-                let quizIndex = 0;
+              $(".studyLog").click(
+                (function (i) {
+                  return function () {
+                    $("#modal-data").empty();
+                    for (
+                      let j = 0;
+                      j < response.data[i].studyLogDtos.length;
+                      j++
+                    ) {
+                      showModal(
+                        "<div class='modal-content-log'>" +
+                          "<div>" +
+                          "이렇게 말하셨어요: " +
+                          response.data[i].studyLogDtos[j].userInput +
+                          "</div>" +
+                          "<div>" +
+                          "이렇게 말하는게 더 좋아요: " +
+                          response.data[i].studyLogDtos[j].fixedAnswer +
+                          "</div>" +
+                          "틀린 이유: " +
+                          "<div>" +
+                          response.data[i].studyLogDtos[j].reason +
+                          "</div>" +
+                          "</div>"
+                      );
+                    }
+                  };
+                })(i)
+              );
 
-                function loadQuizItem(index) {
-                  $("#question").text("Question: " + quizData[index].userInput);
-                  $("#answer").text("Answer: " + quizData[index].fixedAnswer);
-                }
+              // The same solution applies for .reviewBtn
+              $(".reviewBtn").click(
+                (function (i) {
+                  return function () {
+                    $("#modal-data").empty();
+                    showModal(null, true);
 
-                loadQuizItem(quizIndex);
+                    // Assuming response.data is an array of study logs, each with 'userInput' and 'fixedAnswer' properties
+                    let quizData = response.data[i].studyLogDtos;
+                    let quizIndex = 0;
 
-                $("#prev").click(function () {
-                  if (quizIndex > 0) {
-                    quizIndex--;
+                    function loadQuizItem(index) {
+                      $("#question").text(
+                        "Question: " + quizData[index].userInput
+                      );
+                      $("#answer").text(
+                        "Answer: " + quizData[index].fixedAnswer
+                      );
+                    }
+
                     loadQuizItem(quizIndex);
-                  }
-                });
 
-                $("#next").click(function () {
-                  if (quizIndex < quizData.length - 1) {
-                    quizIndex++;
-                    loadQuizItem(quizIndex);
-                  }
-                });
-              });
+                    $("#prev").click(function () {
+                      if (quizIndex > 0) {
+                        quizIndex--;
+                        loadQuizItem(quizIndex);
+                      }
+                    });
+
+                    $("#next").click(function () {
+                      if (quizIndex < quizData.length - 1) {
+                        quizIndex++;
+                        loadQuizItem(quizIndex);
+                      }
+                    });
+                  };
+                })(i)
+              );
 
               $("#history-wrap").append(newLog);
             }
