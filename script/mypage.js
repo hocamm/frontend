@@ -157,6 +157,7 @@ function buildCalendar() {
                 done = true;
                 return;
               });
+              i++;
 
               $(".reviewBtn").click(function () {
                 $("#modal-data").empty();
@@ -190,7 +191,6 @@ function buildCalendar() {
 
               $("#history-wrap").append(newLog);
             }
-            i++;
           }
         },
       });
