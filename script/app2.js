@@ -42,6 +42,7 @@ function getRoomId() {
 function SocketEventHandlers() {
   if (socket) {
     socket.onopen = function () {
+      startThinkingAnimation();
       if (selectedTopic) {
         let roomId = localStorage.getItem("roomId");
         socket.send(
