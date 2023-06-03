@@ -1,4 +1,4 @@
-iwindow.onload = function () {
+window.onload = function () {
   buildCalendar();
   showMain(today.getFullYear(), today.getMonth() + 1, today.getDate());
   $(document).ready(function () {
@@ -122,6 +122,8 @@ function buildCalendar() {
               );
               $(".studyLog").click(function () {
                 $("#modal-data").empty();
+                showModal(null, true);
+
                 for (let j = 0; j < response.data[i].studyLogDtos.length; j++) {
                   showModal(
                     "<div class='modal-content-log'>" +
@@ -145,6 +147,7 @@ function buildCalendar() {
                 $("#modal-data").empty();
                 showModal(null, true);
 
+                // Assuming response.data is an array of study logs, each with 'userInput' and 'fixedAnswer' properties
                 let quizData = response.data[i].studyLogDtos;
                 let quizIndex = 0;
 
