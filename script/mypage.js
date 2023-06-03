@@ -117,6 +117,7 @@ function buildCalendar() {
           }
 
           for (let i = 0; i < response.data.length; i++) {
+            //선택한 날짜만 log에 넣음
             if (response.data[i].date == selectedDay) {
               let newLog = $(
                 "<div class='log-review-buttons'>" +
@@ -127,7 +128,7 @@ function buildCalendar() {
                   "</div>"
               );
 
-              $(".studyLog").click(
+              newLog.find(".studyLog").click(
                 (function (i) {
                   return function () {
                     $("#modal-data").empty();
@@ -157,8 +158,7 @@ function buildCalendar() {
                 })(i)
               );
 
-              // The same solution applies for .reviewBtn
-              $(".reviewBtn").click(
+              newLog.find(".reviewBtn").click(
                 (function (i) {
                   return function () {
                     $("#modal-data").empty();
