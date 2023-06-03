@@ -155,15 +155,17 @@ function SocketEventHandlers() {
     };
   }
 }
-
 getRoomId().then(SocketEventHandlers);
 
-$(document).on("click", ".translateBtn", function () {
-  $(".translation").toggle(800, function () {
-    if ($(".translation").is(":visible")) {
-      $(".translateBtn").css("color", "#454545");
+$(document).on("click", ".translateBtn", function (e) {
+  var target1 = $(e.target); 
+  var target2 = $(e.target.parentElement).closest(".translation-container").find(".translation");
+  console.log(target1);
+  target2.toggle(800, function () {
+    if ($(this).is(":visible")) {
+      target1.css("color", "#454545");
     } else {
-      $(".translateBtn").css("color", "#858585");
+      target1.css("color", "#858585");
     }
   });
 });

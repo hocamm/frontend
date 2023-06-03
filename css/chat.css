@@ -245,3 +245,7 @@ nav img {
   border: none;
   color: #858585;
 }
+
+.translateBtn:hover{
+  cursor: pointer;
+}

@@ -113,9 +113,12 @@ function buildCalendar() {
             //선택한 날짜만 log에 넣음
             if (response.data[i].date == selectedDay) {
               let newLog = $(
-                "<div class='studyLog'>" + response.data[i].topic + "</div>"
+                "<div class='log-review-buttons'>" +
+                "<div class='studyLog'>" + response.data[i].topic + "</div>" +
+                "<div class='reviewBtn'>복습하기</div>" +
+                "</div>"
               );
-              newLog.click(function () {
+              $(".studyLog").click(function () {
                 $("#modal-data").empty();
                 for (let j = 0; j < response.data[i].studyLogDtos.length; j++) {
                   showModal(
@@ -135,6 +138,12 @@ function buildCalendar() {
                       "</div>"
                   );
                 }
+              });
+              $(".reviewBtn").click(function () {
+                $("#modal-data").empty();
+                showModal(
+
+                );
               });
               $("#history-wrap").append(newLog);
             }
