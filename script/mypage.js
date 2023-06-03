@@ -163,54 +163,43 @@ function buildCalendar() {
                   return function () {
                     $("#modal-data").empty();
                     showModal(null, true);
-
+              
                     let quizData = response.data[i].studyLogDtos;
                     let quizIndex = 0;
-
+              
                     function loadQuizItem(index) {
-                      $("#question").text(
-                        "Question: " + quizData[index].userInput
-                      );
+                      $("#question").text("Question: " + quizData[index].userInput);
                       $("#answer").hide();
-                      $("#userAnswer").val("");
+                      $('#userAnswer').val('');
                     }
-
+              
                     loadQuizItem(quizIndex);
-
-                    $("#userAnswer").change(function () {
+              
+                    $('#userAnswer').change(function() {
                       if (this.value == quizData[quizIndex].fixedAnswer) {
-                        $("#answer")
-                          .text(
-                            "Correct Answer: " + quizData[quizIndex].fixedAnswer
-                          )
-                          .show();
+                        $("#answer").text("Correct Answer: " + quizData[quizIndex].fixedAnswer).show();
                       } else {
-                        $("#answer")
-                          .text("Incorrect Answer! Try Again.")
-                          .show();
+                        $("#answer").text("Incorrect Answer! Try Again.").show();
                       }
                     });
-
-                    $("#prev")
-                      .unbind("click")
-                      .click(function () {
-                        if (quizIndex > 0) {
-                          quizIndex--;
-                          loadQuizItem(quizIndex);
-                        }
-                      });
-
-                    $("#next")
-                      .unbind("click")
-                      .click(function () {
-                        if (quizIndex < quizData.length - 1) {
-                          quizIndex++;
-                          loadQuizItem(quizIndex);
-                        }
-                      });
+              
+                    $("#prev").unbind('click').click(function () {
+                      if (quizIndex > 0) {
+                        quizIndex--;
+                        loadQuizItem(quizIndex);
+                      }
+                    });
+              
+                    $("#next").unbind('click').click(function () {
+                      if (quizIndex < quizData.length - 1) {
+                        quizIndex++;
+                        loadQuizItem(quizIndex);
+                      }
+                    });
                   };
                 })(i)
               );
+              
 
               $("#history-wrap").append(newLog);
             }
