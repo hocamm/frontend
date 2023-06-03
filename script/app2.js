@@ -42,7 +42,7 @@ function getRoomId() {
 function SocketEventHandlers() {
   if (socket) {
     socket.onopen = function () {
-      if (selectedTopic !== null) {
+      if (selectedTopic !== '자유 주제') {
         startThinkingAnimation
         let roomId = localStorage.getItem("roomId");
         socket.send(
@@ -51,8 +51,6 @@ function SocketEventHandlers() {
             content: "Ben " + selectedTopic + " hakkında konuşmak istiyorum",
           })
         );
-      } else if (selectedTopic == null) {
-        startThinkingAnimation
       }
     };
     socket.onmessage = function (event) {
