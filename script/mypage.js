@@ -165,6 +165,7 @@ function buildCalendar() {
                     showModal(null, true);
               
                     let quizData = response.data[i].studyLogDtos;
+                    console.log(response.data[i].studyLogDtos);
                     let quizIndex = 0;
               
                     function loadQuizItem(index) {
@@ -218,8 +219,8 @@ function buildCalendar() {
           let userAnswer = $(
             "<input id='userAnswer' class='underline' type='text'></input>"
           );
-          let prevButton = $("<button id='prev'>Previous</button>");
-          let nextButton = $("<button id='next'>Next</button>");
+          let prevButton = $("<button id='prev'>이전</button>");
+          let nextButton = $("<button id='next'>다음</button>");
 
           quizContent.append(
             question,
