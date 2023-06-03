@@ -199,8 +199,6 @@ $(document).on("click", ".hocamBtn", function () {
   alert("학습이 종료되기 전까지는 페이지를 나갈 수 없습니다.");
 });
 
-getRoomId().then(SocketEventHandlers);
-
 // speech recognition 핸들링
 if (window.SpeechRecognition || window.webkitSpeechRecognition) {
   recognition = new (window.SpeechRecognition ||
