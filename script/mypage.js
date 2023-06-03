@@ -146,7 +146,6 @@ function buildCalendar() {
                       "</div>" +
                       "</div>"
                   );
-                  break;
                 }
               });
               $(".reviewBtn").click(function () {
