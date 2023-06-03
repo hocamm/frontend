@@ -38,13 +38,16 @@ function getRoomId() {
 
 let socket = new WebSocket("wss://www.hocam.kr/ws/chat");
 
-if (selectedTopic != null) {
-  let topicID = localStorage.getItem('roomId')
-  let topicMessage = 'Ben' + selectedTopic + 'hakkında konuşmak istiyorum.'
-  console.log(topicMessage)
-  let requestTopic = JSON.stringify({ topicID, content: topicMessage });
-  socket.send(requestTopic);
-}
+socket.onopen = function(e) {
+  if (selectedTopic != null) {
+    let topicID = localStorage.getItem('roomId')
+    let topicMessage = 'Ben' + selectedTopic + 'hakkında konuşmak istiyorum.'
+    console.log(topicMessage)
+    let requestTopic = JSON.stringify({ topicID, content: topicMessage });
+    socket.send(requestTopic);
+  }
+};
+
 
 // socket에 대한 event를 핸들링 하는 함수
 function SocketEventHandlers() {
