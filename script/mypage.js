@@ -188,14 +188,17 @@ function buildCalendar() {
                         quizIndex--;
                         loadQuizItem(quizIndex);
                       }
+                      return false;
                     });
-              
+                    
                     $("#next").unbind('click').click(function () {
                       if (quizIndex < quizData.length - 1) {
                         quizIndex++;
                         loadQuizItem(quizIndex);
                       }
+                      return false;
                     });
+                    
                   };
                 })(i)
               );
