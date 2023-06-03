@@ -43,7 +43,7 @@ function SocketEventHandlers() {
   if (socket) {
     socket.onopen = function () {
       startThinkingAnimation();
-      if (selectedTopic) {
+      if (selectedTopic != null) {
         let roomId = localStorage.getItem("roomId");
         socket.send(
           JSON.stringify({
