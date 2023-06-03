@@ -14,7 +14,6 @@ let selectedTopic = sessionStorage.getItem("selectedTopic");
 if (selectedTopic == null) {
   selectedTopic = "자유 주제";
 }
-
 console.log(selectedTopic);
 
 // roomID를 로컬 스토리지에 저장하여 대화를 지속할 수 있게 하는 함수
@@ -31,17 +30,29 @@ function getRoomId() {
       console.log(data);
       let userroomid = data.data.roomId;
       localStorage.setItem("roomId", userroomid);
+      socket = new WebSocket("wss://www.hocam.kr/ws/chat");
+      SocketEventHandlers();
     })
     .fail(function (error) {
       console.error("Error:", error);
     });
 }
 
-let socket = new WebSocket("wss://www.hocam.kr/ws/chat");
-
 // socket에 대한 event를 핸들링 하는 함수
 function SocketEventHandlers() {
   if (socket) {
+    socket.onopen = function () {
+      startThinkingAnimation();
+      if (selectedTopic) {
+        let roomId = localStorage.getItem("roomId");
+        socket.send(
+          JSON.stringify({
+            roomId,
+            content: "Ben " + selectedTopic + " hakkında konuşmak istiyorum",
+          })
+        );
+      }
+    };
     socket.onmessage = function (event) {
       let response = JSON.parse(event.data);
       let userInput = response;
@@ -144,6 +155,7 @@ function SocketEventHandlers() {
     };
   }
 }
+getRoomId().then(SocketEventHandlers);
 
 $(document).on("click", ".translateBtn", function (e) {
   var target1 = $(e.target); 
@@ -158,38 +170,37 @@ $(document).on("click", ".translateBtn", function (e) {
   });
 });
 
-// tts 기능
-// let voices = window.speechSynthesis.getVoices();
-// let turkishVoices = voices.filter(voice => voice.lang === "tr-TR");
-// let utterance = new SpeechSynthesisUtterance();
-// utterance.voice = turkishVoices[0];
-// utterance.lang = "tr-TR";
+// TTS 버튼 동작
+function fetchTTS(text) {
+  fetch("https://tts-afih67jd3q-uc.a.run.app", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ text }),
+  })
+    .then((response) => response.arrayBuffer())
+    .then((arrayBuffer) => playAudio(arrayBuffer));
+}
 
-// utterance.onstart = function () {
-//   $(".ttsBtn .material-icons").text("volume_up");
-// };
+function playAudio(arrayBuffer) {
+  const audio = new Audio(URL.createObjectURL(new Blob([arrayBuffer])));
+  audio.play();
+}
 
-// utterance.onend = function () {
-//   $(".ttsBtn .material-icons").text("volume_off");
-// };
+$(document).on("click", ".ttsBtn", function () {
+  let answerForTts = $(this)
+    .closest(".message-container.machine")
+    .find(".message.machine .answer")
+    .text();
 
-// $(document).on("click", ".ttsBtn", function () {
-//   let answerForTts = $(this)
-//     .closest(".message-container.machine")
-//     .find(".message.machine .answer")
-//     .text();
-//   utterance.text = answerForTts;
-//   console.log(utterance.text);
-//   console.log(utterance);
-//   window.speechSynthesis.speak(utterance);
-// });
+  fetchTTS(answerForTts);
+});
 
 //hocam 로고를 눌렀을 때 경고 알림
 $(document).on("click", ".hocamBtn", function () {
   alert("학습이 종료되기 전까지는 페이지를 나갈 수 없습니다.");
 });
-
-getRoomId().then(SocketEventHandlers);
 
 // speech recognition 핸들링
 if (window.SpeechRecognition || window.webkitSpeechRecognition) {
@@ -379,6 +390,12 @@ let observer = new MutationObserver(function (mutations) {
 
 observer.observe(document.querySelector("#chatbox"), { childList: true });
 
+let thinkingAnimationInterval
+
+function stopThinkingAnimation() {
+  clearInterval(thinkingAnimationInterval);
+}
+
 function startThinkingAnimation() {
   let count = 0;
   thinkingAnimationInterval = setInterval(() => {
@@ -403,9 +420,7 @@ function startThinkingAnimation() {
   }, 600);
 }
 
-function stopThinkingAnimation() {
-  clearInterval(thinkingAnimationInterval);
-}
+
 
 // 클릭시 녹음 모양 아이콘 변함
 function changeImgStart() {
@@ -441,40 +456,3 @@ function sendStudyLogs() {
       console.error("에러:", error);
     });
 }
-
-const ttsButton = $(".ttsBtn");
-
-function fetchTTS(text) {
-  fetch(
-    "https://example.googleapis.com/v1/fictitiousApiMethod?key=AIzaSyDJjjGLu3DXYnZFDNkWzykZDU6KIXmN3S4",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        input: { text },
-        voice: { languageCode: "tr-TR", name: "tr-TR-Standard-A" },
-        audioConfig: { audioEncoding: "MP3" },
-      }),
-    }
-  )
-    .then((response) => response.json())
-    .then(({ audioContent }) => playAudio(audioContent));
-    $(".ttsBtn .material-icons").text("volume_off");
-}
-
-function playAudio(audioContent) {
-  const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
-  audio.play();
-}
-
-ttsButton.on("click", function () {
-  $(".ttsBtn .material-icons").text("volume_up");
-  let answerForTts = $(this)
-    .closest(".message-container.machine")
-    .find(".message.machine .answer")
-    .text();
-
-  fetchTTS(answerForTts);
-});
