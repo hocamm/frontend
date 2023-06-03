@@ -155,7 +155,7 @@ function SocketEventHandlers() {
   }
 }
 
-getRoomId();
+getRoomId().then(SocketEventHandlers);
 
 $(document).on("click", ".translateBtn", function () {
   $(".translation").toggle(800, function () {
