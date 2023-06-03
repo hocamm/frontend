@@ -110,13 +110,13 @@ function buildCalendar() {
           let selectedDay =
             selectedYear + "-" + selectedMonth + "-" + selectedDate;
           for (let k = 0; k < response.data.length; k++) {
-            let selectedDayCounts = 0
-            if (response.data[k].date == selectedDay){
-              selectedDayCounts ++
+            let selectedDayCounts = 0;
+            if (response.data[k].date == selectedDay) {
+              selectedDayCounts++;
             }
           }
 
-          for (let i = 0; i < response.data.selectedDayCounts; i++) {
+          for (let i = 0; i < response.data.length; i++) {
             //선택한 날짜만 log에 넣음
             if (response.data[i].date == selectedDay) {
               let newLog = $(
@@ -129,8 +129,7 @@ function buildCalendar() {
               );
               $(".studyLog").click(function () {
                 $("#modal-data").empty();
-
-                for (let j = 0; j < response.data[i].studyLogDtos.length; j++) {
+                for (let i, j = 0; j < response.data[i].studyLogDtos.length; i++, j++) {
                   showModal(
                     "<div class='modal-content-log'>" +
                       "<div>" +
