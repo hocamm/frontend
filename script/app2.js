@@ -30,28 +30,28 @@ function getRoomId() {
       console.log(data);
       let userroomid = data.data.roomId;
       localStorage.setItem("roomId", userroomid);
+      socket = new WebSocket("wss://www.hocam.kr/ws/chat");
+      SocketEventHandlers();
     })
     .fail(function (error) {
       console.error("Error:", error);
     });
 }
 
-let socket = new WebSocket("wss://www.hocam.kr/ws/chat");
-
 // socket에 대한 event를 핸들링 하는 함수
 function SocketEventHandlers() {
   if (socket) {
-    socket.onopen = function (e) {
-      if (selectedTopic != null) {
-        let topicID = localStorage.getItem("roomId");
-        let topicMessage =
-          "Ben" + selectedTopic + "hakkında konuşmak istiyorum.";
-        console.log(topicMessage);
-        const requestTopic = JSON.stringify({ topicID, content: topicMessage });
-        socket.send(requestTopic);
+    socket.onopen = function () {
+      if (selectedTopic) {
+        let roomId = localStorage.getItem("roomId");
+        socket.send(
+          JSON.stringify({
+            roomId,
+            content: "Ben " + selectedTopic + " hakkında konuşmak istiyorum",
+          })
+        );
       }
     };
-
     socket.onmessage = function (event) {
       let response = JSON.parse(event.data);
       let userInput = response;
@@ -154,6 +154,8 @@ function SocketEventHandlers() {
     };
   }
 }
+
+getRoomId();
 
 $(document).on("click", ".translateBtn", function () {
   $(".translation").toggle(800, function () {
