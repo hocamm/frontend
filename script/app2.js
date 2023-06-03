@@ -51,6 +51,8 @@ function SocketEventHandlers() {
             content: "Ben " + selectedTopic + " hakkında konuşmak istiyorum",
           })
         );
+      } else if (selectedTopic == null) {
+        startThinkingAnimation
       }
     };
     socket.onmessage = function (event) {
