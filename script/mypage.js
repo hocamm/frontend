@@ -116,10 +116,8 @@ function buildCalendar() {
             }
           }
 
-          let i = 0;
-          let done = false;
-
-          while (i < response.data.length && !done) {
+          for (let i = 0; i < response.data.length; i++) {
+            //선택한 날짜만 log에 넣음
             if (response.data[i].date == selectedDay) {
               let newLog = $(
                 "<div class='log-review-buttons'>" +
@@ -131,34 +129,26 @@ function buildCalendar() {
               );
               $(".studyLog").click(function () {
                 $("#modal-data").empty();
-                for (
-                  let j = 0;
-                  j < response.data[i - 1].studyLogDtos.length;
-                  j++
-                ) {
+                for (let j = 0; j < response.data[i-1].studyLogDtos.length; j++) {
                   showModal(
                     "<div class='modal-content-log'>" +
                       "<div>" +
                       "이렇게 말하셨어요: " +
-                      response.data[i - 1].studyLogDtos[j].userInput +
+                      response.data[i-1].studyLogDtos[j].userInput +
                       "</div>" +
                       "<div>" +
                       "이렇게 말하는게 더 좋아요: " +
-                      response.data[i - 1].studyLogDtos[j].fixedAnswer +
+                      response.data[i-1].studyLogDtos[j].fixedAnswer +
                       "</div>" +
                       "틀린 이유: " +
                       "<div>" +
-                      response.data[i - 1].studyLogDtos[j].reason +
+                      response.data[i-1].studyLogDtos[j].reason +
                       "</div>" +
                       "</div>"
                   );
                 }
-                // once the inner loop completes, set done to true
-                done = true;
                 return;
               });
-              i++;
-
               $(".reviewBtn").click(function () {
                 $("#modal-data").empty();
                 showModal(null, true);
