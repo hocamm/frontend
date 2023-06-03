@@ -147,6 +147,7 @@ function buildCalendar() {
                       "</div>"
                   );
                 }
+                return;
               });
               $(".reviewBtn").click(function () {
                 $("#modal-data").empty();
