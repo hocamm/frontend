@@ -129,7 +129,7 @@ function buildCalendar() {
               );
               $(".studyLog").click(function () {
                 $("#modal-data").empty();
-                for (let j = 0; j < response.data[i].studyLogDtos.length; j++) {
+                for (let j = 0; j < response.data[i-1].studyLogDtos.length; j++) {
                   showModal(
                     "<div class='modal-content-log'>" +
                       "<div>" +
