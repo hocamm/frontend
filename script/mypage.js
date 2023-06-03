@@ -164,7 +164,6 @@ function buildCalendar() {
                     $("#modal-data").empty();
                     showModal(null, true);
 
-                    // Assuming response.data is an array of study logs, each with 'userInput' and 'fixedAnswer' properties
                     let quizData = response.data[i].studyLogDtos;
                     let quizIndex = 0;
 
@@ -172,26 +171,43 @@ function buildCalendar() {
                       $("#question").text(
                         "Question: " + quizData[index].userInput
                       );
-                      $("#answer").text(
-                        "Answer: " + quizData[index].fixedAnswer
-                      );
+                      $("#answer").hide();
+                      $("#userAnswer").val("");
                     }
 
                     loadQuizItem(quizIndex);
 
-                    $("#prev").click(function () {
-                      if (quizIndex > 0) {
-                        quizIndex--;
-                        loadQuizItem(quizIndex);
+                    $("#userAnswer").change(function () {
+                      if (this.value == quizData[quizIndex].fixedAnswer) {
+                        $("#answer")
+                          .text(
+                            "Correct Answer: " + quizData[quizIndex].fixedAnswer
+                          )
+                          .show();
+                      } else {
+                        $("#answer")
+                          .text("Incorrect Answer! Try Again.")
+                          .show();
                       }
                     });
 
-                    $("#next").click(function () {
-                      if (quizIndex < quizData.length - 1) {
-                        quizIndex++;
-                        loadQuizItem(quizIndex);
-                      }
-                    });
+                    $("#prev")
+                      .unbind("click")
+                      .click(function () {
+                        if (quizIndex > 0) {
+                          quizIndex--;
+                          loadQuizItem(quizIndex);
+                        }
+                      });
+
+                    $("#next")
+                      .unbind("click")
+                      .click(function () {
+                        if (quizIndex < quizData.length - 1) {
+                          quizIndex++;
+                          loadQuizItem(quizIndex);
+                        }
+                      });
                   };
                 })(i)
               );
@@ -201,12 +217,15 @@ function buildCalendar() {
           }
         },
       });
+
       function showModal(data, review = false) {
         if (review) {
           let quizContent = $("<div class ='modal-content-quiz'></div>");
           let question = $("<div id='question'></div>");
           let answer = $("<div id='answer'></div>");
-          let userAnswer = $("<input class='underline' type='text'></input>");
+          let userAnswer = $(
+            "<input id='userAnswer' class='underline' type='text'></input>"
+          );
           let prevButton = $("<button id='prev'>Previous</button>");
           let nextButton = $("<button id='next'>Next</button>");
 
@@ -221,6 +240,17 @@ function buildCalendar() {
         } else {
           $("#modal-data").append(data);
         }
+
+        // Center question and move input to bottom with CSS
+        $("#question").css({ "text-align": "center", "margin-top": "20px" });
+        $("#userAnswer").css({
+          position: "absolute",
+          bottom: "20px",
+          left: "50%",
+          transform: "translateX(-50%)",
+        });
+        $("#prev").css({ position: "absolute", bottom: "20px", left: "10px" });
+        $("#next").css({ position: "absolute", bottom: "20px", right: "10px" });
         $("#myModal").show();
 
         // <span> (x) 누르면 꺼짐
