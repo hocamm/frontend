@@ -14,7 +14,6 @@ let selectedTopic = sessionStorage.getItem("selectedTopic");
 if (selectedTopic == null) {
   selectedTopic = "자유 주제";
 }
-
 console.log(selectedTopic);
 
 // roomID를 로컬 스토리지에 저장하여 대화를 지속할 수 있게 하는 함수
@@ -38,6 +37,14 @@ function getRoomId() {
 }
 
 let socket = new WebSocket("wss://www.hocam.kr/ws/chat");
+
+if (selectedTopic != null) {
+  let topicID = localStorage.getItem('roomId')
+  let topicMessage = 'Ben' + selectedTopic + 'hakkında konuşmak istiyorum.'
+  console.log(topicMessage)
+  let requestTopic = JSON.stringify({ topicID, content: topicMessage });
+  socket.send(requestTopic);
+}
 
 // socket에 대한 event를 핸들링 하는 함수
 function SocketEventHandlers() {
@@ -157,33 +164,30 @@ $(document).on("click", ".translateBtn", function () {
 
 // TTS 버튼 동작
 function fetchTTS(text) {
-    fetch('https://tts-afih67jd3q-uc.a.run.app', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text }),
-    })
-    .then(response => response.arrayBuffer())
-    .then(arrayBuffer => playAudio(arrayBuffer));
+  fetch("https://tts-afih67jd3q-uc.a.run.app", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ text }),
+  })
+    .then((response) => response.arrayBuffer())
+    .then((arrayBuffer) => playAudio(arrayBuffer));
 }
-
 
 function playAudio(arrayBuffer) {
-    const audio = new Audio(URL.createObjectURL(new Blob([arrayBuffer])));
-    audio.play();
+  const audio = new Audio(URL.createObjectURL(new Blob([arrayBuffer])));
+  audio.play();
 }
-
 
 $(document).on("click", ".ttsBtn", function () {
   let answerForTts = $(this)
     .closest(".message-container.machine")
     .find(".message.machine .answer")
     .text();
-    
+
   fetchTTS(answerForTts);
 });
-
 
 //hocam 로고를 눌렀을 때 경고 알림
 $(document).on("click", ".hocamBtn", function () {
@@ -442,5 +446,3 @@ function sendStudyLogs() {
       console.error("에러:", error);
     });
 }
-
-
