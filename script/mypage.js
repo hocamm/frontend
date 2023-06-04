@@ -169,11 +169,10 @@ function buildCalendar() {
                     let quizIndex = 0;
               
                     function loadQuizItem(index) {
-                      $("#question").text("Question: " + quizData[index].userInput);
+                      $("#question").html("<div id='question'>"+ quizData[index].userInput + "</div>");
                       $("#answer").hide();
                       $('#userAnswer').val('');
                     }
-                    console.log(loadQuizItem(response.data[i].studyLogDtos.length))
               
                     loadQuizItem(quizIndex);
               

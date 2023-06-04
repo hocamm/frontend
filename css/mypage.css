@@ -322,3 +322,13 @@ footer i:hover {
 #answer {
   height: 100px;
 }
+
+#rightAnswer{
+  height: 100px;
+  color: green;
+}
+
+#wrongAnswer{
+  height: 100px;
+  color: red;
+}
