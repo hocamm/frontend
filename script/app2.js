@@ -185,8 +185,10 @@ function fetchTTS(text) {
 
 function playAudio(arrayBuffer) {
   const audio = new Audio(URL.createObjectURL(new Blob([arrayBuffer])));
+  audio.onended = function() {
+    $('#ttsBtn').css("color", "#858585");
+  };
   audio.play();
-  $('#ttsBtn').css("color", "#858585")
 }
 
 $(document).on("click", ".ttsBtn", function () {
