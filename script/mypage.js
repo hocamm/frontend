@@ -182,8 +182,8 @@ function buildCalendar() {
                       }
                     }
 
-                    if (quizData.userInput !== null) {
-                      loadQuizItem(quizIndex);
+                    if (quizData[0].userInput !== null) {
+                      loadQuizItem(0);
                     } else {
                       loadQuizItem(1);
                     }
