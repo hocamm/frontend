@@ -217,7 +217,7 @@ function buildCalendar() {
           let question = $("<div id='question'></div>");
           let answer = $("<div id='answer'></div>");
           let userAnswer = $(
-            "<input id='userAnswer' class='underline' type='text'></input>"
+            "<input id='userAnswer' autocomplete='off' type='text'></input>"
           );
           let prevButton = $("<button id='prevBtn'>이전 문제</button>");
           let nextButton = $("<button id='nextBtn'>다음 문제</button>");
