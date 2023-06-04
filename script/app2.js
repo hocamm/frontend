@@ -158,7 +158,7 @@ $(document).on("click", ".translateBtn", function (e) {
   var target2 = $(e.target.parentElement)
     .closest(".translation-container")
     .find(".translation");
-  target2.toggle(800, function () {
+  target2.toggle(300, function () {
     if ($(this).is(":visible")) {
       target1.css("color", "#454545");
     } else {
