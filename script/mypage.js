@@ -178,21 +178,21 @@ function buildCalendar() {
               
                     $('#userAnswer').change(function() {
                       if (this.value == quizData[quizIndex].fixedAnswer) {
-                        $("#answer").text("Correct Answer: " + quizData[quizIndex].fixedAnswer).show();
+                        $("#answer").text("정답입니다! : " + quizData[quizIndex].fixedAnswer).show();
                       } else {
-                        $("#answer").text("Incorrect Answer! Try Again.").show();
+                        $("#answer").text("틀렸습니다. 다시 시도하세요! ").show();
                       }
                     });
               
-                    $("#prev").unbind('click').click(function () {
+                    $("#prev").on('click').click(function () {
                       if (quizIndex > 0) {
-                        quizIndex--;
+                        quizIndex --;
                         loadQuizItem(quizIndex);
                       }
                       return false;
                     });
                     
-                    $("#next").unbind('click').click(function () {
+                    $("#next").on('click').click(function () {
                       if (quizIndex < quizData.length - 1) {
                         quizIndex++;
                         loadQuizItem(quizIndex);
@@ -219,8 +219,8 @@ function buildCalendar() {
           let userAnswer = $(
             "<input id='userAnswer' class='underline' type='text'></input>"
           );
-          let prevButton = $("<button id='prev'>이전</button>");
-          let nextButton = $("<button id='next'>다음</button>");
+          let prevButton = $("<button id='prev'>이전 문제</button>");
+          let nextButton = $("<button id='next'>다음 문제</button>");
 
           quizContent.append(
             question,
@@ -233,8 +233,6 @@ function buildCalendar() {
         } else {
           $("#modal-data").append(data);
         }
-
-        // Center question and move input to bottom with CSS
         $("#myModal").show();
 
         // <span> (x) 누르면 꺼짐
@@ -249,12 +247,6 @@ function buildCalendar() {
           }
         });
       }
-
-      // function showModal(data) {
-      //   $("#modal-data").append(data); // 모달 창 채우기
-      //   $("#myModal").show();
-
-      // }
     }; // 클릭되었을 때
 
     if (
