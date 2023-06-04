@@ -52,18 +52,13 @@ $(function () {
       data: JSON.stringify(data),
       success: function (data, textStatus, jqXHR) {
         console.log("로그인 성공");
-        console.log("Cookies: " + document.cookie); // log cookies
         alert("로그인 되었습니다");
         window.location.href = "./home.html";
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.error("로그인 실패: " + errorThrown);
         alert("아이디나 비밀번호가 다릅니다");
-      },
-      complete: function (jqXHR, textStatus) {
-        console.log("Response Headers: ", jqXHR.getAllResponseHeaders());
-        console.log("Response Body: ", jqXHR.responseText);
-      },
+      }
     });
   });
 });

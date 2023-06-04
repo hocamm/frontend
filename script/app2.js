@@ -42,8 +42,8 @@ function getRoomId() {
 function SocketEventHandlers() {
   if (socket) {
     socket.onopen = function () {
-      if (selectedTopic !== '자유 주제') {
-        startThinkingAnimation
+      if (selectedTopic !== "자유 주제") {
+        startThinkingAnimation;
         let roomId = localStorage.getItem("roomId");
         socket.send(
           JSON.stringify({
@@ -65,10 +65,6 @@ function SocketEventHandlers() {
       let grammarCorrectionElement;
 
       if (response.type === "machine") {
-        console.log("호잠:", answer);
-        console.log(message);
-        console.log(userInput);
-
         $(".message-container.machine.thinking").remove();
         stopThinkingAnimation();
         scrollToBottom();
@@ -158,8 +154,10 @@ function SocketEventHandlers() {
 getRoomId().then(SocketEventHandlers);
 
 $(document).on("click", ".translateBtn", function (e) {
-  var target1 = $(e.target); 
-  var target2 = $(e.target.parentElement).closest(".translation-container").find(".translation");
+  var target1 = $(e.target);
+  var target2 = $(e.target.parentElement)
+    .closest(".translation-container")
+    .find(".translation");
   console.log(target1);
   target2.toggle(800, function () {
     if ($(this).is(":visible")) {
@@ -176,6 +174,9 @@ function fetchTTS(text) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+    },
+    xhrFields: {
+      withCredentials: true,
     },
     body: JSON.stringify({ text }),
   })
@@ -199,7 +200,9 @@ $(document).on("click", ".ttsBtn", function () {
 
 //hocam 로고를 눌렀을 때 경고 알림
 $(document).on("click", ".hocamBtn", function () {
-  alert("학습이 종료되기 전까지는 페이지를 나갈 수 없습니다. 종료하기 버튼을 눌러주세요");
+  alert(
+    "학습이 종료되기 전까지는 페이지를 나갈 수 없습니다. 종료하기 버튼을 눌러주세요"
+  );
 });
 
 // speech recognition 핸들링
@@ -390,7 +393,7 @@ let observer = new MutationObserver(function (mutations) {
 
 observer.observe(document.querySelector("#chatbox"), { childList: true });
 
-let thinkingAnimationInterval
+let thinkingAnimationInterval;
 
 function stopThinkingAnimation() {
   clearInterval(thinkingAnimationInterval);
@@ -420,8 +423,6 @@ function startThinkingAnimation() {
   }, 600);
 }
 
-
-
 // 클릭시 녹음 모양 아이콘 변함
 function changeImgStart() {
   $("#recording-btn").attr("src", "images/stop-recording.png");
@@ -449,7 +450,6 @@ function sendStudyLogs() {
   })
     .done(function () {
       console.log("공부 기록 저장 완료.");
-      console.log(JSON.stringify(data));
       sessionStorage.clear();
     })
     .fail(function (error) {
