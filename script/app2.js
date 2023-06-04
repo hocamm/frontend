@@ -114,7 +114,7 @@ function SocketEventHandlers() {
               "</div>" +
               "<div class='translation-container'>" +
               "<div class='tts-translate-buttons'>" +
-              "<button class='ttsBtn'>" +
+              "<button class='ttsBtn' id='ttsBtn'>" +
               "<span class='material-icons'>volume_up</span>" +
               "</button>" +
               "<button class='translateBtn'>" +
@@ -158,7 +158,6 @@ $(document).on("click", ".translateBtn", function (e) {
   var target2 = $(e.target.parentElement)
     .closest(".translation-container")
     .find(".translation");
-  console.log(target1);
   target2.toggle(800, function () {
     if ($(this).is(":visible")) {
       target1.css("color", "#454545");
@@ -187,9 +186,11 @@ function fetchTTS(text) {
 function playAudio(arrayBuffer) {
   const audio = new Audio(URL.createObjectURL(new Blob([arrayBuffer])));
   audio.play();
+  $('#ttsBtn').css("color", "#858585")
 }
 
 $(document).on("click", ".ttsBtn", function () {
+  $('#ttsBtn').css("color", "#454545")
   let answerForTts = $(this)
     .closest(".message-container.machine")
     .find(".message.machine .answer")
