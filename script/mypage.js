@@ -172,6 +172,7 @@ function buildCalendar() {
 
                     function loadQuizItem(index) {
                       if (quizData[index].userInput !== null) {
+                        quizIndex = 1;
                         $("#question").html(
                           "<div id='question'>" +
                             quizData[index].userInput +
