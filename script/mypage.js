@@ -172,7 +172,6 @@ function buildCalendar() {
 
                     function loadQuizItem(index) {
                       if (quizData[index].userInput !== null) {
-                        quizIndex = 1;
                         $("#question").html(
                           "<div id='question'>" +
                             quizData[index].userInput +
@@ -183,7 +182,10 @@ function buildCalendar() {
                       }
                     }
 
-                    loadQuizItem(quizIndex);
+                    if (quizData[index].userInput !== null) {
+                      loadQuizItem(quizIndex);
+                    } else {loadQuizItem(1)};
+                    
 
                     $("#userAnswer").change(function () {
                       if (this.value == quizData[quizIndex].fixedAnswer) {
