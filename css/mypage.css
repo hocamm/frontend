@@ -169,7 +169,7 @@ tbody td {
   background-color: #ffffff;
   text-align: left;
   font-size: 15px;
-  font-weight:600;
+  font-weight: 600;
   margin: 10px 0 10px 10px;
   transition: all 0.3s;
   width: 65%;
@@ -240,7 +240,7 @@ tbody td {
   overflow: auto;
 }
 
-.modal-content-studylog {
+.modal-content-log {
   background-color: #efefef;
   width: 60%;
   margin: 10px;
@@ -250,9 +250,9 @@ tbody td {
 }
 .modal-content-quiz {
   background-color: #efefef;
-  width: 60%;
-  margin: 10px;
-  padding: 15px;
+  width: 80%;
+  margin: auto;
+  padding: 30px;
   border: 1px solid #efefef;
   border-radius: 10px;
 }
@@ -292,23 +292,33 @@ footer i {
   color: #034aa677;
 }
 footer i:hover {
-  color: #034AA6;
+  color: #034aa6;
 }
 
 #userAnswer {
-  width: 80%; 
+  width: 100%;
   height: 30px;
-  margin: 0 auto;
 }
 
-#next{
+#question {
+  width: 100%;
+  height: 100px;
+}
+
+#nextBtn {
+  padding: 20px;
   float: right;
-  margin-top: 30%;
+  margin-top: 10%;
+  margin-right: 20%;
 }
 
-#prev{
+#prevBtn {
+  padding: 20px;
+  margin-top: 10%;
+  margin-left: 20%;
   float: left;
-  margin-top: 30%
 }
 
-
+#answer {
+  height: 100px;
+}

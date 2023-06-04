@@ -173,18 +173,19 @@ function buildCalendar() {
                       $("#answer").hide();
                       $('#userAnswer').val('');
                     }
+                    console.log(loadQuizItem(response.data[i].studyLogDtos.length))
               
                     loadQuizItem(quizIndex);
               
                     $('#userAnswer').change(function() {
                       if (this.value == quizData[quizIndex].fixedAnswer) {
-                        $("#answer").text("정답입니다! : " + quizData[quizIndex].fixedAnswer).show();
+                        $("#answer").html("<div id ='rightAnswer'>"+ " ✔️ 정답입니다! :" + quizData[quizIndex].fixedAnswer + "</div>").show();
                       } else {
-                        $("#answer").text("틀렸습니다. 다시 시도하세요! ").show();
+                        $("#answer").html("<div id ='wrongAnswer'>"+ "✖️ 틀렸습니다. 다시 시도하세요! " + "</div>" ).show();
                       }
                     });
               
-                    $("#prev").on('click').click(function () {
+                    $("#prevBtn").on('click', function () {
                       if (quizIndex > 0) {
                         quizIndex --;
                         loadQuizItem(quizIndex);
@@ -192,7 +193,7 @@ function buildCalendar() {
                       return false;
                     });
                     
-                    $("#next").on('click').click(function () {
+                    $("#nextBtn").on('click', function () {
                       if (quizIndex < quizData.length - 1) {
                         quizIndex++;
                         loadQuizItem(quizIndex);
@@ -219,8 +220,8 @@ function buildCalendar() {
           let userAnswer = $(
             "<input id='userAnswer' class='underline' type='text'></input>"
           );
-          let prevButton = $("<button id='prev'>이전 문제</button>");
-          let nextButton = $("<button id='next'>다음 문제</button>");
+          let prevButton = $("<button id='prevBtn'>이전 문제</button>");
+          let nextButton = $("<button id='nextBtn'>다음 문제</button>");
 
           quizContent.append(
             question,
