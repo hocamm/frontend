@@ -240,7 +240,15 @@ tbody td {
   overflow: auto;
 }
 
-.modal-content-log {
+.modal-content-studylog {
+  background-color: #efefef;
+  width: 60%;
+  margin: 10px;
+  padding: 15px;
+  border: 1px solid #efefef;
+  border-radius: 10px;
+}
+.modal-content-quiz {
   background-color: #efefef;
   width: 60%;
   margin: 10px;
@@ -289,7 +297,18 @@ footer i:hover {
 
 #userAnswer {
   width: 80%; 
-  height: 30px; 
-  margin-bottom: 20px; 
+  height: 30px;
+  margin: 0 auto;
 }
+
+#next{
+  float: right;
+  margin-top: 30%;
+}
+
+#prev{
+  float: left;
+  margin-top: 30%
+}
+
 
