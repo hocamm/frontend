@@ -293,22 +293,3 @@ footer i:hover {
   margin-bottom: 20px; 
 }
 
-
-#prev, #next {
-  width: 50px; 
-  height: 30px; 
-}
-
-#prev {
-  align-self: flex-start;
-}
-
-#next {
-  align-self: flex-end;
-}
-
-#question {
-  width: 100%; 
-  text-align: center;
-  margin-bottom: 20px; 
-}

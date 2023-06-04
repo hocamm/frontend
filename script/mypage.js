@@ -235,15 +235,6 @@ function buildCalendar() {
         }
 
         // Center question and move input to bottom with CSS
-        $("#question").css({ "text-align": "center", "margin-top": "20px" });
-        $("#userAnswer").css({
-          position: "absolute",
-          bottom: "20px",
-          left: "50%",
-          transform: "translateX(-50%)",
-        });
-        $("#prev").css({ position: "absolute", bottom: "20px", left: "10px" });
-        $("#next").css({ position: "absolute", bottom: "20px", right: "10px" });
         $("#myModal").show();
 
         // <span> (x) 누르면 꺼짐
