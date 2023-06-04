@@ -199,7 +199,7 @@ $(document).on("click", ".ttsBtn", function () {
 
 //hocam 로고를 눌렀을 때 경고 알림
 $(document).on("click", ".hocamBtn", function () {
-  alert("학습이 종료되기 전까지는 페이지를 나갈 수 없습니다.");
+  alert("학습이 종료되기 전까지는 페이지를 나갈 수 없습니다. 종료하기 버튼을 눌러주세요");
 });
 
 // speech recognition 핸들링
