@@ -230,10 +230,6 @@ tbody td {
 }
 
 .modal-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   background-color: #fefefe;
   margin: auto;
   padding: 20px;
