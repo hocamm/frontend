@@ -137,22 +137,24 @@ function buildCalendar() {
                       j < response.data[i].studyLogDtos.length;
                       j++
                     ) {
-                      showModal(
-                        "<div class='modal-content-log'>" +
-                          "<div>" +
-                          "이렇게 말하셨어요: " +
-                          response.data[i].studyLogDtos[j].userInput +
-                          "</div>" +
-                          "<div>" +
-                          "이렇게 말하는게 더 좋아요: " +
-                          response.data[i].studyLogDtos[j].fixedAnswer +
-                          "</div>" +
-                          "틀린 이유: " +
-                          "<div>" +
-                          response.data[i].studyLogDtos[j].reason +
-                          "</div>" +
-                          "</div>"
-                      );
+                      if (response.data[i].studyLogDtos[j].userInput !== null) {
+                        showModal(
+                          "<div class='modal-content-log'>" +
+                            "<div>" +
+                            "이렇게 말하셨어요: " +
+                            response.data[i].studyLogDtos[j].userInput +
+                            "</div>" +
+                            "<div>" +
+                            "이렇게 말하는게 더 좋아요: " +
+                            response.data[i].studyLogDtos[j].fixedAnswer +
+                            "</div>" +
+                            "틀린 이유: " +
+                            "<div>" +
+                            response.data[i].studyLogDtos[j].reason +
+                            "</div>" +
+                            "</div>"
+                        );
+                      }
                     }
                   };
                 })(i)
@@ -163,47 +165,64 @@ function buildCalendar() {
                   return function () {
                     $("#modal-data").empty();
                     showModal(null, true);
-              
+
                     let quizData = response.data[i].studyLogDtos;
                     console.log(response.data[i].studyLogDtos);
                     let quizIndex = 0;
-              
+
                     function loadQuizItem(index) {
-                      $("#question").html("<div id='question'>"+ quizData[index].userInput + "</div>");
-                      $("#answer").hide();
-                      $('#userAnswer').val('');
+                      if (quizData[index].userInput !== null) {
+                        $("#question").html(
+                          "<div id='question'>" +
+                            quizData[index].userInput +
+                            "</div>"
+                        );
+                        $("#answer").hide();
+                        $("#userAnswer").val("");
+                      }
                     }
-              
+
                     loadQuizItem(quizIndex);
-              
-                    $('#userAnswer').change(function() {
+
+                    $("#userAnswer").change(function () {
                       if (this.value == quizData[quizIndex].fixedAnswer) {
-                        $("#answer").html("<div id ='rightAnswer'>"+ " ✔️ 정답입니다! :" + quizData[quizIndex].fixedAnswer + "</div>").show();
+                        $("#answer")
+                          .html(
+                            "<div id ='rightAnswer'>" +
+                              " ✔️ 정답입니다! :" +
+                              quizData[quizIndex].fixedAnswer +
+                              "</div>"
+                          )
+                          .show();
                       } else {
-                        $("#answer").html("<div id ='wrongAnswer'>"+ "✖️ 틀렸습니다. 다시 시도하세요! " + "</div>" ).show();
+                        $("#answer")
+                          .html(
+                            "<div id ='wrongAnswer'>" +
+                              "✖️ 틀렸습니다. 다시 시도하세요! " +
+                              "</div>"
+                          )
+                          .show();
                       }
                     });
-              
-                    $("#prevBtn").on('click', function () {
+
+                    $("#prevBtn").on("click", function () {
                       if (quizIndex > 0) {
-                        quizIndex --;
+                        quizIndex--;
                         loadQuizItem(quizIndex);
                       }
                       return false;
                     });
-                    
-                    $("#nextBtn").on('click', function () {
+
+                    $("#nextBtn").on("click", function () {
                       if (quizIndex < quizData.length - 1) {
                         quizIndex++;
                         loadQuizItem(quizIndex);
                       }
                       return false;
                     });
-                    
                   };
                 })(i)
               );
-              
 
               $("#history-wrap").append(newLog);
             }
