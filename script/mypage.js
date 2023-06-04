@@ -182,10 +182,11 @@ function buildCalendar() {
                       }
                     }
 
-                    if (quizData[index].userInput !== null) {
+                    if (quizData.userInput !== null) {
                       loadQuizItem(quizIndex);
-                    } else {loadQuizItem(1)};
-                    
+                    } else {
+                      loadQuizItem(1);
+                    }
 
                     $("#userAnswer").change(function () {
                       if (this.value == quizData[quizIndex].fixedAnswer) {
