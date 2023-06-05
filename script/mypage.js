@@ -35,17 +35,13 @@ function showModal(data, review = false) {
     let quizContent = $("<div class ='modal-content-quiz'></div>");
     let question = $("<div id='question'></div>");
     let answer = $("<div id='answer'></div>");
-    let userAnswer = $("<input id='userAnswer' autocomplete='off' type='text'></input>");
+    let userAnswer = $(
+      "<input id='userAnswer' autocomplete='off' type='text'></input>"
+    );
     let prevButton = $("<button id='prevBtn'>이전 문제</button>");
     let nextButton = $("<button id='nextBtn'>다음 문제</button>");
 
-    quizContent.append(
-      question,
-      answer,
-      userAnswer,
-      prevButton,
-      nextButton
-    );
+    quizContent.append(question, answer, userAnswer, prevButton, nextButton);
     $("#modal-data").append(quizContent);
   } else {
     $("#modal-data").append(data);
@@ -215,7 +211,7 @@ function fetchStudyLogsForDate(year, month, date) {
           $("#history-wrap").append(newLog);
         }
       }
-    }
+    },
   });
 }
 
@@ -325,6 +321,7 @@ function buildCalendar() {
                       j < response.data[i].studyLogDtos.length;
                       j++
                     ) {
+                      console.log(response.data[i].studyLogDtos);
                       if (response.data[i].studyLogDtos[j].userInput !== null) {
                         showModal(
                           "<div class='modal-content-log'>" +
