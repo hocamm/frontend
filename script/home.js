@@ -19,5 +19,6 @@ $(document).ready(function () {
     },
   });
 });
+$("#my-page-btn").on("click", window.location.href = 'mypage.html');
 
 $("#FreeTalkingBtn").on("click", sessionStorage.clear());
