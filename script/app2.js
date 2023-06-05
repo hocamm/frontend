@@ -43,7 +43,15 @@ function SocketEventHandlers() {
   if (socket) {
     socket.onopen = function () {
       if (selectedTopic !== "자유 주제") {
-        startThinkingAnimation;
+        $("#chatbox").append(
+          "<div class='message-container machine'>" +
+            "<div class='message machine'>" +
+            "<div>" +
+            "호잠이 답변중입니다 ......" +
+            "</div>" +
+            "</div>" +
+            "</div>"
+        );
         let roomId = localStorage.getItem("roomId");
         socket.send(
           JSON.stringify({
