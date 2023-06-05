@@ -50,6 +50,7 @@ main {
 }
 
 main .dashboard {
+  margin-top: 3%;
   display: grid;
   align-items: center;
   width: 100%;
