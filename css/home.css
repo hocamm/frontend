@@ -136,7 +136,7 @@ main .dashboard {
   margin-top: 1rem;
 }
 
-.my-page-btn {
+#my-page-btn {
   width: auto;
   height: auto;
   background-color: none;
@@ -149,7 +149,7 @@ main .dashboard {
   text-decoration: none;
 }
 
-.my-page-btn:active {
+#my-page-btn:active {
   background-color: #034aa6;
   border: #034aa6;
 }
