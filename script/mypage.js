@@ -105,6 +105,7 @@ function fetchStudyLogsForDate(year, month, date) {
           newLog.find(".studyLog").click(
             (function (i) {
               return function () {
+                console.log(response.data[i].studyLogDtos);
                 $("#modal-data").empty();
                 for (let j = 0; j < response.data[i].studyLogDtos.length; j++) {
                   if (response.data[i].studyLogDtos[j].userInput !== null) {
