@@ -46,7 +46,7 @@ function SocketEventHandlers() {
         $("#chatbox").append(
           "<div class='message-container machine'>" +
             "<div class='message machine'>" +
-            "<div class='message-container.machine.thinking'>" +
+            "<div class='message-container machine thinking'>" +
             "호잠이 답변중입니다 ......" +
             "</div>" +
             "</div>" +
