@@ -146,6 +146,7 @@ function fetchStudyLogsForDate(year, month, date) {
                 let quizIndex = 0;
 
                 if (quizData.length == 1 && quizData.userInput == null) {
+                  console.log(quizData.userInput);
                   alert("복습 데이터가 없습니다.");
                 } else {
                   showModal(null, true);
@@ -350,6 +351,11 @@ function buildCalendar() {
                             "</div>" +
                             "</div>"
                         );
+                      } else if (
+                        response.data[i].studyLogDtos.length == 1 &&
+                        response.data[i].studyLogDtos[0].userInput == null
+                      ) {
+                        alert("저장된 대화 내용이 없습니다.");
                       }
                     }
                   };
@@ -360,12 +366,17 @@ function buildCalendar() {
                 (function (i) {
                   return function () {
                     $("#modal-data").empty();
-                    showModal(null, true);
 
                     let quizData = response.data[i].studyLogDtos;
                     console.log(response.data[i].studyLogDtos);
                     let quizIndex = 0;
 
+                    if (quizData.length == 1 && quizData.userInput == null) {
+                      console.log(quizData.userInput);
+                      alert("복습 데이터가 없습니다.");
+                    } else {
+                      showModal(null, true);
+                    }
                     function loadQuizItem(index) {
                       if (quizData[index].userInput !== null) {
                         $("#question").html(
