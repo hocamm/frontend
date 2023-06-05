@@ -125,6 +125,11 @@ function fetchStudyLogsForDate(year, month, date) {
                         "</div>" +
                         "</div>"
                     );
+                  } else if (
+                    response.data[i].studyLogDtos.length == 1 &&
+                    response.data[i].studyLogDtos[0].userInput == null
+                  ) {
+                    alert("저장된 대화 내용이 없습니다.");
                   }
                 }
               };
@@ -135,7 +140,6 @@ function fetchStudyLogsForDate(year, month, date) {
             (function (i) {
               return function () {
                 $("#modal-data").empty();
-                showModal(null, true);
 
                 let quizData = response.data[i].studyLogDtos;
                 console.log(response.data[i].studyLogDtos);
