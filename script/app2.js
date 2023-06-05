@@ -144,20 +144,22 @@ function SocketEventHandlers() {
     };
 
     socket.onerror = function (errors) {
-      alert("호잠에 문제가 생겼습니다. 새로고침 해주세요", errors);
+      alert("호잠에 문제가 생겼습니다. 다시 시도해 주세요", errors);
       sendButton.prop("disabled", true);
       error = true;
       sendStudyLogs();
+      window.location.href = "mypage.html"
     };
 
     socket.onclose = function (event) {
       console.log("WebSocket is closed now.", event);
       alert(
-        "오류가 생겼습니다. 새로고침 해주세요. 지금까지 학습된 내용은 저장됩니다."
+        "오류가 생겼습니다. 홈화면으로 이동합니다. 지금까지 학습된 내용은 저장됩니다."
       );
       sendButton.prop("disabled", true);
       error = true;
       sendStudyLogs();
+      window.location.href = "mypage.html"
     };
   }
 }
@@ -321,6 +323,7 @@ stopButton.on("click", () => {
 finishButton.on("click", () => {
   if (confirm("정말 종료하시겠습니까?")) {
     sendStudyLogs();
+    window.location.href = "mypage.html"
     // location.href = "./home.html";
   }
 });
