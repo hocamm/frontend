@@ -183,7 +183,7 @@ function buildCalendar() {
                     }
 
                     $("#userAnswer").change(function () {
-                      console.log(this.value);
+                      console.log(typeof(this.value));
                       if (this.value == quizData[quizIndex].fixedAnswer) {
                         $("#answer")
                           .html(
