@@ -201,7 +201,7 @@ function buildCalendar() {
                               "</div>"
                           )
                           .show();
-                      } else if (this.value === '') {
+                      } else if (typeof(this.value) === 'undefined') {
                         $("#answer")
                           .html(
                             "<div id ='wrongAnswer'>" +
