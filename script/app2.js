@@ -207,7 +207,7 @@ $(document).on("click", ".ttsBtn", function () {
   $("#ttsBtn").css("color", "#454545");
   let answerForTts = $(this)
     .closest(".message-container.machine")
-    .find(".message.machine.answer")
+    .find(".message.machine .answer")
     .text();
 
   fetchTTS(answerForTts);
