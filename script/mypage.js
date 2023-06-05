@@ -342,6 +342,8 @@ function buildCalendar() {
                             "</div>" +
                             "</div>"
                         );
+                      } else if (response.data[i].studyLogDtos[j].userInput == null) {
+                        alert('저장된 대화가 없습니다.')
                       }
                     }
                   };
