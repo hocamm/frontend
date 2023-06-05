@@ -17,4 +17,6 @@ $(document).ready(function() {
         },
     });
 });
+
+$('#FreeTalkinBtn').on('click', sessionStorage.clear());
     
