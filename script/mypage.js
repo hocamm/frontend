@@ -30,6 +30,41 @@ let nowMonth = new Date();
 let today = new Date();
 today.setHours(0, 0, 0, 0);
 
+function showModal(data, review = false) {
+  if (review) {
+    let quizContent = $("<div class ='modal-content-quiz'></div>");
+    let question = $("<div id='question'></div>");
+    let answer = $("<div id='answer'></div>");
+    let userAnswer = $("<input id='userAnswer' autocomplete='off' type='text'></input>");
+    let prevButton = $("<button id='prevBtn'>이전 문제</button>");
+    let nextButton = $("<button id='nextBtn'>다음 문제</button>");
+
+    quizContent.append(
+      question,
+      answer,
+      userAnswer,
+      prevButton,
+      nextButton
+    );
+    $("#modal-data").append(quizContent);
+  } else {
+    $("#modal-data").append(data);
+  }
+  $("#myModal").show();
+
+  // <span> (x) 누르면 꺼짐
+  $(".close").click(function () {
+    $("#myModal").hide();
+  });
+
+  // 모달 창 바깥 누르면 꺼짐
+  $(window).click(function (event) {
+    if (event.target == $("#myModal").get(0)) {
+      $("#myModal").hide();
+    }
+  });
+}
+
 function fetchStudyLogsForDate(year, month, date) {
   let urldate =
     "https://www.hocam.kr/" + "study?year=" + year + "&" + "month=" + month;
@@ -180,10 +215,7 @@ function fetchStudyLogsForDate(year, month, date) {
           $("#history-wrap").append(newLog);
         }
       }
-    },
-    error: function (error) {
-      console.error("Failed to fetch study logs: " + error);
-    },
+    }
   });
 }
 
