@@ -230,9 +230,12 @@ tbody td {
 }
 
 .modal-content {
+  display: flex;
+  position: relative;
+  flex-direction: column;
   background-color: #fefefe;
   margin: auto;
-  padding: 20px;
+  padding: 20px 20px 10px 20px;
   border: 1px solid #888;
   border-radius: 10px;
   width: 80%;
@@ -249,6 +252,9 @@ tbody td {
   border-radius: 10px;
 }
 .modal-content-quiz {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-color: #efefef;
   width: 80%;
   margin: auto;
@@ -257,7 +263,7 @@ tbody td {
   border-radius: 10px;
 }
 
-.review-container {
+/* .review-container {
   float: right;
   background-color: #efefef;
   width: 50%;
@@ -265,11 +271,13 @@ tbody td {
   padding: 15px;
   border: 1px solid #efefef;
   border-radius: 10px;
-}
+} */
 
 .close {
+  position: absolute;
+  right: 20px;
+  top: 10px;
   color: #aaaaaa;
-  float: right;
   font-size: 28px;
   font-weight: bold;
 }
@@ -295,40 +303,82 @@ footer i:hover {
   color: #034aa6;
 }
 
-#userAnswer {
-  width: 100%;
-  height: 30px;
-}
-
 #question {
   width: 100%;
-  height: 100px;
-}
-
-#nextBtn {
-  padding: 20px;
-  float: right;
-  margin-top: 10%;
-  margin-right: 20%;
-}
-
-#prevBtn {
-  padding: 20px;
-  margin-top: 10%;
-  margin-left: 20%;
-  float: left;
+  height: 100%;
+  margin: 0 0 15px 0;
 }
 
 #answer {
-  height: 100px;
+  height: 100%;
+  margin: 15px 0 15px 0;
+}
+
+#userAnswer {
+  width: 100%;
+  height: 30px;
+  padding: 0 10px;
+  margin: 20px 0 0 0;
+}
+
+#prevBtn {
+  display: flex;
+  align-items: center;
+  padding: 10px 30px 10px 25px;
+  float: left;
+  margin-top: 40px;
+  margin-left: 25%;
+  height: auto;
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 14px;
+  background-color: #efefef;
+  color: #000000;
+  border-radius: 20px;
+  border: none;
+}
+#prevBtn:hover {
+  cursor: pointer;
+  background-color: #c4c4c4;
+}
+
+#nextBtn {
+  display: flex;
+  align-items: center;
+  padding: 10px 25px 10px 30px;
+  float: right;
+  margin-top: 40px;
+  margin-right: 25%;
+  height: auto;
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 14px;
+  background-color: #034aa6;
+  color: #efefef;
+  border-radius: 20px;
+  border: none;
+}
+#nextBtn:hover {
+  cursor: pointer;
+  background-color: #023579;
+}
+
+.fa-solid {
+  font-size: 12px;
+  padding-top: 2px;
+}
+.fa-angles-left {
+  padding-right: 7px;
+}
+.fa-angles-right {
+  padding-left: 7px;
 }
 
 #rightAnswer{
-  height: 100px;
+  height: 100%;
   color: green;
 }
 
 #wrongAnswer{
-  height: 100px;
+  height: 100%;
   color: red;
 }
+

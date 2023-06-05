@@ -248,17 +248,17 @@ function buildCalendar() {
           let userAnswer = $(
             "<input id='userAnswer' autocomplete='off' type='text'></input>"
           );
-          let prevButton = $("<button id='prevBtn'>이전 문제</button>");
-          let nextButton = $("<button id='nextBtn'>다음 문제</button>");
+          let prevButton = $("<button id='prevBtn'><i class='fa-solid fa-angles-left'></i>이전 문제</button>");
+          let nextButton = $("<button id='nextBtn'>다음 문제<i class='fa-solid fa-angles-right'></i></button>");
 
           quizContent.append(
             question,
             answer,
-            userAnswer,
-            prevButton,
-            nextButton
+            userAnswer
           );
           $("#modal-data").append(quizContent);
+          $("#modal-data").append(prevButton);
+          $("#modal-data").append(nextButton);
         } else {
           $("#modal-data").append(data);
         }
