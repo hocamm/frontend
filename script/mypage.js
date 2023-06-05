@@ -145,7 +145,7 @@ function fetchStudyLogsForDate(year, month, date) {
                 console.log(response.data[i].studyLogDtos);
                 let quizIndex = 0;
 
-                if (quizData.length == 1 && quizData.userInput == null) {
+                if (quizData.length == 1 && quizData[0].userInput == null) {
                   console.log(quizData[0].userInput);
                   alert("복습 데이터가 없습니다.");
                 } else {
@@ -371,7 +371,7 @@ function buildCalendar() {
                     console.log(response.data[i].studyLogDtos);
                     let quizIndex = 0;
 
-                    if (quizData.length == 1 && quizData.userInput == null) {
+                    if (quizData.length == 1 && quizData[0].userInput == null) {
                       console.log(quizData[0].userInput);
                       alert("복습 데이터가 없습니다.");
                     } else {
