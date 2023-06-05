@@ -359,8 +359,10 @@ function buildCalendar() {
                         response.data[i].studyLogDtos.length == 1 &&
                         response.data[i].studyLogDtos[0].userInput == null
                       ) {
+                        console.log(response.data[i].studyLogDtos.length)
                         alert("저장된 대화 내용이 없습니다.");
                       } else if (response.data[i].studyLogDtos.length == 0) {
+                        console.log(response.data[i].studyLogDtos.length)
                         alert("저장된 대화 내용이 없습니다.");
                       }
                     }
