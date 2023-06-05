@@ -347,6 +347,7 @@ function sendText() {
 
     startButton.prop("disabled", false);
     stopButton.prop("disabled", true);
+    sendButton.prop("disabled", true);
   }
 
   const request = JSON.stringify({ roomId, content: message });
