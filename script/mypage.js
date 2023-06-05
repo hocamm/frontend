@@ -193,7 +193,7 @@ function buildCalendar() {
                                 "</div>"
                             )
                             .show();
-                        } else if (this.value == "undefined") {
+                        } else if ($("userAnswer").val().length == 0) {
                           $("#answer")
                             .html(
                               "<div id ='wrongAnswer'>" +
