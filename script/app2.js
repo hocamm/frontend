@@ -148,7 +148,7 @@ function SocketEventHandlers() {
       sendButton.prop("disabled", true);
       error = true;
       sendStudyLogs();
-      window.location.href = "home.html"
+      // window.location.href = "home.html"
     };
 
     socket.onclose = function (event) {
@@ -159,7 +159,7 @@ function SocketEventHandlers() {
       sendButton.prop("disabled", true);
       error = true;
       sendStudyLogs();
-      window.location.href = "home.html"
+      // window.location.href = "home.html"
     };
   }
 }
