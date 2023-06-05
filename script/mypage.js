@@ -130,6 +130,8 @@ function fetchStudyLogsForDate(year, month, date) {
                     response.data[i].studyLogDtos[0].userInput == null
                   ) {
                     alert("저장된 대화 내용이 없습니다.");
+                  } else if (response.data[i].studyLogDtos.length == 0) {
+                    alert("저장된 대화 내용이 없습니다.");
                   }
                 }
               };
@@ -147,6 +149,8 @@ function fetchStudyLogsForDate(year, month, date) {
 
                 if (quizData.length == 1 && quizData[0].userInput == null) {
                   console.log(quizData[0].userInput);
+                  alert("복습 데이터가 없습니다.");
+                } else if (quizData.length == 0) {
                   alert("복습 데이터가 없습니다.");
                 } else {
                   showModal(null, true);
@@ -356,6 +360,8 @@ function buildCalendar() {
                         response.data[i].studyLogDtos[0].userInput == null
                       ) {
                         alert("저장된 대화 내용이 없습니다.");
+                      } else if (response.data[i].studyLogDtos.length == 0) {
+                        alert("저장된 대화 내용이 없습니다.");
                       }
                     }
                   };
@@ -373,6 +379,8 @@ function buildCalendar() {
 
                     if (quizData.length == 1 && quizData[0].userInput == null) {
                       console.log(quizData[0].userInput);
+                      alert("복습 데이터가 없습니다.");
+                    } else if (quizData.length == 0) {
                       alert("복습 데이터가 없습니다.");
                     } else {
                       showModal(null, true);
