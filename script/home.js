@@ -1,6 +1,6 @@
 $(document).ready(function () {
   $("#my-page-btn").click(function () {
-    window.location.href = "mypage.html";
+    window.location.href = "./mypage.html";
   });
   $("#FreeTalkingBtn").on("click", sessionStorage.clear());
 
