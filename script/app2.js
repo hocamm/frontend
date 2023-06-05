@@ -63,7 +63,7 @@ function SocketEventHandlers() {
       }
     };
     socket.onmessage = function (event) {
-      $("#send-content"),prop('disabled', false)
+      $("#send-content").prop('disabled', false)
       let response = JSON.parse(event.data);
       let userInput = response;
       let answer = response.answer;
