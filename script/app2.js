@@ -204,7 +204,7 @@ function playAudio(arrayBuffer) {
 }
 
 $(document).on("click", ".ttsBtn", function () {
-  $("#ttsBtn").css("color", "#454545");
+  $(this).css("color", "#454545");
   let answerForTts = $(this)
     .closest(".message-container.machine")
     .find(".message.machine .answer")
