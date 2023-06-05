@@ -334,7 +334,7 @@ function buildCalendar() {
                     $("#modal-data").empty();
                     for (
                       let j = 0;
-                      j < response.data[i].studyLogDtos.length;
+                      j <= response.data[i].studyLogDtos.length;
                       j++
                     ) {
                       if (response.data[i].studyLogDtos[j].userInput !== null) {
