@@ -1,6 +1,7 @@
 window.onload = function () {
   buildCalendar();
   showMain(today.getFullYear(), today.getMonth() + 1, today.getDate());
+  fetchStudyLogsForDate(today.getFullYear(), today.getMonth() + 1, today.getDate());
   $(document).ready(function () {
     $.ajax({
       url: "https://www.hocam.kr/user/info",
@@ -24,6 +25,32 @@ window.onload = function () {
 let nowMonth = new Date();
 let today = new Date();
 today.setHours(0, 0, 0, 0);
+
+function fetchStudyLogsForDate(year, month, date) {
+  let url = "https://www.hocam.kr/" + "study?year=" + year + "&" + "month=" + month;
+
+  $.ajax({
+    url: url,
+    type: "GET",
+    dataType: "json",
+    xhrFields: {
+      withCredentials: true,
+    },
+    success: function (response) {
+      $("#history-wrap").empty();
+      console.log(response.data);
+      let selectedDay = year + "-" + leftPad(month) + "-" + leftPad(date);
+
+      for (let i = 0; i < response.data.length; i++) {
+        if (response.data[i].date == selectedDay) {
+        }
+      }
+    },
+    error: function (error) {
+      console.error("Failed to fetch study logs: " + error);
+    },
+  });
+}
 
 // 달력 생성 : 해당 달에 맞춰 테이블을 만들고, 날짜 채워 놓음
 function buildCalendar() {
