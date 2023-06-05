@@ -200,7 +200,7 @@ function buildCalendar() {
                               "</div>"
                           )
                           .show();
-                      } else if (this.value == null) {
+                      } else if (this.value === null) {
                         $("#answer")
                           .html(
                             "<div id ='wrongAnswer'>" +
