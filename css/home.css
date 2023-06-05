@@ -137,16 +137,15 @@ main .dashboard {
 }
 
 #my-page-btn {
-  width: auto;
-  height: auto;
-  background-color: none;
+  width: 100px;
+  height: 30px;
+  background-color: #034aa6;
   border: 1px solid #efefef;
   border-radius: 5px;
   padding: 3px 5px;
   box-shadow: 3px 3px 3px #033475;
   color: #efefef;
-  font-size: 0.7rem;
-  text-decoration: none;
+  font-size: 0.8rem;
 }
 
 #my-page-btn:active {
@@ -210,4 +209,9 @@ main .dashboard {
   color: #034aa6;
   font-size: 1rem;
   font-weight: bold;
+}
+
+.memoticon {
+  width: 190px;
+  height: auto;
 }
