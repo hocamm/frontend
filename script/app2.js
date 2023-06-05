@@ -43,7 +43,7 @@ function SocketEventHandlers() {
   if (socket) {
     socket.onopen = function () {
       if (selectedTopic !== "자유 주제") {
-        sendButton.prop('disabled', true)
+        sendButton.prop("disabled", true);
         $("#chatbox").append(
           "<div class='message-container machine'>" +
             "<div class='message-container machine thinking'>" +
@@ -63,7 +63,6 @@ function SocketEventHandlers() {
       }
     };
     socket.onmessage = function (event) {
-      sendButton.prop('disabled', false)
       let response = JSON.parse(event.data);
       let userInput = response;
       let answer = response.answer;
@@ -140,6 +139,7 @@ function SocketEventHandlers() {
           );
           scrollToBottom();
         }, 1000);
+        sendButton.prop("disabled", false);
       }
     };
 
