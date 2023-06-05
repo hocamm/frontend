@@ -43,10 +43,11 @@ function SocketEventHandlers() {
   if (socket) {
     socket.onopen = function () {
       if (selectedTopic !== "자유 주제") {
+        $("#send-content"),prop('disabled', true)
         $("#chatbox").append(
           "<div class='message-container machine'>" +
-            "<div class='message machine'>" +
             "<div class='message-container machine thinking'>" +
+            "<div class='message machine'>" +
             "호잠이 답변중입니다 ......" +
             "</div>" +
             "</div>" +
@@ -62,6 +63,7 @@ function SocketEventHandlers() {
       }
     };
     socket.onmessage = function (event) {
+      $("#send-content"),prop('disabled', false)
       let response = JSON.parse(event.data);
       let userInput = response;
       let answer = response.answer;
