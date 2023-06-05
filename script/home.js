@@ -18,5 +18,6 @@ $(document).ready(function() {
     });
 });
 
-$('#FreeTalkinBtn').on('click', sessionStorage.clear());
+$('#my-page-btn').on('click', window.href("mypage.html"))
+$('#FreeTalkingBtn').on('click', sessionStorage.clear());
     
