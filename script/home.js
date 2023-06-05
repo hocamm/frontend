@@ -20,7 +20,4 @@ $(document).ready(function () {
   });
 });
 
-$("#my-page-btn").click(function () {
-  $(location).attr("href", "mypage.html");
-});
 $("#FreeTalkingBtn").on("click", sessionStorage.clear());
