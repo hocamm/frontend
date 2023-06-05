@@ -375,12 +375,14 @@ sendButton.on("click", sendText);
 
 // transcript에 enter 눌렸을 때 sendtext 실행
 transcript.on("keypress", (event) => {
-  if (event.which === 13) {
-    startButton.prop("disabled", false);
-    stopButton.prop("disabled", true);
-    event.preventDefault();
-    sendText();
-    changeImgStop();
+  if (sendButton.prop("disabled") != true) {
+    if (event.which === 13) {
+      startButton.prop("disabled", false);
+      stopButton.prop("disabled", true);
+      event.preventDefault();
+      sendText();
+      changeImgStop();
+    }
   }
 });
 
