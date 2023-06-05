@@ -330,6 +330,7 @@ function buildCalendar() {
 
               newLog.find(".studyLog").click(
                 (function (i) {
+                  console.log(response.data[i].studyLogDtos.length);
                   return function () {
                     $("#modal-data").empty();
                     for (
