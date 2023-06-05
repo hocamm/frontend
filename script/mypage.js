@@ -183,7 +183,7 @@ function buildCalendar() {
                     }
 
                     $("#userAnswer").change(function () {
-                      console.log(typeof(this.value));
+                      console.log(typeof this.value);
                       if (this.value == quizData[quizIndex].fixedAnswer) {
                         $("#answer")
                           .html(
@@ -193,19 +193,21 @@ function buildCalendar() {
                               "</div>"
                           )
                           .show();
-                      } else if (this.value != quizData[quizIndex].fixedAnswer) {
-                        $("#answer")
-                          .html(
-                            "<div id ='wrongAnswer'>" +
-                              "✖️ 틀렸습니다. 다시 시도하세요! " +
-                              "</div>"
-                          )
-                          .show();
-                      } else if ($('#userAnswer').val().length == '0' ) {
+                      } else if (this.value == "undefined") {
                         $("#answer")
                           .html(
                             "<div id ='wrongAnswer'>" +
                               "내용을 입력해 주세요!" +
+                              "</div>"
+                          )
+                          .show();
+                      } else if (
+                        this.value != quizData[quizIndex].fixedAnswer
+                      ) {
+                        $("#answer")
+                          .html(
+                            "<div id ='wrongAnswer'>" +
+                              "✖️ 틀렸습니다. 다시 시도하세요! " +
                               "</div>"
                           )
                           .show();
