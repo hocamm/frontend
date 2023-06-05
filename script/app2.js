@@ -185,14 +185,14 @@ function fetchTTS(text) {
 
 function playAudio(arrayBuffer) {
   const audio = new Audio(URL.createObjectURL(new Blob([arrayBuffer])));
-  audio.onended = function() {
-    $('#ttsBtn').css("color", "#858585");
+  audio.onended = function () {
+    $("#ttsBtn").css("color", "#858585");
   };
   audio.play();
 }
 
 $(document).on("click", ".ttsBtn", function () {
-  $('#ttsBtn').css("color", "#454545")
+  $("#ttsBtn").css("color", "#454545");
   let answerForTts = $(this)
     .closest(".message-container.machine")
     .find(".message.machine .answer")
@@ -441,21 +441,22 @@ function sendStudyLogs() {
     topic: selectedTopic,
   };
   console.log(data);
-
-  $.ajax({
-    url: "https://www.hocam.kr/study",
-    method: "POST",
-    data: JSON.stringify(data),
-    contentType: "application/json",
-    xhrFields: {
-      withCredentials: true,
-    },
-  })
-    .done(function () {
-      console.log("공부 기록 저장 완료.");
-      sessionStorage.clear();
+  if (data.studyLogs.length != 0) {
+    $.ajax({
+      url: "https://www.hocam.kr/study",
+      method: "POST",
+      data: JSON.stringify(data),
+      contentType: "application/json",
+      xhrFields: {
+        withCredentials: true,
+      },
     })
-    .fail(function (error) {
-      console.error("에러:", error);
-    });
+      .done(function () {
+        console.log("공부 기록 저장 완료.");
+        sessionStorage.clear();
+      })
+      .fail(function (error) {
+        console.error("에러:", error);
+      });
+  }
 }
