@@ -330,7 +330,6 @@ function buildCalendar() {
 
               newLog.find(".studyLog").click(
                 (function (i) {
-                  console.log(response.data[i].studyLogDtos.length);
                   return function () {
                     $("#modal-data").empty();
                     for (
@@ -338,7 +337,6 @@ function buildCalendar() {
                       j < response.data[i].studyLogDtos.length;
                       j++
                     ) {
-                      console.log(response.data[i].studyLogDtos);
                       if (response.data[i].studyLogDtos[j].userInput !== null) {
                         showModal(
                           "<div class='modal-content-log'>" +
@@ -360,10 +358,8 @@ function buildCalendar() {
                         response.data[i].studyLogDtos.length == 1 &&
                         response.data[i].studyLogDtos[0].userInput == null
                       ) {
-                        console.log(response.data[i].studyLogDtos.length)
                         alert("저장된 대화 내용이 없습니다.");
                       } else if (response.data[i].studyLogDtos.length == 0) {
-                        console.log(response.data[i].studyLogDtos.length)
                         alert("저장된 대화 내용이 없습니다.");
                       }
                     }
