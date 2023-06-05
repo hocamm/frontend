@@ -192,11 +192,19 @@ function buildCalendar() {
                               "</div>"
                           )
                           .show();
-                      } else {
+                      } else if (this.value != quizData[quizIndex].fixedAnswer) {
                         $("#answer")
                           .html(
                             "<div id ='wrongAnswer'>" +
                               "✖️ 틀렸습니다. 다시 시도하세요! " +
+                              "</div>"
+                          )
+                          .show();
+                      } else if (this.value == null) {
+                        $("#answer")
+                          .html(
+                            "<div id ='wrongAnswer'>" +
+                              "내용을 입력해 주세요!" +
                               "</div>"
                           )
                           .show();
