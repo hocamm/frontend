@@ -68,6 +68,144 @@ function buildCalendar() {
       nowRow = tbody_Calendar.insertRow(); // 새로운 행 추가
     }
 
+    nowColumn.onload = function () {
+      showMain(
+        nowMonth.getFullYear(),
+        nowMonth.getMonth() + 1,
+        nowColumn.innerText
+      );
+
+      let urldate =
+        "https://www.hocam.kr/" +
+        "study?year=" +
+        nowMonth.getFullYear() +
+        "&" +
+        "month=" +
+        (nowMonth.getMonth() + 1);
+
+      $.ajax({
+        url: urldate,
+        type: "GET",
+        dataType: "json",
+        xhrFields: {
+          withCredentials: true,
+        },
+        success: function (response) {
+          for (let i = 0; i < response.data.length; i++) {
+            let newLog = $(
+              "<div class='log-review-buttons'>" +
+                "<div class='studyLog'>" +
+                response.data[i].topic +
+                "</div>" +
+                "<div class='reviewBtn'>복습하기</div>" +
+                "</div>"
+            );
+            $("#history-wrap").empty();
+            newLog.find(".studyLog").click(
+              (function (i) {
+                return function () {
+                  $("#modal-data").empty();
+                  for (
+                    let j = 0;
+                    j < response.data[i].studyLogDtos.length;
+                    j++
+                  ) {
+                    if (response.data[i].studyLogDtos[j].userInput !== null) {
+                      showModal(
+                        "<div class='modal-content-log'>" +
+                          "<div>" +
+                          "이렇게 말하셨어요: " +
+                          response.data[i].studyLogDtos[j].userInput +
+                          "</div>" +
+                          "<div>" +
+                          "이렇게 말하는게 더 좋아요: " +
+                          response.data[i].studyLogDtos[j].fixedAnswer +
+                          "</div>" +
+                          "틀린 이유: " +
+                          "<div>" +
+                          response.data[i].studyLogDtos[j].reason +
+                          "</div>" +
+                          "</div>"
+                      );
+                    }
+                  }
+                };
+              })(i)
+            );
+
+            newLog.find(".reviewBtn").click(
+              (function (i) {
+                return function () {
+                  $("#modal-data").empty();
+                  showModal(null, true);
+
+                  let quizData = response.data[i].studyLogDtos;
+                  console.log(response.data[i].studyLogDtos);
+                  let quizIndex = 0;
+
+                  function loadQuizItem(index) {
+                    if (quizData[index].userInput !== null) {
+                      $("#question").html(
+                        "<div id='question'>" +
+                          quizData[index].userInput +
+                          "</div>"
+                      );
+                      $("#answer").hide();
+                      $("#userAnswer").val("");
+                    }
+                  }
+
+                  if (quizData[0].userInput !== null) {
+                    loadQuizItem(0);
+                  } else {
+                    loadQuizItem(1);
+                  }
+
+                  $("#userAnswer").change(function () {
+                    if (this.value == quizData[quizIndex].fixedAnswer) {
+                      $("#answer")
+                        .html(
+                          "<div id ='rightAnswer'>" +
+                            " ✔️ 정답입니다! :" +
+                            quizData[quizIndex].fixedAnswer +
+                            "</div>"
+                        )
+                        .show();
+                    } else {
+                      $("#answer")
+                        .html(
+                          "<div id ='wrongAnswer'>" +
+                            "✖️ 틀렸습니다. 다시 시도하세요! " +
+                            "</div>"
+                        )
+                        .show();
+                    }
+                  });
+
+                  $("#prevBtn").on("click", function () {
+                    if (quizIndex > 0) {
+                      quizIndex--;
+                      loadQuizItem(quizIndex);
+                    }
+                    return false;
+                  });
+
+                  $("#nextBtn").on("click", function () {
+                    if (quizIndex < quizData.length - 1) {
+                      quizIndex++;
+                      loadQuizItem(quizIndex);
+                    }
+                    return false;
+                  });
+                };
+              })(i)
+            );
+            $("#history-wrap").append(newLog);
+          }
+        },
+      });
+    };
+
     nowColumn.onclick = function () {
       choiceDate(this);
       showMain(
@@ -109,12 +247,6 @@ function buildCalendar() {
           }
           let selectedDay =
             selectedYear + "-" + selectedMonth + "-" + selectedDate;
-          for (let k = 0; k < response.data.length; k++) {
-            let selectedDayCounts = 0;
-            if (response.data[k].date == selectedDay) {
-              selectedDayCounts++;
-            }
-          }
 
           for (let i = 0; i < response.data.length; i++) {
             //선택한 날짜만 log에 넣음
