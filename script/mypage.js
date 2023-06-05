@@ -145,6 +145,12 @@ function fetchStudyLogsForDate(year, month, date) {
                 console.log(response.data[i].studyLogDtos);
                 let quizIndex = 0;
 
+                if (quizData.length == 0 && quizData.userInput == null) {
+                  alert("복습 데이터가 없습니다.");
+                } else {
+                  showModal(null, true);
+                }
+
                 function loadQuizItem(index) {
                   if (quizData[index].userInput !== null) {
                     $("#question").html(
