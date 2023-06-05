@@ -148,7 +148,7 @@ function SocketEventHandlers() {
       sendButton.prop("disabled", true);
       error = true;
       sendStudyLogs();
-      window.location.href = "mypage.html"
+      window.location.href = "home.html"
     };
 
     socket.onclose = function (event) {
@@ -159,7 +159,7 @@ function SocketEventHandlers() {
       sendButton.prop("disabled", true);
       error = true;
       sendStudyLogs();
-      window.location.href = "mypage.html"
+      window.location.href = "home.html"
     };
   }
 }
@@ -207,7 +207,7 @@ $(document).on("click", ".ttsBtn", function () {
   $("#ttsBtn").css("color", "#454545");
   let answerForTts = $(this)
     .closest(".message-container.machine")
-    .find(".message.machine .answer")
+    .find(".message.machine.answer")
     .text();
 
   fetchTTS(answerForTts);
@@ -323,7 +323,7 @@ stopButton.on("click", () => {
 finishButton.on("click", () => {
   if (confirm("정말 종료하시겠습니까?")) {
     sendStudyLogs();
-    window.location.href = "mypage.html"
+    window.location.href = "home.html"
     // location.href = "./home.html";
   }
 });
