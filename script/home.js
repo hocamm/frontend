@@ -1,4 +1,9 @@
 $(document).ready(function () {
+  $("#my-page-btn").click(function () {
+    window.location.href = "mypage.html";
+  });
+  $("#FreeTalkingBtn").on("click", sessionStorage.clear());
+
   $.ajax({
     url: "https://www.hocam.kr/user/info",
     method: "GET",
@@ -19,6 +24,3 @@ $(document).ready(function () {
     },
   });
 });
-$("#my-page-btn").on("click", window.location.href = 'mypage.html');
-
-$("#FreeTalkingBtn").on("click", sessionStorage.clear());
