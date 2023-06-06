@@ -458,8 +458,8 @@ function sendStudyLogs() {
   };
   console.log(data);
   console.log(data.studyLogs);
-  console.log(data.studyLogs);
-  if (data.studyLogs.length != 0) {
+  console.log(data.studyLogs.length);
+  if (data.studyLogs.length != 0 && data.studyLogs[0].userInput != undefined) {
     $.ajax({
       url: "https://www.hocam.kr/study",
       method: "POST",
