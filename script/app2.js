@@ -323,7 +323,7 @@ stopButton.on("click", () => {
 finishButton.on("click", () => {
   if (confirm("정말 종료하시겠습니까?")) {
     sendStudyLogs();
-    window.location.href = "home.html"
+    // window.location.href = "home.html"
     // location.href = "./home.html";
   }
 });
