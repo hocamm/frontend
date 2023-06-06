@@ -457,6 +457,8 @@ function sendStudyLogs() {
     topic: selectedTopic,
   };
   console.log(data);
+  console.log(data.studyLogs);
+  console.log(data.studyLogs);
   if (data.studyLogs.length != 0) {
     $.ajax({
       url: "https://www.hocam.kr/study",
