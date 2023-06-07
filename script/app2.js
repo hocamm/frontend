@@ -153,6 +153,7 @@ function SocketEventHandlers() {
 
     socket.onclose = function (event) {
       console.log("WebSocket is closed now.", event);
+      setTimeout(socketInit, 300);
       alert(
         "오류가 생겼습니다. 홈화면으로 이동합니다. 지금까지 학습된 내용은 저장됩니다."
       );
