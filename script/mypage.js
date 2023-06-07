@@ -38,19 +38,20 @@ function showModal(data, review = false) {
     let quizContent = $("<div class ='modal-content-quiz'></div>");
     let question = $("<div id='question'></div>");
     let answer = $("<div id='answer'></div>");
-    let userAnswer = $(
-      "<input id='userAnswer' autocomplete='off' type='text'></input>"
+    let quizButtons = $("<div class='modal-buttons'></div>");
+    let prevButton = $(
+      "<button id='prevBtn'><i class='fa-solid fa-angles-left'></i>이전 문제</button>"
     );
-    let prevButton = $("<button id='prevBtn'>이전 문제</button>");
-    let nextButton = $("<button id='nextBtn'>다음 문제</button>");
+    let nextButton = $(
+      "<button id='nextBtn'>다음 문제<i class='fa-solid fa-angles-right'></i></button>"
+    );
     let submitButton = $("<button id='submitBtn'>정답 제출</button>");
 
     quizContent.append(question, answer, userAnswer);
     $("#modal-data").append(quizInfo);
     $("#modal-data").append(quizContent);
-    $("#modal-data").append(prevButton);
-    $("#modal-data").append(nextButton);
-    $("#modal-data").append(submitButton);
+    quizButtons.append(prevButton, submitButton, nextButton);
+    $("#modal-data").append(quizButtons);
   } else {
     $("#modal-data").append(data);
   }
@@ -540,9 +541,7 @@ function buildCalendar() {
           let quizContent = $("<div class ='modal-content-quiz'></div>");
           let question = $("<div id='question'></div>");
           let answer = $("<div id='answer'></div>");
-          let userAnswer = $(
-            "<input id='userAnswer' autocomplete='off' type='text'></input>"
-          );
+          let quizButtons = $("<div class='modal-buttons'></div>");
           let prevButton = $(
             "<button id='prevBtn'><i class='fa-solid fa-angles-left'></i>이전 문제</button>"
           );
@@ -554,9 +553,8 @@ function buildCalendar() {
           quizContent.append(question, answer, userAnswer);
           $("#modal-data").append(quizInfo);
           $("#modal-data").append(quizContent);
-          $("#modal-data").append(prevButton);
-          $("#modal-data").append(nextButton);
-          $("#modal-data").append(submitButton);
+          quizButtons.append(prevButton, submitButton, nextButton);
+          $("#modal-data").append(quizButtons);
         } else {
           $("#modal-data").append(data);
         }
