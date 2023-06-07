@@ -162,6 +162,7 @@ function SocketEventHandlers() {
       // window.location.href = "home.html"
     };
   }
+  
 }
 getRoomId().then(SocketEventHandlers);
 
