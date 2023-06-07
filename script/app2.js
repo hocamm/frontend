@@ -459,7 +459,7 @@ function sendStudyLogs() {
   console.log(data);
   console.log(data.studyLogs[0].userInput);
   console.log(data.studyLogs.length);
-  if (data.studyLogs.length != 0 && data.studyLogs[0].userInput != undefined) {
+  if (data.studyLogs.length != 0 && data.studyLogs[0].userInput != 'undefined') {
     $.ajax({
       url: "https://www.hocam.kr/study",
       method: "POST",
@@ -478,7 +478,7 @@ function sendStudyLogs() {
       });
   } else if (
     data.studyLogs.length > 0 &&
-    data.studyLogs[0].userInput != undefined
+    data.studyLogs[0].userInput != 'undefined'
   ) {
     $.ajax({
       url: "https://www.hocam.kr/study",
