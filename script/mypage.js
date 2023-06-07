@@ -103,7 +103,7 @@ function fetchStudyLogsForDate(year, month, date) {
       let selectedDay = selectedYear + "-" + selectedMonth + "-" + selectedDate;
 
       for (let i = 0; i < response.data.length; i++) {
-        //선택한 날짜만 log에 넣음
+        // 선택한 날짜만 log에 넣음
         if (response.data[i].date == selectedDay) {
           let newLog = $(
             "<div class='log-review-buttons'>" +
@@ -119,8 +119,14 @@ function fetchStudyLogsForDate(year, month, date) {
               return function () {
                 console.log(response.data[i].studyLogDtos);
                 $("#modal-data").empty();
-                for (let j = 0; j < response.data[i].studyLogDtos.length; j++) {
-                  if (response.data[i].studyLogDtos[j].userInput !== null) {
+                for (
+                  let j = 0;
+                  j < response.data[i].studyLogDtos.length;
+                  j++
+                ) {
+                  if (
+                    response.data[i].studyLogDtos[j].userInput !== null
+                  ) {
                     showModal(
                       "<div class='modal-content-log'>" +
                         "<div>" +
@@ -138,11 +144,15 @@ function fetchStudyLogsForDate(year, month, date) {
                         "</div>"
                     );
                   } else if (
-                    response.data[i].studyLogDtos.length == 1 &&
-                    response.data[i].studyLogDtos[0].userInput == null
+                    response.data[i].studyLogDtos.length ==
+                      1 &&
+                    response.data[i].studyLogDtos[0].userInput ==
+                      null
                   ) {
                     alert("저장된 대화 내용이 없습니다.");
-                  } else if (response.data[i].studyLogDtos.length == 0) {
+                  } else if (
+                    response.data[i].studyLogDtos.length == 0
+                  ) {
                     alert("저장된 대화 내용이 없습니다.");
                   }
                 }
@@ -155,21 +165,29 @@ function fetchStudyLogsForDate(year, month, date) {
               return function () {
                 $("#modal-data").empty();
 
-                let quizData = response.data[i].studyLogDtos;
+                let quizData =
+                  response.data[i].studyLogDtos;
                 console.log(response.data[i].studyLogDtos);
                 let quizIndex = 0;
 
-                if (quizData.length == 1 && quizData[0].userInput == null) {
+                if (
+                  quizData.length == 1 &&
+                  quizData[0].userInput == null
+                ) {
                   console.log(quizData[0].userInput);
                   alert("복습 데이터가 없습니다.");
-                } else if (quizData.length == 0) {
+                } else if (
+                  quizData.length == 0
+                ) {
                   alert("복습 데이터가 없습니다.");
                 } else {
                   showModal(null, true);
                 }
 
                 function loadQuizItem(index) {
-                  if (quizData[index].userInput !== null) {
+                  if (
+                    quizData[index].userInput !== null
+                  ) {
                     $("#question").html(
                       "<div id='question'>" +
                         quizData[index].userInput +
@@ -180,15 +198,22 @@ function fetchStudyLogsForDate(year, month, date) {
                   }
                 }
 
-                if (quizData[0].userInput !== null) {
+                if (
+                  quizData[0].userInput !== null
+                ) {
                   loadQuizItem(0);
                 } else {
                   loadQuizItem(1);
                 }
 
-                $("#userAnswer").on("keyup", function (key) {
+                $("#userAnswer").on("keyup", function (
+                  key
+                ) {
                   if (key.keyCode == 13) {
-                    if (this.value == quizData[quizIndex].fixedAnswer) {
+                    if (
+                      this.value ==
+                      quizData[quizIndex].fixedAnswer
+                    ) {
                       $("#answer")
                         .html(
                           "<div id ='rightAnswer'>" +
@@ -197,7 +222,11 @@ function fetchStudyLogsForDate(year, month, date) {
                             "</div>"
                         )
                         .show();
-                    } else if ($("#userAnswer").val().length == 0) {
+                    } else if (
+                      $(
+                        "#userAnswer"
+                      ).val().length == 0
+                    ) {
                       $("#answer")
                         .html(
                           "<div id ='wrongAnswer'>" +
@@ -205,7 +234,10 @@ function fetchStudyLogsForDate(year, month, date) {
                             "</div>"
                         )
                         .show();
-                    } else if (this.value != quizData[quizIndex].fixedAnswer) {
+                    } else if (
+                      this.value !=
+                      quizData[quizIndex].fixedAnswer
+                    ) {
                       $("#answer")
                         .html(
                           "<div id ='wrongAnswer'>" +
@@ -218,8 +250,13 @@ function fetchStudyLogsForDate(year, month, date) {
                 });
 
                 $("#submitBtn").on("click", function () {
-                  let userInputValue = $("#userAnswer").val();
-                  if (userInputValue == quizData[quizIndex].fixedAnswer) {
+                  let userInputValue = $(
+                    "#userAnswer"
+                  ).val();
+                  if (
+                    userInputValue ==
+                    quizData[quizIndex].fixedAnswer
+                  ) {
                     $("#answer")
                       .html(
                         "<div id ='rightAnswer'>" +
@@ -228,7 +265,9 @@ function fetchStudyLogsForDate(year, month, date) {
                           "</div>"
                       )
                       .show();
-                  } else if (userInputValue.length == 0) {
+                  } else if (
+                    userInputValue.length == 0
+                  ) {
                     $("#answer")
                       .html(
                         "<div id ='wrongAnswer'>" +
@@ -237,7 +276,8 @@ function fetchStudyLogsForDate(year, month, date) {
                       )
                       .show();
                   } else if (
-                    userInputValue != quizData[quizIndex].fixedAnswer
+                    userInputValue !=
+                    quizData[quizIndex].fixedAnswer
                   ) {
                     $("#answer")
                       .html(
@@ -258,7 +298,10 @@ function fetchStudyLogsForDate(year, month, date) {
                 });
 
                 $("#nextBtn").on("click", function () {
-                  if (quizIndex < quizData.length - 1) {
+                  if (
+                    quizIndex <
+                    quizData.length - 1
+                  ) {
                     quizIndex++;
                     loadQuizItem(quizIndex);
                   }
@@ -268,30 +311,18 @@ function fetchStudyLogsForDate(year, month, date) {
             })(i)
           );
 
+          // 날짜 표시 엘리먼트에 체크 표시 추가
+          let dateElement = $(`td[data-date='${selectedYear}-${selectedMonth}-${selectedDate}']`);
+          dateElement.append("<div class='check-mark'></div>");
+
+          // 로그 추가
           $("#history-wrap").append(newLog);
         }
       }
-
-      
-      const calendarDates = $(".calendar-date");
-      calendarDates.each(function () {
-        const calendarDate = $(this);
-        const day = calendarDate.data("day");
-        const month = calendarDate.data("month");
-        const year = calendarDate.data("year");
-        const hasStudyRecord = checkStudyRecordForDate(
-          year,
-          month,
-          day,
-          response.data
-        );
-        if (hasStudyRecord) {
-          calendarDate.append("<div class='check-mark'>&#10003;</div>");
-        }
-      });
     },
   });
 }
+
 
 function checkStudyRecordForDate(year, month, day, studyRecords) {
   const formattedDate = year + "-" + month + "-" + day;
