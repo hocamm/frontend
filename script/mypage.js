@@ -32,6 +32,9 @@ today.setHours(0, 0, 0, 0);
 
 function showModal(data, review = false) {
   if (review) {
+    let quizInfo = $(
+      "<div class='info'><p>아래의 틀린 답을 읽고, 올바른 정답으로 고쳐보세요.</p></div>"
+    );
     let quizContent = $("<div class ='modal-content-quiz'></div>");
     let question = $("<div id='question'></div>");
     let answer = $("<div id='answer'></div>");
@@ -42,15 +45,12 @@ function showModal(data, review = false) {
     let nextButton = $("<button id='nextBtn'>다음 문제</button>");
     let submitButton = $("<button id='submitBtn'>정답 제출</button>");
 
-    quizContent.append(
-      question,
-      answer,
-      userAnswer,
-      prevButton,
-      nextButton,
-      submitButton
-    );
+    quizContent.append(question, answer, userAnswer);
+    $("#modal-data").append(quizInfo);
     $("#modal-data").append(quizContent);
+    $("#modal-data").append(prevButton);
+    $("#modal-data").append(nextButton);
+    $("#modal-data").append(submitButton);
   } else {
     $("#modal-data").append(data);
   }
@@ -215,7 +215,6 @@ function fetchStudyLogsForDate(year, month, date) {
 
                 $("#submitBtn").on("click", function () {
                   let userInputValue = $("#userAnswer").val();
-
                   if (userInputValue == quizData[quizIndex].fixedAnswer) {
                     $("#answer")
                       .html(
@@ -476,6 +475,38 @@ function buildCalendar() {
                       }
                     });
 
+                    $("#submitBtn").on("click", function () {
+                      let userInputValue = $("#userAnswer").val();
+                      if (userInputValue == quizData[quizIndex].fixedAnswer) {
+                        $("#answer")
+                          .html(
+                            "<div id ='rightAnswer'>" +
+                              " ✔️ 정답입니다! :" +
+                              quizData[quizIndex].fixedAnswer +
+                              "</div>"
+                          )
+                          .show();
+                      } else if (userInputValue.length == 0) {
+                        $("#answer")
+                          .html(
+                            "<div id ='wrongAnswer'>" +
+                              "내용을 입력해 주세요!" +
+                              "</div>"
+                          )
+                          .show();
+                      } else if (
+                        userInputValue != quizData[quizIndex].fixedAnswer
+                      ) {
+                        $("#answer")
+                          .html(
+                            "<div id ='wrongAnswer'>" +
+                              "✖️ 틀렸습니다. 다시 시도하세요! " +
+                              "</div>"
+                          )
+                          .show();
+                      }
+                    });
+
                     $("#prevBtn").on("click", function () {
                       if (quizIndex > 0) {
                         quizIndex--;
@@ -503,7 +534,9 @@ function buildCalendar() {
 
       function showModal(data, review = false) {
         if (review) {
-          let quizInfo = $("<div class='info'><p>아래의 틀린 답을 읽고, 올바른 정답으로 고쳐보세요.</p></div>")
+          let quizInfo = $(
+            "<div class='info'><p>아래의 틀린 답을 읽고, 올바른 정답으로 고쳐보세요.</p></div>"
+          );
           let quizContent = $("<div class ='modal-content-quiz'></div>");
           let question = $("<div id='question'></div>");
           let answer = $("<div id='answer'></div>");
@@ -512,20 +545,18 @@ function buildCalendar() {
           );
           let prevButton = $(
             "<button id='prevBtn'><i class='fa-solid fa-angles-left'></i>이전 문제</button>"
-            
           );
           let nextButton = $(
             "<button id='nextBtn'>다음 문제<i class='fa-solid fa-angles-right'></i></button>"
           );
-
-
-          
+          let submitButton = $("<button id='submitBtn'>정답 제출</button>");
 
           quizContent.append(question, answer, userAnswer);
-          $('#modal-data').append(quizInfo);
+          $("#modal-data").append(quizInfo);
           $("#modal-data").append(quizContent);
           $("#modal-data").append(prevButton);
           $("#modal-data").append(nextButton);
+          $("#modal-data").append(submitButton);
         } else {
           $("#modal-data").append(data);
         }
