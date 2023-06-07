@@ -30,7 +30,7 @@ function getRoomId() {
       console.log(data);
       let userroomid = data.data.roomId;
       localStorage.setItem("roomId", userroomid);
-      socket = new WebSocket("wss://www.hocam.kr/ws/chat", { timeout: 10000 });
+      socket = new WebSocket("wss://www.hocam.kr/ws/chat");
       SocketEventHandlers();
     })
     .fail(function (error) {
