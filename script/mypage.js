@@ -76,7 +76,6 @@ function showModal(data, review = false) {
 function fetchStudyLogsForDate(year, month, date) {
   let urldate =
     "https://www.hocam.kr/" + "study?year=" + year + "&" + "month=" + month;
-  let studyDates = {};
 
   $.ajax({
     url: urldate,
@@ -272,8 +271,36 @@ function fetchStudyLogsForDate(year, month, date) {
           $("#history-wrap").append(newLog);
         }
       }
+
+      
+      const calendarDates = $(".calendar-date");
+      calendarDates.each(function () {
+        const calendarDate = $(this);
+        const day = calendarDate.data("day");
+        const month = calendarDate.data("month");
+        const year = calendarDate.data("year");
+        const hasStudyRecord = checkStudyRecordForDate(
+          year,
+          month,
+          day,
+          response.data
+        );
+        if (hasStudyRecord) {
+          calendarDate.append("<div class='check-mark'>&#10003;</div>");
+        }
+      });
     },
   });
+}
+
+function checkStudyRecordForDate(year, month, day, studyRecords) {
+  const formattedDate = year + "-" + month + "-" + day;
+  for (let i = 0; i < studyRecords.length; i++) {
+    if (studyRecords[i].date === formattedDate) {
+      return true;
+    }
+  }
+  return false;
 }
 
 // 달력 생성 : 해당 달에 맞춰 테이블을 만들고, 날짜 채워 놓음
@@ -307,11 +334,7 @@ function buildCalendar() {
     // day는 날짜를 저장하는 변수, 이번달 마지막날까지 증가시키며 반복
 
     let nowColumn = nowRow.insertCell(); // 새 열을 추가하고
-    nowColumn.id = `day-${nowDay.getDate()}`;
-    nowColumn.innerHTML = `
-    ${nowDay.getDate()} 
-    <span class="check-mark" style="display: none;">✔️</span>
-  `;
+    nowColumn.innerText = nowDay.getDate(); // 추가한 열에 날짜 입력
 
     if (nowDay.getDay() == 0) {
       // 일요일인 경우 글자색 빨강으로
@@ -376,14 +399,7 @@ function buildCalendar() {
                   "<div class='reviewBtn'>복습하기</div>" +
                   "</div>"
               );
-              response.data.forEach((record) => {
-                const date = new Date(record.date);
-                const dayElement = $(`#day-${date.getDate()}`);
-                if (dayElement.length > 0) {
-                  dayElement.find(".check-mark").show();
-                  // 학습 기록이 있는 날짜의 체크 마크를 보여줌
-                }
-              });
+
               newLog.find(".studyLog").click(
                 (function (i) {
                   return function () {
