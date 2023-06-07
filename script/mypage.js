@@ -38,12 +38,8 @@ function showModal(data, review = false) {
     let quizContent = $("<div class ='modal-content-quiz'></div>");
     let question = $("<div id='question'></div>");
     let answer = $("<div id='answer'></div>");
-    let quizButtons = $("<div class='modal-buttons'></div>");
-    let prevButton = $(
-      "<button id='prevBtn'><i class='fa-solid fa-angles-left'></i>이전 문제</button>"
-    );
-    let nextButton = $(
-      "<button id='nextBtn'>다음 문제<i class='fa-solid fa-angles-right'></i></button>"
+    let userAnswer = $(
+      "<input id='userAnswer' autocomplete='off' type='text'></input>"
     );
     let quizButtons = $("<div class='modal-buttons'></div>");
     let prevButton = $(
