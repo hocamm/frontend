@@ -337,3 +337,22 @@ nav img {
     background: #034AA6;
     box-shadow: 0px 0px 0px 3px #034aa6bb;
 }
+
+/* 비밀번호 보이기, 숨기기 */
+.fa-eye-slash {
+    z-index: 3;
+    position: absolute;
+    right: 1.0625rem;
+    color: #9b9b9b
+}
+
+.fa-eye {
+    z-index: 3;
+    position: absolute;
+    right: 1.0625rem;
+    color: #5f5f5f
+}
+
+.fa-solid:hover{
+    cursor: pointer;
+}
