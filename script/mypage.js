@@ -76,6 +76,7 @@ function showModal(data, review = false) {
 function fetchStudyLogsForDate(year, month, date) {
   let urldate =
     "https://www.hocam.kr/" + "study?year=" + year + "&" + "month=" + month;
+  let studyDates = {};
 
   $.ajax({
     url: urldate,
@@ -306,6 +307,7 @@ function buildCalendar() {
     // day는 날짜를 저장하는 변수, 이번달 마지막날까지 증가시키며 반복
 
     let nowColumn = nowRow.insertCell(); // 새 열을 추가하고
+    nowColumn.id = `day-${nowDay.getDate()}`; // 각 날짜에 대한 엘리먼트에 id를 부여
     nowColumn.innerText = nowDay.getDate(); // 추가한 열에 날짜 입력
 
     if (nowDay.getDay() == 0) {
@@ -371,6 +373,15 @@ function buildCalendar() {
                   "<div class='reviewBtn'>복습하기</div>" +
                   "</div>"
               );
+              response.data.forEach((record) => {
+                const date = new Date(record.date);
+                const dayElement = document.getElementById(
+                  `day-${date.getDate()}`
+                );
+                if (dayElement) {
+                  dayElement.classList.add("has-record"); // 'has-record'라는 클래스를 추가
+                }
+              });
 
               newLog.find(".studyLog").click(
                 (function (i) {
