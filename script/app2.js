@@ -323,7 +323,7 @@ stopButton.on("click", () => {
 finishButton.on("click", () => {
   if (confirm("정말 종료하시겠습니까?")) {
     sendStudyLogs();
-    window.location.href = "home.html"
+    // window.location.href = "home.html"
     // location.href = "./home.html";
   }
 });
@@ -457,7 +457,29 @@ function sendStudyLogs() {
     topic: selectedTopic,
   };
   console.log(data);
-  if (data.studyLogs.length != 0) {
+  console.log(data.studyLogs[0].userInput);
+  console.log(data.studyLogs.length);
+  if (data.studyLogs.length != 0 && data.studyLogs[0].userInput != 'undefined') {
+    $.ajax({
+      url: "https://www.hocam.kr/study",
+      method: "POST",
+      data: JSON.stringify(data),
+      contentType: "application/json",
+      xhrFields: {
+        withCredentials: true,
+      },
+    })
+      .done(function () {
+        console.log("공부 기록 저장 완료.");
+        sessionStorage.clear();
+      })
+      .fail(function (error) {
+        console.error("에러:", error);
+      });
+  } else if (
+    data.studyLogs.length > 0 &&
+    data.studyLogs[0].userInput != 'undefined'
+  ) {
     $.ajax({
       url: "https://www.hocam.kr/study",
       method: "POST",

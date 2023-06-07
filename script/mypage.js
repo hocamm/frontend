@@ -40,8 +40,16 @@ function showModal(data, review = false) {
     );
     let prevButton = $("<button id='prevBtn'>이전 문제</button>");
     let nextButton = $("<button id='nextBtn'>다음 문제</button>");
+    let submitButton = $("<button id='submitBtn'>정답 제출</button>");
 
-    quizContent.append(question, answer, userAnswer, prevButton, nextButton);
+    quizContent.append(
+      question,
+      answer,
+      userAnswer,
+      prevButton,
+      nextButton,
+      submitButton
+    );
     $("#modal-data").append(quizContent);
   } else {
     $("#modal-data").append(data);
@@ -202,6 +210,39 @@ function fetchStudyLogsForDate(year, month, date) {
                         )
                         .show();
                     }
+                  }
+                });
+
+                $("#submitBtn").on("click", function () {
+                  let userInputValue = $("#userAnswer").val();
+
+                  if (userInputValue == quizData[quizIndex].fixedAnswer) {
+                    $("#answer")
+                      .html(
+                        "<div id ='rightAnswer'>" +
+                          " ✔️ 정답입니다! :" +
+                          quizData[quizIndex].fixedAnswer +
+                          "</div>"
+                      )
+                      .show();
+                  } else if (userInputValue.length == 0) {
+                    $("#answer")
+                      .html(
+                        "<div id ='wrongAnswer'>" +
+                          "내용을 입력해 주세요!" +
+                          "</div>"
+                      )
+                      .show();
+                  } else if (
+                    userInputValue != quizData[quizIndex].fixedAnswer
+                  ) {
+                    $("#answer")
+                      .html(
+                        "<div id ='wrongAnswer'>" +
+                          "✖️ 틀렸습니다. 다시 시도하세요! " +
+                          "</div>"
+                      )
+                      .show();
                   }
                 });
 
@@ -469,14 +510,18 @@ function buildCalendar() {
           let userAnswer = $(
             "<input id='userAnswer' autocomplete='off' type='text'></input>"
           );
-          let prevButton = $("<button id='prevBtn'><i class='fa-solid fa-angles-left'></i>이전 문제</button>");
-          let nextButton = $("<button id='nextBtn'>다음 문제<i class='fa-solid fa-angles-right'></i></button>");
-
-          quizContent.append(
-            question,
-            answer,
-            userAnswer
+          let prevButton = $(
+            "<button id='prevBtn'><i class='fa-solid fa-angles-left'></i>이전 문제</button>"
+            
           );
+          let nextButton = $(
+            "<button id='nextBtn'>다음 문제<i class='fa-solid fa-angles-right'></i></button>"
+          );
+
+
+          
+
+          quizContent.append(question, answer, userAnswer);
           $('#modal-data').append(quizInfo);
           $("#modal-data").append(quizContent);
           $("#modal-data").append(prevButton);
