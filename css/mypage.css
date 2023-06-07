@@ -333,13 +333,16 @@ footer i:hover {
   margin: 20px 0 0 0;
 }
 
-#prevBtn {
+.modal-buttons{
   display: flex;
-  align-items: center;
+  width: 60%;
+  margin: auto;
+  justify-content: space-between;
+}
+
+#prevBtn {
   padding: 10px 30px 10px 25px;
-  float: left;
   margin-top: 40px;
-  margin-left: 25%;
   height: auto;
   font-family: "Noto Sans KR", sans-serif;
   font-size: 14px;
@@ -354,12 +357,24 @@ footer i:hover {
 }
 
 #nextBtn {
-  display: flex;
-  align-items: center;
   padding: 10px 25px 10px 30px;
-  float: right;
   margin-top: 40px;
-  margin-right: 25%;
+  height: auto;
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 14px;
+  background-color: #efefef;
+  color: #000000;
+  border-radius: 20px;
+  border: none;
+}
+#nextBtn:hover {
+  cursor: pointer;
+  background-color: #c4c4c4;
+}
+
+#submitBtn {
+  padding: 10px 30px 10px 30px;
+  margin-top: 40px;
   height: auto;
   font-family: "Noto Sans KR", sans-serif;
   font-size: 14px;
@@ -368,10 +383,11 @@ footer i:hover {
   border-radius: 20px;
   border: none;
 }
-#nextBtn:hover {
+#submitBtn:hover {
   cursor: pointer;
   background-color: #023579;
 }
+
 #rightAnswer {
   height: 100%;
   color: green;
