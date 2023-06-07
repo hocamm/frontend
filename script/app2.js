@@ -162,7 +162,6 @@ function SocketEventHandlers() {
       // window.location.href = "home.html"
     };
   }
-  
 }
 getRoomId().then(SocketEventHandlers);
 
@@ -461,6 +460,26 @@ function sendStudyLogs() {
   console.log(data.studyLogs[0].userInput);
   console.log(data.studyLogs.length);
   if (data.studyLogs.length != 0 && data.studyLogs[0].userInput != undefined) {
+    $.ajax({
+      url: "https://www.hocam.kr/study",
+      method: "POST",
+      data: JSON.stringify(data),
+      contentType: "application/json",
+      xhrFields: {
+        withCredentials: true,
+      },
+    })
+      .done(function () {
+        console.log("공부 기록 저장 완료.");
+        sessionStorage.clear();
+      })
+      .fail(function (error) {
+        console.error("에러:", error);
+      });
+  } else if (
+    data.studyLogs.length > 0 &&
+    data.studyLogs[0].userInput != undefined
+  ) {
     $.ajax({
       url: "https://www.hocam.kr/study",
       method: "POST",
