@@ -312,7 +312,6 @@ function buildCalendar() {
     ${nowDay.getDate()} 
     <span class="check-mark" style="display: none;">✔️</span>
   `;
-    nowColumn.innerText = nowDay.getDate(); // 추가한 열에 날짜 입력
 
     if (nowDay.getDay() == 0) {
       // 일요일인 경우 글자색 빨강으로
