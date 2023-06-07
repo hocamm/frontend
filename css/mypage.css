@@ -402,6 +402,8 @@ footer i:hover {
   float: left;
   margin: 20px 0 20px 120px;
 }
-.has-record {
-  background-color: lightgreen; /* 학습 기록이 있는 날짜의 배경색을 변경 */
+.check-mark {
+  display: inline-block;
+  margin-left: 5px;
+  color: green;
 }
