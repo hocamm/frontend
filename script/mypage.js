@@ -503,6 +503,7 @@ function buildCalendar() {
 
       function showModal(data, review = false) {
         if (review) {
+          let quizInfo = $("<div class='info'><p>아래의 틀린 답을 읽고, 올바른 정답으로 고쳐보세요.</p></div>")
           let quizContent = $("<div class ='modal-content-quiz'></div>");
           let question = $("<div id='question'></div>");
           let answer = $("<div id='answer'></div>");
@@ -511,12 +512,17 @@ function buildCalendar() {
           );
           let prevButton = $(
             "<button id='prevBtn'><i class='fa-solid fa-angles-left'></i>이전 문제</button>"
+            
           );
           let nextButton = $(
             "<button id='nextBtn'>다음 문제<i class='fa-solid fa-angles-right'></i></button>"
           );
 
+
+          
+
           quizContent.append(question, answer, userAnswer);
+          $('#modal-data').append(quizInfo);
           $("#modal-data").append(quizContent);
           $("#modal-data").append(prevButton);
           $("#modal-data").append(nextButton);

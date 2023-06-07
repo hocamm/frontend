@@ -381,3 +381,8 @@ footer i:hover {
   height: 100%;
   color: red;
 }
+
+.info {
+  float: left;
+  margin: 20px 0 20px 95px;
+}

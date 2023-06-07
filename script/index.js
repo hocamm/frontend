@@ -62,3 +62,17 @@ $(function () {
     });
   });
 });
+
+// 비밀번호 보이기, 숨기기 기능
+$(document).ready(function(){
+  $('.fa-solid').on('click',function(){
+    $('input').toggleClass('active');
+    if($('input').hasClass('active')){
+        $(this).attr('class',"fa-solid fa-eye")
+        .prevAll('input').attr('type',"text");
+    }else{
+        $(this).attr('class',"fa-solid fa-eye-slash")
+        .prevAll('input').attr('type','password');
+    }
+  });
+})

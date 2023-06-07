@@ -9,6 +9,19 @@ $(document).ready(function () {
     var url = "./index.html";
     window.location.href = url;
   });
+
+  // 비밀번호 보이기, 숨기기 기능
+  $('.fa-solid').on('click',function(){
+    $('input').toggleClass('active');
+    if($('input').hasClass('active')){
+        $(this).attr('class',"fa-solid fa-eye")
+        .prevAll('input').attr('type',"text");
+    }else{
+        $(this).attr('class',"fa-solid fa-eye-slash")
+        .prevAll('input').attr('type','password');
+    }
+  });
+
   // 회원가입 버튼 클릭시 유효성 검사
   $.check = function () {
     if ($("#id").val() == "") {
