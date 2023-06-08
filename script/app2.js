@@ -219,7 +219,7 @@ $(document).on("click", ".ttsBtn", function () {
 $(document).ready(function () {
   $("#mainlogo").click(function () {
     alert(
-      "학습이 종료되기 전까지는 페이지를 나갈 수 없습니다. 종료하기 버튼을 눌러주세요"
+      "학습이 종료되기 전까지는 페이지를 나갈 수 없습니다. 학습 종료하기를 눌러 학습을 마쳐주세요"
     );
   });
 });

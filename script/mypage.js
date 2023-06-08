@@ -121,18 +121,18 @@ function fetchStudyLogsForDate(year, month, date) {
                   if (response.data[i].studyLogDtos[j].userInput !== null) {
                     showModal(
                       "<div class='modal-content-log'>" +
-                        "<div>" +
+                        "<p>" +
                         "이렇게 말하셨어요: " +
                         response.data[i].studyLogDtos[j].userInput +
-                        "</div>" +
-                        "<div>" +
+                        "</p>" +
+                        "<p>" +
                         "이렇게 말하는게 더 좋아요: " +
                         response.data[i].studyLogDtos[j].fixedAnswer +
-                        "</div>" +
+                        "</p>" +
                         "틀린 이유: " +
-                        "<div>" +
+                        "<p>" +
                         response.data[i].studyLogDtos[j].reason +
-                        "</div>" +
+                        "</p>" +
                         "</div>"
                     );
                   } else if (
@@ -394,18 +394,18 @@ function buildCalendar() {
                       if (response.data[i].studyLogDtos[j].userInput !== null) {
                         showModal(
                           "<div class='modal-content-log'>" +
-                            "<div>" +
+                            "<p id ='yousaid'>" +
                             "이렇게 말하셨어요: " +
                             response.data[i].studyLogDtos[j].userInput +
-                            "</div>" +
-                            "<div>" +
+                            "</p>" +
+                            "<p id ='youdbetter'>" +
                             "이렇게 말하는게 더 좋아요: " +
                             response.data[i].studyLogDtos[j].fixedAnswer +
-                            "</div>" +
-                            "틀린 이유: " +
-                            "<div>" +
+                            "</p>" +
+                            "💡 틀린 이유: " +
+                            "<p>" +
                             response.data[i].studyLogDtos[j].reason +
-                            "</div>" +
+                            "</p>" +
                             "</div>"
                         );
                       } else if (
