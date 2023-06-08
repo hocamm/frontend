@@ -1,4 +1,4 @@
-window.onload = function () {
+$(window).on("load", function () {
   buildCalendar();
   showMain(today.getFullYear(), today.getMonth() + 1, today.getDate());
   fetchStudyLogsForDate(
@@ -6,25 +6,24 @@ window.onload = function () {
     today.getMonth() + 1,
     today.getDate()
   );
-  $(document).ready(function () {
-    $.ajax({
-      url: "https://www.hocam.kr/user/info",
-      method: "GET",
-      xhrFields: {
-        withCredentials: true,
-      },
-      success: function (response) {
-        if (response.status === 200) {
-          $("#user").text(response.data["nickname"] + "님 학습데이터");
-          console.log(response.data);
-        }
-      },
-      error: function (error) {
-        console.error("데이터 수신 실패: " + error);
-      },
-    });
+
+  $.ajax({
+    url: "https://www.hocam.kr/user/info",
+    method: "GET",
+    xhrFields: {
+      withCredentials: true,
+    },
+    success: function (response) {
+      if (response.status === 200) {
+        $("#user").text(response.data["nickname"] + "님 학습데이터");
+        console.log(response.data);
+      }
+    },
+    error: function (error) {
+      console.error("데이터 수신 실패: " + error);
+    },
   });
-};
+});
 
 let nowMonth = new Date();
 let today = new Date();
@@ -101,7 +100,7 @@ function fetchStudyLogsForDate(year, month, date) {
       let selectedDay = selectedYear + "-" + selectedMonth + "-" + selectedDate;
 
       for (let i = 0; i < response.data.length; i++) {
-        //선택한 날짜만 log에 넣음
+        // 선택한 날짜만 log에 넣음
         if (response.data[i].date == selectedDay) {
           let newLog = $(
             "<div class='log-review-buttons'>" +
@@ -305,22 +304,17 @@ function buildCalendar() {
     success: function (response) {
       let studyData = response.data;
 
-      let tbody_Calendar = document.querySelector(".Calendar > tbody");
-      document.getElementById("calYear").innerText = nowMonth.getFullYear(); // 연도 숫자 갱신
-      document.getElementById("calMonth").innerText = leftPad(
-        nowMonth.getMonth() + 1
-      ); // 월 숫자 갱신
+      let tbody_Calendar = $(".Calendar > tbody");
+      $("#calYear").text(nowMonth.getFullYear()); // 연도 숫자 갱신
+      $("#calMonth").text(leftPad(nowMonth.getMonth() + 1)); // 월 숫자 갱신
 
-      while (tbody_Calendar.rows.length > 0) {
-        // 이전 출력결과가 남아있는 경우 초기화
-        tbody_Calendar.deleteRow(tbody_Calendar.rows.length - 1);
-      }
+      tbody_Calendar.empty();
 
-      let nowRow = tbody_Calendar.insertRow(); // 첫번째 행 추가
+      let nowRow = $("<tr></tr>").appendTo(tbody_Calendar); // 첫번째 행 추가
 
       for (let j = 0; j < firstDate.getDay(); j++) {
         // 이번달 1일의 요일만큼
-        let nowColumn = nowRow.insertCell(); // 열 추가
+        let nowColumn = $("<td></td>").appendTo(nowRow); // 열 추가
       }
 
       for (
@@ -328,38 +322,38 @@ function buildCalendar() {
         nowDay <= lastDate;
         nowDay.setDate(nowDay.getDate() + 1)
       ) {
-        let nowColumn = nowRow.insertCell();
+        let nowColumn = $("<td></td>").appendTo(nowRow);
 
         // 셀 내부에 텍스트와 체크 표시를 감싸는 <div> 요소 생성
-        let cellContent = document.createElement("div");
-        cellContent.classList.add("cell-content");
+        let cellContent = $("<div class='cell-content'></div>");
 
         // 날짜를 텍스트로 추가
-        let dateText = document.createTextNode(nowDay.getDate());
-        cellContent.appendChild(dateText);
+        let dateText = $("<span></span>")
+          .text(nowDay.getDate())
+          .appendTo(cellContent);
 
         // 학습 데이터가 있는지 확인하고, 있을 경우 체크 표시를 추가
         for (let i = 0; i < studyData.length; i++) {
           if (studyData[i].date === getFormattedDate(nowDay)) {
-            let checkMark = document.createElement("span");
-            checkMark.classList.add("check-mark");
-            checkMark.innerText = "✅";
-            cellContent.appendChild(checkMark);
+            let checkMark = $("<span></span>")
+              .addClass("check-mark")
+              .text("✅")
+              .appendTo(cellContent);
             break;
           }
         }
 
-        nowColumn.appendChild(cellContent);
+        nowColumn.append(cellContent);
 
         if (nowDay.getDay() == 0) {
           // 일요일인 경우 글자색 빨강으로
-          nowColumn.style.color = "#DC143C";
+          nowColumn.css("color", "#DC143C");
         }
 
         if (nowDay.getDay() == 6) {
           // 토요일인 경우 글자색 파랑으로
-          nowColumn.style.color = "#0000CD";
-          nowRow = tbody_Calendar.insertRow(); // 새로운 행 추가
+          nowColumn.css("color", "#0000CD");
+          nowRow = $("<tr></tr>").appendTo(tbody_Calendar); // 새로운 행 추가
         }
 
         if (
@@ -368,11 +362,11 @@ function buildCalendar() {
           nowDay.getDate() == today.getDate()
         ) {
           // 오늘인 경우
-          nowColumn.className = "today";
+          nowColumn.addClass("today");
         }
 
         let selectedDay = nowDay.getDate(); // 선택한 날짜
-        nowColumn.onclick = function () {
+        nowColumn.on("click", function () {
           choiceDate(this);
           showMain(
             nowMonth.getFullYear(),
@@ -384,7 +378,7 @@ function buildCalendar() {
             nowMonth.getMonth() + 1,
             selectedDay
           );
-        };
+        });
       }
     },
   });
@@ -399,17 +393,15 @@ function getFormattedDate(date) {
 
 // 날짜 선택
 function choiceDate(nowColumn) {
-  if (nowColumn.classList.contains("choiceDay")) {
+  if ($(nowColumn).hasClass("choiceDay")) {
     // 이미 선택된 날짜인 경우
-    nowColumn.classList.remove("choiceDay"); // "choiceDay" class 제거
+    $(nowColumn).removeClass("choiceDay"); // "choiceDay" class 제거
   } else {
-    if (document.getElementsByClassName("choiceDay")[0]) {
+    if ($(".choiceDay").length > 0) {
       // 다른 날짜가 선택되어 있으면
-      document
-        .getElementsByClassName("choiceDay")[0]
-        .classList.remove("choiceDay"); // 해당 날짜의 "choiceDay" class 제거
+      $(".choiceDay").removeClass("choiceDay"); // 해당 날짜의 "choiceDay" class 제거
     }
-    nowColumn.classList.add("choiceDay"); // 선택된 날짜에 "choiceDay" class 추가
+    $(nowColumn).addClass("choiceDay"); // 선택된 날짜에 "choiceDay" class 추가
   }
 }
 
@@ -453,7 +445,7 @@ function leftPad(value) {
 
 // 학습 기록
 function showMain(givenYear, givenMonth, givenDate) {
-  document.getElementById("mainYear").innerText = givenYear;
-  document.getElementById("mainMonth").innerText = givenMonth;
-  document.getElementById("mainDay").innerText = givenDate;
+  $("#mainYear").text(givenYear);
+  $("#mainMonth").text(givenMonth);
+  $("#mainDay").text(givenDate);
 }
