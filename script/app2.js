@@ -30,141 +30,140 @@ function getRoomId() {
       console.log(data);
       let userroomid = data.data.roomId;
       localStorage.setItem("roomId", userroomid);
-      socket = new WebSocket("wss://www.hocam.kr/ws/chat");
-      SocketEventHandlers();
     })
     .fail(function (error) {
       console.error("Error:", error);
     });
 }
 
+// WebSocket 객체 생성
+let socket = new WebSocket("wss://www.hocam.kr/ws/chat");
+
 // socket에 대한 event를 핸들링 하는 함수
 function SocketEventHandlers() {
-  if (socket) {
-    socket.onopen = function () {
-      if (selectedTopic !== "자유 주제") {
-        sendButton.prop("disabled", true);
+  socket.onopen = function () { // 15초마다 ping 메시지 전송
+    if (selectedTopic !== "자유 주제") {
+      sendButton.prop("disabled", true);
+      $("#chatbox").append(
+        "<div class='message-container machine'>" +
+          "<div class='message-container machine thinking'>" +
+          "<div class='message machine'>" +
+          "호잠이 답변중입니다 ......" +
+          "</div>" +
+          "</div>" +
+          "</div>"
+      );
+      let roomId = localStorage.getItem("roomId");
+      socket.send(
+        JSON.stringify({
+          roomId,
+          content: "Ben " + selectedTopic + " hakkında konuşmak istiyorum",
+        })
+      );
+    }
+  };
+  socket.onmessage = function (event) {
+    let response = JSON.parse(event.data);
+    let userInput = response;
+    let answer = response.answer;
+    let message = socket.lastMessage;
+    let FixedAnswer = response.grammarFixedAnswer;
+    let isRight = response.isRight;
+    let answerReason = response.grammarFixedReason;
+    let answerReasonTrans = response.translatedReason;
+    let grammarCorrectionElement;
+
+
+    if (response.type === "machine") {
+      $(".message-container.machine.thinking").remove();
+      stopThinkingAnimation();
+      scrollToBottom();
+      console.log(message);
+      console.log(response);
+
+      // 조건에 따라 정답 판별
+      if (message != undefined && isRight === "false") {
+        studyLogs.push({
+          userInput: message,
+          fixedAnswer: FixedAnswer.substring(14),
+          reason: answerReasonTrans,
+        });
+        console.log(studyLogs);
+        grammarCorrectionElement =
+          "<div class='message-container machine grammarcorrection'>" +
+          "<div class='message machine grammarcorrection wrong'><strong>✘ 교정이 필요해요 </strong></div>" +
+          "<div class='message user'>" +
+          message +
+          "</div>" +
+          "<div class='message machine grammarcorrection wrong'>👉 이렇게 말해봐요:  " +
+          FixedAnswer.substring(13) +
+          "</div>" +
+          "<div class='message machine grammarcorrection'><strong>💡</strong> " +
+          answerReasonTrans +
+          "</div>" +
+          "</div>";
+      } else if (isRight === "true") {
+        grammarCorrectionElement =
+          "<div class='message-container machine grammarcorrection'>" +
+          "<div class='message machine grammarcorrection right'><strong>✔ 완벽해요</strong></div>" +
+          "<div class='message user'>" +
+          message +
+          "</div>" +
+          "<div class= 'message machine grammarcorrection'><strong>자연스럽게 표현했어요</strong></div>" +
+          "</div>";
+      }
+      scrollToBottom();
+
+      // message, grammarcorrection 같은 컨테이너 안에 넣음
+      $(".message-container.user:last").html(grammarCorrectionElement);
+      scrollToBottom();
+      setTimeout(function () {
         $("#chatbox").append(
           "<div class='message-container machine'>" +
-            "<div class='message-container machine thinking'>" +
             "<div class='message machine'>" +
-            "호잠이 답변중입니다 ......" +
+            "<div class='answer'>" +
+            answer +
+            "</div>" +
+            "<div class='translation-container'>" +
+            "<div class='tts-translate-buttons'>" +
+            "<button class='ttsBtn' id='ttsBtn'>" +
+            "<span class='material-icons'>volume_up</span>" +
+            "</button>" +
+            "<button class='translateBtn'>" +
+            "<span class='material-icons'>translate</span>" +
+            "</button>" +
+            "</div>" +
+            "<span class='translation' style='display:none'>" +
+            answerReasonTrans +
+            "</span>" +
             "</div>" +
             "</div>" +
             "</div>"
         );
-        let roomId = localStorage.getItem("roomId");
-        socket.send(
-          JSON.stringify({
-            roomId,
-            content: "Ben " + selectedTopic + " hakkında konuşmak istiyorum",
-          })
-        );
-      }
-    };
-    socket.onmessage = function (event) {
-      let response = JSON.parse(event.data);
-      let userInput = response;
-      let answer = response.answer;
-      let message = socket.lastMessage;
-      let FixedAnswer = response.grammarFixedAnswer;
-      let isRight = response.isRight;
-      let answerReason = response.grammarFixedReason;
-      let answerReasonTrans = response.translatedReason;
-      let grammarCorrectionElement;
-      console.log(message)
-
-      if (response.type === "machine") {
-        $(".message-container.machine.thinking").remove();
-        stopThinkingAnimation();
         scrollToBottom();
-        console.log(message)
-        console.log(response)
+      }, 1000);
+      sendButton.prop("disabled", false);
+    }
+  };
 
-        // 조건에 따라 정답 판별
-        if (message != undefined && isRight === "false") {
-          studyLogs.push({
-            userInput: message,
-            fixedAnswer: FixedAnswer.substring(14),
-            reason: answerReasonTrans,
-          });
-          console.log(studyLogs)
-          grammarCorrectionElement =
-            "<div class='message-container machine grammarcorrection'>" +
-            "<div class='message machine grammarcorrection wrong'><strong>✘ 교정이 필요해요 </strong></div>" +
-            "<div class='message user'>" +
-            message +
-            "</div>" +
-            "<div class='message machine grammarcorrection wrong'>👉 이렇게 말해봐요:  " +
-            FixedAnswer.substring(13) +
-            "</div>" +
-            "<div class='message machine grammarcorrection'><strong>💡</strong> " +
-            answerReasonTrans +
-            "</div>" +
-            "</div>";
-        } else if (isRight === "true") {
-          grammarCorrectionElement =
-            "<div class='message-container machine grammarcorrection'>" +
-            "<div class='message machine grammarcorrection right'><strong>✔ 완벽해요</strong></div>" +
-            "<div class='message user'>" +
-            message +
-            "</div>" +
-            "<div class= 'message machine grammarcorrection'><strong>자연스럽게 표현했어요</strong></div>" +
-            "</div>";
-        }
-        scrollToBottom();
+  socket.onerror = function (errors) {
+    alert("호잠에 문제가 생겼습니다. 다시 시도해 주세요", errors);
+    sendButton.prop("disabled", true);
+    error = true;
+    sendStudyLogs();
+    // window.location.href = "home.html"
+  };
 
-        // message, grammarcorrection 같은 컨테이너 안에 넣음
-        $(".message-container.user:last").html(grammarCorrectionElement);
-        scrollToBottom();
-        setTimeout(function () {
-          $("#chatbox").append(
-            "<div class='message-container machine'>" +
-              "<div class='message machine'>" +
-              "<div class='answer'>" +
-              answer +
-              "</div>" +
-              "<div class='translation-container'>" +
-              "<div class='tts-translate-buttons'>" +
-              "<button class='ttsBtn' id='ttsBtn'>" +
-              "<span class='material-icons'>volume_up</span>" +
-              "</button>" +
-              "<button class='translateBtn'>" +
-              "<span class='material-icons'>translate</span>" +
-              "</button>" +
-              "</div>" +
-              "<span class='translation' style='display:none'>" +
-              answerReasonTrans +
-              "</span>" +
-              "</div>" +
-              "</div>" +
-              "</div>"
-          );
-          scrollToBottom();
-        }, 1000);
-        sendButton.prop("disabled", false);
-      }
-    };
-
-    socket.onerror = function (errors) {
-      alert("호잠에 문제가 생겼습니다. 다시 시도해 주세요", errors);
-      sendButton.prop("disabled", true);
-      error = true;
-      sendStudyLogs();
-      // window.location.href = "home.html"
-    };
-
-    socket.onclose = function (event) {
-      console.log("WebSocket is closed now.", event);
-      alert(
-        "오류가 생겼습니다. 홈화면으로 이동합니다. 지금까지 학습된 내용은 저장됩니다."
-      );
-      sendButton.prop("disabled", true);
-      error = true;
-      sendStudyLogs();
-      // window.location.href = "home.html"
-    };
-  }
+  socket.onclose = function (event) {
+    console.log("WebSocket is closed now.", event);
+    alert(
+      "오류가 생겼습니다. 홈화면으로 이동합니다. 지금까지 학습된 내용은 저장됩니다."
+    );
+    sendButton.prop("disabled", true);
+    error = true;
+    sendStudyLogs();
+    // window.location.href = "home.html"
+  };
 }
 getRoomId().then(SocketEventHandlers);
 
@@ -216,11 +215,13 @@ $(document).on("click", ".ttsBtn", function () {
   fetchTTS(answerForTts);
 });
 
-//hocam 로고를 눌렀을 때 경고 알림
-$(document).on("click", ".hocamBtn", function () {
-  alert(
-    "학습이 종료되기 전까지는 페이지를 나갈 수 없습니다. 종료하기 버튼을 눌러주세요"
-  );
+//hocam 로고를 눌렀을 때 경3고 알림
+$(document).ready(function () {
+  $("#mainlogo").click(function () {
+    alert(
+      "학습이 종료되기 전까지는 페이지를 나갈 수 없습니다. 종료하기 버튼을 눌러주세요"
+    );
+  });
 });
 
 // speech recognition 핸들링
@@ -359,6 +360,7 @@ function sendText() {
   const request = JSON.stringify({ roomId, content: message });
 
   socket.send(request);
+  console.log(request)
 
   transcript.val(""); // user input이 transcript에 계속되지 않게 비워줌
   finalTranscript = ""; // finalTranscript도 같이 비워줌
