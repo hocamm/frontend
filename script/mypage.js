@@ -175,7 +175,7 @@ function fetchStudyLogsForDate(year, month, date) {
                         quizData[index].userInput +
                         "</div>"
                     );
-
+                    
                     $("#question").append(
                       "<p>< " +
                         (quizIndex + 1) +
@@ -356,18 +356,19 @@ function buildCalendar() {
             let selectedDate;
             let selectedMonth;
             let selectedYear = nowMonth.getFullYear();
-            if (date < 10) {
-              selectedDate = "0" + date;
-            } else if (date >= 10) {
-              selectedDate = date;
+            if (nowColumn.innerText < 10) {
+              selectedDate = "0" + nowColumn.innerText;
+            } else if (nowColumn.innerText >= 10) {
+              selectedDate = nowColumn.innerText;
             }
-            if (month < 10) {
-              selectedMonth = "0" + month;
-            } else if (month >= 10) {
-              selectedMonth = month;
+            if (nowMonth.getMonth() + 1 < 10) {
+              selectedMonth = "0" + (nowMonth.getMonth() + 1);
+            } else if (nowMonth.getMonth() + 1 >= 10) {
+              selectedMonth = nowMonth.getMonth() + 1;
             }
-            let selectedDay = selectedYear + "-" + selectedMonth + "-" + selectedDate;
-      
+            let selectedDay =
+              selectedYear + "-" + selectedMonth + "-" + selectedDate;
+  
             for (let i = 0; i < response.data.length; i++) {
               //선택한 날짜만 log에 넣음
               if (response.data[i].date == selectedDay) {
@@ -379,13 +380,16 @@ function buildCalendar() {
                     "<div class='reviewBtn'>복습하기</div>" +
                     "</div>"
                 );
-      
+  
                 newLog.find(".studyLog").click(
                   (function (i) {
                     return function () {
-                      console.log(response.data[i].studyLogDtos);
                       $("#modal-data").empty();
-                      for (let j = 0; j < response.data[i].studyLogDtos.length; j++) {
+                      for (
+                        let j = 0;
+                        j <= response.data[i].studyLogDtos.length;
+                        j++
+                      ) {
                         if (response.data[i].studyLogDtos[j].userInput !== null) {
                           showModal(
                             "<div class='modal-content-log'>" +
@@ -415,16 +419,16 @@ function buildCalendar() {
                     };
                   })(i)
                 );
-      
+  
                 newLog.find(".reviewBtn").click(
                   (function (i) {
                     return function () {
                       $("#modal-data").empty();
-      
+  
                       let quizData = response.data[i].studyLogDtos;
                       console.log(response.data[i].studyLogDtos);
                       let quizIndex = 0;
-      
+  
                       if (quizData.length == 1 && quizData[0].userInput == null) {
                         console.log(quizData[0].userInput);
                         alert("복습 데이터가 없습니다.");
@@ -433,7 +437,6 @@ function buildCalendar() {
                       } else {
                         showModal(null, true);
                       }
-      
                       function loadQuizItem(index) {
                         if (quizData[index].userInput !== null) {
                           $("#question").html(
@@ -441,26 +444,17 @@ function buildCalendar() {
                               quizData[index].userInput +
                               "</div>"
                           );
-      
-                          $("#question").append(
-                            "<p>< " +
-                              (quizIndex + 1) +
-                              "/" +
-                              quizData.length +
-                              " ></p>"
-                          );
-      
                           $("#answer").hide();
                           $("#userAnswer").val("");
                         }
                       }
-      
+  
                       if (quizData[0].userInput !== null) {
                         loadQuizItem(0);
                       } else {
                         loadQuizItem(1);
                       }
-      
+  
                       $("#userAnswer").on("keyup", function (key) {
                         if (key.keyCode == 13) {
                           if (this.value == quizData[quizIndex].fixedAnswer) {
@@ -480,7 +474,9 @@ function buildCalendar() {
                                   "</div>"
                               )
                               .show();
-                          } else if (this.value != quizData[quizIndex].fixedAnswer) {
+                          } else if (
+                            this.value != quizData[quizIndex].fixedAnswer
+                          ) {
                             $("#answer")
                               .html(
                                 "<div id ='wrongAnswer'>" +
@@ -491,7 +487,7 @@ function buildCalendar() {
                           }
                         }
                       });
-      
+  
                       $("#submitBtn").on("click", function () {
                         let userInputValue = $("#userAnswer").val();
                         if (userInputValue == quizData[quizIndex].fixedAnswer) {
@@ -523,7 +519,7 @@ function buildCalendar() {
                             .show();
                         }
                       });
-      
+  
                       $("#prevBtn").on("click", function () {
                         if (quizIndex > 0) {
                           quizIndex--;
@@ -531,7 +527,7 @@ function buildCalendar() {
                         }
                         return false;
                       });
-      
+  
                       $("#nextBtn").on("click", function () {
                         if (quizIndex < quizData.length - 1) {
                           quizIndex++;
@@ -542,7 +538,7 @@ function buildCalendar() {
                     };
                   })(i)
                 );
-      
+  
                 $("#history-wrap").append(newLog);
               }
             }
@@ -568,7 +564,7 @@ function buildCalendar() {
             "<button id='nextBtn'>다음 문제<i class='fa-solid fa-angles-right'></i></button>"
           );
           let submitButton = $("<button id='submitBtn'>정답 제출</button>");
-
+      
           quizContent.append(question, answer, userAnswer);
           $("#modal-data").append(quizInfo);
           $("#modal-data").append(quizContent);
@@ -578,12 +574,12 @@ function buildCalendar() {
           $("#modal-data").append(data);
         }
         $("#myModal").show();
-
+      
         // <span> (x) 누르면 꺼짐
         $(".close").click(function () {
           $("#myModal").hide();
         });
-
+      
         // 모달 창 바깥 누르면 꺼짐
         $(window).click(function (event) {
           if (event.target == $("#myModal").get(0)) {
