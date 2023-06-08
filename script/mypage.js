@@ -355,7 +355,7 @@ function buildCalendar() {
             console.log(response.data);
             let selectedDate;
             let selectedMonth;
-            let selectedYear = year;
+            let selectedYear = nowMonth.getFullYear();
             if (date < 10) {
               selectedDate = "0" + date;
             } else if (date >= 10) {
