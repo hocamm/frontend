@@ -408,6 +408,11 @@ footer i:hover {
   color: green;
 }
 
-#info{
-  margin-left: 10%
+#info {
+  margin: 0 10%;
+  display: flex;
+  justify-content: space-between;
+}
+#quizNumber {
+  color: #696969;
 }
