@@ -177,7 +177,7 @@ function fetchStudyLogsForDate(year, month, date) {
                     );
                     
                     $("#question").append(
-                      "<p>< " +
+                      "<p id='quizNumber'>< " +
                         (quizIndex + 1) +
                         "/" +
                         quizData.length +
@@ -444,6 +444,15 @@ function buildCalendar() {
                               quizData[index].userInput +
                               "</div>"
                           );
+
+                          $("#question").append(
+                            "<p id='quizNumber'>< " +
+                              (quizIndex + 1) +
+                              "/" +
+                              quizData.length +
+                              " ></p>"
+                          );
+
                           $("#answer").hide();
                           $("#userAnswer").val("");
                         }
