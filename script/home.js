@@ -1,4 +1,7 @@
 $(document).ready(function () {
+  $("#mainlogo").click(function () {
+    window.location.href = "home.html";
+  });
   $("#my-page-btn").click(function () {
     window.location.href = "mypage.html";
   });

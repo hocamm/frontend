@@ -32,9 +32,7 @@ today.setHours(0, 0, 0, 0);
 
 function showModal(data, review = false) {
   if (review) {
-    let quizInfo = $(
-      "<div class='info'><p>아래의 틀린 답을 읽고, 올바른 정답으로 고쳐보세요.</p></div>"
-    );
+    let quizInfo = $("<div class='quizInfo'><div id='info'></div></div>");
     let quizContent = $("<div class ='modal-content-quiz'></div>");
     let question = $("<div id='question'></div>");
     let answer = $("<div id='answer'></div>");
@@ -175,13 +173,16 @@ function fetchStudyLogsForDate(year, month, date) {
                         quizData[index].userInput +
                         "</div>"
                     );
-                    
-                    $("#question").append(
-                      "<p id='quizNumber'>< " +
+
+                    $("#info").html(
+                      "<p id = mention>" +
+                        "💡전에 틀렸었던 문장입니다. 올바른 문장으로 고쳐보세요." +
+                        "</p>" +
+                        "<p id='quizNumber'>[ " +
                         (quizIndex + 1) +
                         "/" +
                         quizData.length +
-                        " ></p>"
+                        " ]</p>"
                     );
 
                     $("#answer").hide();
@@ -343,163 +344,133 @@ function buildCalendar() {
         "month=" +
         (nowMonth.getMonth() + 1);
 
-        $.ajax({
-          url: urldate,
-          type: "GET",
-          dataType: "json",
-          xhrFields: {
-            withCredentials: true,
-          },
-          success: function (response) {
-            $("#history-wrap").empty();
-            console.log(response.data);
-            let selectedDate;
-            let selectedMonth;
-            let selectedYear = nowMonth.getFullYear();
-            if (nowColumn.innerText < 10) {
-              selectedDate = "0" + nowColumn.innerText;
-            } else if (nowColumn.innerText >= 10) {
-              selectedDate = nowColumn.innerText;
-            }
-            if (nowMonth.getMonth() + 1 < 10) {
-              selectedMonth = "0" + (nowMonth.getMonth() + 1);
-            } else if (nowMonth.getMonth() + 1 >= 10) {
-              selectedMonth = nowMonth.getMonth() + 1;
-            }
-            let selectedDay =
-              selectedYear + "-" + selectedMonth + "-" + selectedDate;
-  
-            for (let i = 0; i < response.data.length; i++) {
-              //선택한 날짜만 log에 넣음
-              if (response.data[i].date == selectedDay) {
-                let newLog = $(
-                  "<div class='log-review-buttons'>" +
-                    "<div class='studyLog'>" +
-                    response.data[i].topic +
-                    "</div>" +
-                    "<div class='reviewBtn'>복습하기</div>" +
-                    "</div>"
-                );
-  
-                newLog.find(".studyLog").click(
-                  (function (i) {
-                    return function () {
-                      $("#modal-data").empty();
-                      for (
-                        let j = 0;
-                        j <= response.data[i].studyLogDtos.length;
-                        j++
+      $.ajax({
+        url: urldate,
+        type: "GET",
+        dataType: "json",
+        xhrFields: {
+          withCredentials: true,
+        },
+        success: function (response) {
+          $("#history-wrap").empty();
+          console.log(response.data);
+          let selectedDate;
+          let selectedMonth;
+          let selectedYear = nowMonth.getFullYear();
+          if (nowColumn.innerText < 10) {
+            selectedDate = "0" + nowColumn.innerText;
+          } else if (nowColumn.innerText >= 10) {
+            selectedDate = nowColumn.innerText;
+          }
+          if (nowMonth.getMonth() + 1 < 10) {
+            selectedMonth = "0" + (nowMonth.getMonth() + 1);
+          } else if (nowMonth.getMonth() + 1 >= 10) {
+            selectedMonth = nowMonth.getMonth() + 1;
+          }
+          let selectedDay =
+            selectedYear + "-" + selectedMonth + "-" + selectedDate;
+
+          for (let i = 0; i < response.data.length; i++) {
+            //선택한 날짜만 log에 넣음
+            if (response.data[i].date == selectedDay) {
+              let newLog = $(
+                "<div class='log-review-buttons'>" +
+                  "<div class='studyLog'>" +
+                  response.data[i].topic +
+                  "</div>" +
+                  "<div class='reviewBtn'>복습하기</div>" +
+                  "</div>"
+              );
+
+              newLog.find(".studyLog").click(
+                (function (i) {
+                  return function () {
+                    $("#modal-data").empty();
+                    for (
+                      let j = 0;
+                      j <= response.data[i].studyLogDtos.length;
+                      j++
+                    ) {
+                      if (response.data[i].studyLogDtos[j].userInput !== null) {
+                        showModal(
+                          "<div class='modal-content-log'>" +
+                            "<div>" +
+                            "이렇게 말하셨어요: " +
+                            response.data[i].studyLogDtos[j].userInput +
+                            "</div>" +
+                            "<div>" +
+                            "이렇게 말하는게 더 좋아요: " +
+                            response.data[i].studyLogDtos[j].fixedAnswer +
+                            "</div>" +
+                            "틀린 이유: " +
+                            "<div>" +
+                            response.data[i].studyLogDtos[j].reason +
+                            "</div>" +
+                            "</div>"
+                        );
+                      } else if (
+                        response.data[i].studyLogDtos.length == 1 &&
+                        response.data[i].studyLogDtos[0].userInput == null
                       ) {
-                        if (response.data[i].studyLogDtos[j].userInput !== null) {
-                          showModal(
-                            "<div class='modal-content-log'>" +
-                              "<div>" +
-                              "이렇게 말하셨어요: " +
-                              response.data[i].studyLogDtos[j].userInput +
-                              "</div>" +
-                              "<div>" +
-                              "이렇게 말하는게 더 좋아요: " +
-                              response.data[i].studyLogDtos[j].fixedAnswer +
-                              "</div>" +
-                              "틀린 이유: " +
-                              "<div>" +
-                              response.data[i].studyLogDtos[j].reason +
-                              "</div>" +
-                              "</div>"
-                          );
-                        } else if (
-                          response.data[i].studyLogDtos.length == 1 &&
-                          response.data[i].studyLogDtos[0].userInput == null
-                        ) {
-                          alert("저장된 대화 내용이 없습니다.");
-                        } else if (response.data[i].studyLogDtos.length == 0) {
-                          alert("저장된 대화 내용이 없습니다.");
-                        }
+                        alert("저장된 대화 내용이 없습니다.");
+                      } else if (response.data[i].studyLogDtos.length == 0) {
+                        alert("저장된 대화 내용이 없습니다.");
                       }
-                    };
-                  })(i)
-                );
-  
-                newLog.find(".reviewBtn").click(
-                  (function (i) {
-                    return function () {
-                      $("#modal-data").empty();
-  
-                      let quizData = response.data[i].studyLogDtos;
-                      console.log(response.data[i].studyLogDtos);
-                      let quizIndex = 0;
-  
-                      if (quizData.length == 1 && quizData[0].userInput == null) {
-                        console.log(quizData[0].userInput);
-                        alert("복습 데이터가 없습니다.");
-                      } else if (quizData.length == 0) {
-                        alert("복습 데이터가 없습니다.");
-                      } else {
-                        showModal(null, true);
-                      }
-                      function loadQuizItem(index) {
-                        if (quizData[index].userInput !== null) {
-                          $("#question").html(
-                            "<div id='question'>" +
-                              quizData[index].userInput +
-                              "</div>"
-                          );
+                    }
+                  };
+                })(i)
+              );
 
-                          $("#question").append(
-                            "<p id='quizNumber'>< " +
-                              (quizIndex + 1) +
-                              "/" +
-                              quizData.length +
-                              " ></p>"
-                          );
+              newLog.find(".reviewBtn").click(
+                (function (i) {
+                  return function () {
+                    $("#modal-data").empty();
 
-                          $("#answer").hide();
-                          $("#userAnswer").val("");
-                        }
+                    let quizData = response.data[i].studyLogDtos;
+                    console.log(response.data[i].studyLogDtos);
+                    let quizIndex = 0;
+
+                    if (quizData.length == 1 && quizData[0].userInput == null) {
+                      console.log(quizData[0].userInput);
+                      alert("복습 데이터가 없습니다.");
+                    } else if (quizData.length == 0) {
+                      alert("복습 데이터가 없습니다.");
+                    } else {
+                      showModal(null, true);
+                    }
+                    function loadQuizItem(index) {
+                      if (quizData[index].userInput !== null) {
+                        $("#question").html(
+                          "<div id='question'>" +
+                            quizData[index].userInput +
+                            "</div>"
+                        );
+
+                        $("#info").html(
+                          "<p id = mention>" +
+                            "💡전에 틀렸었던 문장입니다. 올바른 문장으로 고쳐보세요." +
+                            "</p>" +
+                            "<p id='quizNumber'>[ " +
+                            (quizIndex + 1) +
+                            "/" +
+                            quizData.length +
+                            " ]</p>"
+                        );
+
+                        $("#answer").hide();
+                        $("#userAnswer").val("");
                       }
-  
-                      if (quizData[0].userInput !== null) {
-                        loadQuizItem(0);
-                      } else {
-                        loadQuizItem(1);
-                      }
-  
-                      $("#userAnswer").on("keyup", function (key) {
-                        if (key.keyCode == 13) {
-                          if (this.value == quizData[quizIndex].fixedAnswer) {
-                            $("#answer")
-                              .html(
-                                "<div id ='rightAnswer'>" +
-                                  " ✔️ 정답입니다! :" +
-                                  quizData[quizIndex].fixedAnswer +
-                                  "</div>"
-                              )
-                              .show();
-                          } else if ($("#userAnswer").val().length == 0) {
-                            $("#answer")
-                              .html(
-                                "<div id ='wrongAnswer'>" +
-                                  "내용을 입력해 주세요!" +
-                                  "</div>"
-                              )
-                              .show();
-                          } else if (
-                            this.value != quizData[quizIndex].fixedAnswer
-                          ) {
-                            $("#answer")
-                              .html(
-                                "<div id ='wrongAnswer'>" +
-                                  "✖️ 틀렸습니다. 다시 시도하세요! " +
-                                  "</div>"
-                              )
-                              .show();
-                          }
-                        }
-                      });
-  
-                      $("#submitBtn").on("click", function () {
-                        let userInputValue = $("#userAnswer").val();
-                        if (userInputValue == quizData[quizIndex].fixedAnswer) {
+                    }
+
+                    if (quizData[0].userInput !== null) {
+                      loadQuizItem(0);
+                    } else {
+                      loadQuizItem(1);
+                    }
+
+                    $("#userAnswer").on("keyup", function (key) {
+                      if (key.keyCode == 13) {
+                        if (this.value == quizData[quizIndex].fixedAnswer) {
                           $("#answer")
                             .html(
                               "<div id ='rightAnswer'>" +
@@ -508,7 +479,7 @@ function buildCalendar() {
                                 "</div>"
                             )
                             .show();
-                        } else if (userInputValue.length == 0) {
+                        } else if ($("#userAnswer").val().length == 0) {
                           $("#answer")
                             .html(
                               "<div id ='wrongAnswer'>" +
@@ -517,7 +488,7 @@ function buildCalendar() {
                             )
                             .show();
                         } else if (
-                          userInputValue != quizData[quizIndex].fixedAnswer
+                          this.value != quizData[quizIndex].fixedAnswer
                         ) {
                           $("#answer")
                             .html(
@@ -527,38 +498,69 @@ function buildCalendar() {
                             )
                             .show();
                         }
-                      });
-  
-                      $("#prevBtn").on("click", function () {
-                        if (quizIndex > 0) {
-                          quizIndex--;
-                          loadQuizItem(quizIndex);
-                        }
-                        return false;
-                      });
-  
-                      $("#nextBtn").on("click", function () {
-                        if (quizIndex < quizData.length - 1) {
-                          quizIndex++;
-                          loadQuizItem(quizIndex);
-                        }
-                        return false;
-                      });
-                    };
-                  })(i)
-                );
-  
-                $("#history-wrap").append(newLog);
-              }
+                      }
+                    });
+
+                    $("#submitBtn").on("click", function () {
+                      let userInputValue = $("#userAnswer").val();
+                      if (userInputValue == quizData[quizIndex].fixedAnswer) {
+                        $("#answer")
+                          .html(
+                            "<div id ='rightAnswer'>" +
+                              " ✔️ 정답입니다! :" +
+                              quizData[quizIndex].fixedAnswer +
+                              "</div>"
+                          )
+                          .show();
+                      } else if (userInputValue.length == 0) {
+                        $("#answer")
+                          .html(
+                            "<div id ='wrongAnswer'>" +
+                              "내용을 입력해 주세요!" +
+                              "</div>"
+                          )
+                          .show();
+                      } else if (
+                        userInputValue != quizData[quizIndex].fixedAnswer
+                      ) {
+                        $("#answer")
+                          .html(
+                            "<div id ='wrongAnswer'>" +
+                              "✖️ 틀렸습니다. 다시 시도하세요! " +
+                              "</div>"
+                          )
+                          .show();
+                      }
+                    });
+
+                    $("#prevBtn").on("click", function () {
+                      if (quizIndex > 0) {
+                        quizIndex--;
+                        loadQuizItem(quizIndex);
+                      }
+                      return false;
+                    });
+
+                    $("#nextBtn").on("click", function () {
+                      if (quizIndex < quizData.length - 1) {
+                        quizIndex++;
+                        loadQuizItem(quizIndex);
+                      }
+                      return false;
+                    });
+                  };
+                })(i)
+              );
+
+              $("#history-wrap").append(newLog);
             }
-          },
-        });
+          }
+        },
+      });
 
       function showModal(data, review = false) {
         if (review) {
-          let quizInfo = $(
-            "<div class='info'><p>아래의 틀린 답을 읽고, 올바른 정답으로 고쳐보세요.</p></div>"
-          );
+          let quizInfo = $("<div class='quizInfo'><div id='info'></div></div>");
           let quizContent = $("<div class ='modal-content-quiz'></div>");
           let question = $("<div id='question'></div>");
           let answer = $("<div id='answer'></div>");
@@ -573,7 +575,7 @@ function buildCalendar() {
             "<button id='nextBtn'>다음 문제<i class='fa-solid fa-angles-right'></i></button>"
           );
           let submitButton = $("<button id='submitBtn'>정답 제출</button>");
-      
+
           quizContent.append(question, answer, userAnswer);
           $("#modal-data").append(quizInfo);
           $("#modal-data").append(quizContent);
@@ -583,12 +585,12 @@ function buildCalendar() {
           $("#modal-data").append(data);
         }
         $("#myModal").show();
-      
+
         // <span> (x) 누르면 꺼짐
         $(".close").click(function () {
           $("#myModal").hide();
         });
-      
+
         // 모달 창 바깥 누르면 꺼짐
         $(window).click(function (event) {
           if (event.target == $("#myModal").get(0)) {
