@@ -398,10 +398,7 @@ footer i:hover {
   color: red;
 }
 
-.info {
-  float: left;
-  margin: 20px 0 20px 120px;
-}
+
 .check-mark {
   display: inline-block;
   margin-left: 5px;
@@ -409,7 +406,11 @@ footer i:hover {
 }
 
 #info {
+  border-radius: 10px;
+  padding: 0 2%;
+  background-color: #efefef;
   margin: 0 10%;
+  margin-bottom: 2%;
   display: flex;
   justify-content: space-between;
 }

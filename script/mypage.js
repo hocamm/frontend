@@ -121,15 +121,15 @@ function fetchStudyLogsForDate(year, month, date) {
                   if (response.data[i].studyLogDtos[j].userInput !== null) {
                     showModal(
                       "<div class='modal-content-log'>" +
-                        "<p>" +
+                        "<p id ='yousaid'>" +
                         "이렇게 말하셨어요: " +
                         response.data[i].studyLogDtos[j].userInput +
                         "</p>" +
-                        "<p>" +
+                        "<p id ='youdbetter'>" +
                         "이렇게 말하는게 더 좋아요: " +
                         response.data[i].studyLogDtos[j].fixedAnswer +
                         "</p>" +
-                        "틀린 이유: " +
+                        "💡 틀린 이유: " +
                         "<p>" +
                         response.data[i].studyLogDtos[j].reason +
                         "</p>" +
@@ -180,7 +180,7 @@ function fetchStudyLogsForDate(year, month, date) {
                         "</p>" +
                         "<p id='quizNumber'>[ " +
                         (quizIndex + 1) +
-                        "/" +
+                        " / " +
                         quizData.length +
                         " ]</p>"
                     );
@@ -452,7 +452,7 @@ function buildCalendar() {
                             "</p>" +
                             "<p id='quizNumber'>[ " +
                             (quizIndex + 1) +
-                            "/" +
+                            " / " +
                             quizData.length +
                             " ]</p>"
                         );
