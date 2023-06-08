@@ -30,8 +30,15 @@ let nowMonth = new Date();
 let today = new Date();
 today.setHours(0, 0, 0, 0);
 
-function showModal(data, review = false) {
+function showModal(data, review = false, currentIndex = 1, totalQuiz = 1) {
   if (review) {
+    let quizIndex = $(
+      "<div class='quiz-index'> < " +
+        currentIndex +
+        " / " +
+        totalQuiz +
+        " > </div>"
+    );
     let quizInfo = $(
       "<div class='info'><p>아래의 틀린 답을 읽고, 올바른 정답으로 고쳐보세요.</p></div>"
     );
@@ -51,6 +58,7 @@ function showModal(data, review = false) {
     let submitButton = $("<button id='submitBtn'>정답 제출</button>");
 
     quizContent.append(question, answer, userAnswer);
+    $("#modal-data").append(quizIndex);
     $("#modal-data").append(quizInfo);
     $("#modal-data").append(quizContent);
     quizButtons.append(prevButton, submitButton, nextButton);
@@ -175,6 +183,15 @@ function fetchStudyLogsForDate(year, month, date) {
                         quizData[index].userInput +
                         "</div>"
                     );
+                    // 추가된 코드: 현재 퀴즈 인덱스를 보여줍니다.
+                    $("#question").append(
+                      "<p>현재 퀴즈 인덱스: " +
+                        (quizIndex + 1) +
+                        "/" +
+                        quizData.length +
+                        "</p>"
+                    );
+
                     $("#answer").hide();
                     $("#userAnswer").val("");
                   }
@@ -346,16 +363,16 @@ function buildCalendar() {
           console.log(response.data);
           let selectedDate;
           let selectedMonth;
-          let selectedYear = nowMonth.getFullYear();
-          if (nowColumn.innerText < 10) {
-            selectedDate = "0" + nowColumn.innerText;
-          } else if (nowColumn.innerText >= 10) {
-            selectedDate = nowColumn.innerText;
+          let selectedYear = year;
+          if (date < 10) {
+            selectedDate = "0" + date;
+          } else if (date >= 10) {
+            selectedDate = date;
           }
-          if (nowMonth.getMonth() + 1 < 10) {
-            selectedMonth = "0" + (nowMonth.getMonth() + 1);
-          } else if (nowMonth.getMonth() + 1 >= 10) {
-            selectedMonth = nowMonth.getMonth() + 1;
+          if (month < 10) {
+            selectedMonth = "0" + month;
+          } else if (month >= 10) {
+            selectedMonth = month;
           }
           let selectedDay =
             selectedYear + "-" + selectedMonth + "-" + selectedDate;
@@ -375,10 +392,11 @@ function buildCalendar() {
               newLog.find(".studyLog").click(
                 (function (i) {
                   return function () {
+                    console.log(response.data[i].studyLogDtos);
                     $("#modal-data").empty();
                     for (
                       let j = 0;
-                      j <= response.data[i].studyLogDtos.length;
+                      j < response.data[i].studyLogDtos.length;
                       j++
                     ) {
                       if (response.data[i].studyLogDtos[j].userInput !== null) {
@@ -428,6 +446,7 @@ function buildCalendar() {
                     } else {
                       showModal(null, true);
                     }
+
                     function loadQuizItem(index) {
                       if (quizData[index].userInput !== null) {
                         $("#question").html(
@@ -435,6 +454,15 @@ function buildCalendar() {
                             quizData[index].userInput +
                             "</div>"
                         );
+                        // 추가된 코드: 현재 퀴즈 인덱스를 보여줍니다.
+                        $("#question").append(
+                          "<p>현재 퀴즈 인덱스: " +
+                            (quizIndex + 1) +
+                            "/" +
+                            quizData.length +
+                            "</p>"
+                        );
+
                         $("#answer").hide();
                         $("#userAnswer").val("");
                       }
@@ -536,8 +564,20 @@ function buildCalendar() {
         },
       });
 
-      function showModal(data, review = false) {
+      function showModal(
+        data,
+        review = false,
+        currentIndex = 1,
+        totalQuiz = 1
+      ) {
         if (review) {
+          let quizIndex = $(
+            "<div class='quiz-index'> < " +
+              currentIndex +
+              " / " +
+              totalQuiz +
+              " > </div>"
+          );
           let quizInfo = $(
             "<div class='info'><p>아래의 틀린 답을 읽고, 올바른 정답으로 고쳐보세요.</p></div>"
           );
@@ -557,6 +597,7 @@ function buildCalendar() {
           let submitButton = $("<button id='submitBtn'>정답 제출</button>");
 
           quizContent.append(question, answer, userAnswer);
+          $("#modal-data").append(quizIndex);
           $("#modal-data").append(quizInfo);
           $("#modal-data").append(quizContent);
           quizButtons.append(prevButton, submitButton, nextButton);
