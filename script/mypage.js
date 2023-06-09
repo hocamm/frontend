@@ -335,9 +335,8 @@ function buildCalendar() {
         // 학습 데이터가 있는지 확인하고, 있을 경우 체크 표시를 추가
         for (let i = 0; i < studyData.length; i++) {
           if (studyData[i].date === getFormattedDate(nowDay)) {
-            let checkMark = $("<span></span>")
-              .addClass("check-mark")
-              .text("✅")
+            let checkMark = $("<i></i>")
+              .addClass("fa-solid fa-circle-check")
               .appendTo(cellContent);
             break;
           }
