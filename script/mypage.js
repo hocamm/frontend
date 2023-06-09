@@ -201,7 +201,7 @@ function fetchStudyLogsForDate(year, month, date) {
                       $("#answer")
                         .html(
                           "<div id ='rightAnswer'>" +
-                            " ✔️ 정답입니다! :" +
+                            " ✔️ 정답입니다!: " +
                             quizData[quizIndex].fixedAnswer +
                             "</div>"
                         )
@@ -232,7 +232,7 @@ function fetchStudyLogsForDate(year, month, date) {
                     $("#answer")
                       .html(
                         "<div id ='rightAnswer'>" +
-                          " ✔️ 정답입니다! :" +
+                          " ✔️ 정답입니다!: " +
                           quizData[quizIndex].fixedAnswer +
                           "</div>"
                       )
