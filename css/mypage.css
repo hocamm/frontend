@@ -125,7 +125,7 @@ tbody td {
   border: 1.5px solid #c4c4c4;
   padding: 2px 7px;
   font-size: 12px;
-  height: 100px;
+  position: relative;
 }
 
 
@@ -423,22 +423,20 @@ footer i:hover {
 #youdbetter{
   color:#3e85ef;
 }
-.cell-content {
-  display: flex;
-  flex-direction: column;
+
+.cell-content{
+  height: 100%;
+  width: 100%;
+  position: relative;
   align-items: center;
 }
 
-.check-mark {
-  margin-top: 4px;
-  font-size: 40px;
+.fa-circle-check {
+  color: #E24C4B;
+  font-size: x-large;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.checked-cell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.has-study-data .check-mark {
-  display: none;
-}
