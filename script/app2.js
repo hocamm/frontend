@@ -217,11 +217,11 @@ $(document).on("click", ".ttsBtn", function () {
 
   fetchTTS(answerForTts)
     .then(() => {
-      ttsButton.css("color", "green"); // Speech가 끝난 후에 스타일 변경
+      ttsButton.css("color", "#454545"); 
     })
     .catch((error) => {
       console.error("TTS Error:", error);
-      ttsButton.css("color", "red"); // Speech가 실패한 경우에 스타일 변경
+      ttsButton.css("color", "red"); 
     });
 });
 
