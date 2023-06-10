@@ -195,15 +195,17 @@ function fetchTTS(text) {
   })
     .then((response) => response.arrayBuffer())
     .then((arrayBuffer) => {
-      playAudio(arrayBuffer);
+      return new Promise((resolve) => {
+        playAudio(arrayBuffer, resolve);
+      });
     });
 }
 
-function playAudio(arrayBuffer) {
+function playAudio(arrayBuffer, resolve) {
   const audio = new Audio(URL.createObjectURL(new Blob([arrayBuffer])));
-  audio.onended = function () {
-    $("#ttsBtn").css("color", "#858585");
-  };
+  audio.addEventListener("ended", () => {
+    resolve(); // 재생이 완료되면 Promise를 해결(resolve)합니다.
+  });
   audio.play();
 }
 
@@ -218,13 +220,14 @@ $(document).on("click", ".ttsBtn", function () {
 
   fetchTTS(answerForTts)
     .then(() => {
-      ttsButton.css("color", "#858585"); 
+      ttsButton.css("color", "#858585");
     })
     .catch((error) => {
       console.error("TTS Error:", error);
-      ttsButton.css("color", "red"); 
+      ttsButton.css("color", "red");
     });
 });
+
 
 //hocam 로고를 눌렀을 때 경고 알림
 $(document).ready(function () {
