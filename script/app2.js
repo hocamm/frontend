@@ -75,6 +75,7 @@ function SocketEventHandlers() {
       let isRight = response.isRight;
       let answerReason = response.grammarFixedReason;
       let answerReasonTrans = response.translatedReason;
+      let answerTrans = response.transAnswer;
       let grammarCorrectionElement;
 
       if (response.type === "machine") {
@@ -137,7 +138,7 @@ function SocketEventHandlers() {
               "</button>" +
               "</div>" +
               "<span class='translation' style='display:none'>" +
-              answerReasonTrans +
+              answerTrans +
               "</span>" +
               "</div>" +
               "</div>" +
@@ -217,7 +218,7 @@ $(document).on("click", ".ttsBtn", function () {
 
   fetchTTS(answerForTts)
     .then(() => {
-      ttsButton.css("color", "#454545"); 
+      ttsButton.css("color", "#858585"); 
     })
     .catch((error) => {
       console.error("TTS Error:", error);
