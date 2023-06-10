@@ -205,13 +205,22 @@ function playAudio(arrayBuffer) {
 }
 
 $(document).on("click", ".ttsBtn", function () {
-  $(this).css("color", "#454545");
-  let answerForTts = $(this)
+  let ttsButton = $(this);
+  ttsButton.css("color", "#454545");
+
+  let answerForTts = ttsButton
     .closest(".message-container.machine")
     .find(".message.machine .answer")
     .text();
 
-  fetchTTS(answerForTts);
+  fetchTTS(answerForTts)
+    .then(() => {
+      ttsButton.css("color", "green"); // Speech가 끝난 후에 스타일 변경
+    })
+    .catch((error) => {
+      console.error("TTS Error:", error);
+      ttsButton.css("color", "red"); // Speech가 실패한 경우에 스타일 변경
+    });
 });
 
 //hocam 로고를 눌렀을 때 경고 알림
@@ -457,7 +466,7 @@ function changeImgStop() {
 }
 
 function sendStudyLogs() {
-  socket.close()
+  socket.close();
   const data = {
     studyLogs: studyLogs,
     topic: selectedTopic,
@@ -482,5 +491,5 @@ function sendStudyLogs() {
       .fail(function (error) {
         console.error("에러:", error);
       });
-  } 
+  }
 }
