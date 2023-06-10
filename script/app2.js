@@ -205,24 +205,8 @@ function playAudio(arrayBuffer, resolve) {
   const audio = new Audio(URL.createObjectURL(new Blob([arrayBuffer])));
   audio.addEventListener("ended", () => {
     resolve(); // 재생이 완료되면 Promise를 해결(resolve)합니다.
-    enableButton(); // 재생이 완료되면 버튼을 활성화합니다.
   });
   audio.play();
-  disableButton(); // 버튼을 비활성화합니다.
-
-  // 버튼 활성화
-  function enableButton() {
-    const ttsButton = document.querySelector(".ttsBtn");
-    ttsButton.disabled = false;
-    ttsButton.style.color = "#858585";
-  }
-
-  // 버튼 비활성화
-  function disableButton() {
-    const ttsButton = document.querySelector(".ttsBtn");
-    ttsButton.disabled = true;
-    ttsButton.style.color = "#454545";
-  }
 }
 
 $(document).on("click", ".ttsBtn", function () {
@@ -243,6 +227,7 @@ $(document).on("click", ".ttsBtn", function () {
       ttsButton.css("color", "red");
     });
 });
+
 
 //hocam 로고를 눌렀을 때 경고 알림
 $(document).ready(function () {
