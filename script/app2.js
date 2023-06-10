@@ -182,7 +182,7 @@ $(document).on("click", ".translateBtn", function (e) {
 
 // TTS 버튼 동작
 function fetchTTS(text) {
-  fetch("https://tts-afih67jd3q-uc.a.run.app", {
+  return fetch("https://tts-afih67jd3q-uc.a.run.app", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -193,7 +193,9 @@ function fetchTTS(text) {
     body: JSON.stringify({ text }),
   })
     .then((response) => response.arrayBuffer())
-    .then((arrayBuffer) => playAudio(arrayBuffer));
+    .then((arrayBuffer) => {
+      playAudio(arrayBuffer);
+    });
 }
 
 function playAudio(arrayBuffer) {
