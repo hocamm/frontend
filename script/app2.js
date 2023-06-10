@@ -182,8 +182,6 @@ $(document).on("click", ".translateBtn", function (e) {
 });
 
 // TTS 버튼 동작
-let activeButton = null; // 현재 활성화된 버튼을 추적하는 변수
-
 function fetchTTS(text) {
   return fetch("https://tts-afih67jd3q-uc.a.run.app", {
     method: "POST",
@@ -207,25 +205,23 @@ function playAudio(arrayBuffer, resolve) {
   const audio = new Audio(URL.createObjectURL(new Blob([arrayBuffer])));
   audio.addEventListener("ended", () => {
     resolve(); // 재생이 완료되면 Promise를 해결(resolve)합니다.
-    enableButton(activeButton); // 재생이 완료되면 현재 활성화된 버튼을 다시 활성화합니다.
-    activeButton = null; // 재생이 완료되면 현재 활성화된 버튼을 초기화합니다.
+    enableButton(); // 재생이 완료되면 버튼을 활성화합니다.
   });
   audio.play();
-  activeButton = disableButton(activeButton); // 버튼을 비활성화하고 현재 활성화된 버튼을 설정합니다.
+  disableButton(); // 버튼을 비활성화합니다.
 
   // 버튼 활성화
-  function enableButton(button) {
-    button.disabled = false;
-    button.style.color = "#858585";
+  function enableButton() {
+    const ttsButton = document.querySelector(".ttsBtn");
+    ttsButton.disabled = false;
+    ttsButton.style.color = "#858585";
   }
 
   // 버튼 비활성화
-  function disableButton(button) {
-    if (button) {
-      button.disabled = true;
-      button.style.color = "#454545";
-    }
-    return button;
+  function disableButton() {
+    const ttsButton = document.querySelector(".ttsBtn");
+    ttsButton.disabled = true;
+    ttsButton.style.color = "#454545";
   }
 }
 
