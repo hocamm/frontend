@@ -206,24 +206,7 @@ function playAudio(arrayBuffer, resolve) {
   audio.addEventListener("ended", () => {
     resolve(); // 재생이 완료되면 Promise를 해결(resolve)합니다.
   });
-
-  let isPlaying = false;
-
-  function togglePlay() {
-    if (isPlaying) {
-      audio.pause(); // 음성 재생을 일시 정지시킵니다.
-      audio.currentTime = 0; // 재생 위치를 처음으로 되돌립니다.
-      isPlaying = false;
-      resolve(); // 재생 종료를 알리기 위해 Promise를 해결(resolve)합니다.
-    } else {
-      audio.play(); // 음성 재생을 시작합니다.
-      isPlaying = true;
-    }
-  }
-
-  // 버튼 클릭 시 음성 재생 토글
-  const ttsButton = document.querySelector(".ttsBtn");
-  ttsButton.addEventListener("click", togglePlay);
+  audio.play();
 }
 
 $(document).on("click", ".ttsBtn", function () {
@@ -244,6 +227,7 @@ $(document).on("click", ".ttsBtn", function () {
       ttsButton.css("color", "red");
     });
 });
+
 
 //hocam 로고를 눌렀을 때 경고 알림
 $(document).ready(function () {
