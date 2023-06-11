@@ -156,13 +156,13 @@ function SocketEventHandlers() {
     sendButton.prop("disabled", true);
     error = true;
     sendStudyLogs();
-    // window.location.href = "home.html"
+    window.location.href = "home.html"
   };
 
   socket.onclose = function (event) {
     console.log("WebSocket is closed now.", event);
     error = true;
-    // window.location.href = "home.html"
+    window.location.href = "home.html"
   };
 }
 getRoomId().then(SocketEventHandlers);
@@ -343,7 +343,7 @@ finishButton.on("click", () => {
     sendStudyLogs();
     socket.close();
     // window.location.href = "home.html"
-    // location.href = "./home.html";
+    location.href = "./home.html";
   }
 });
 // sendText는 엔터치거나 send 누르면 보내짐
