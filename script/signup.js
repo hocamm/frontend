@@ -11,14 +11,18 @@ $(document).ready(function () {
   });
 
   // 비밀번호 보이기, 숨기기 기능
-  $('.fa-solid').on('click',function(){
-    $('input').toggleClass('active');
-    if($('input').hasClass('active')){
-        $(this).attr('class',"fa-solid fa-eye")
-        .prevAll('input').attr('type',"text");
-    }else{
-        $(this).attr('class',"fa-solid fa-eye-slash")
-        .prevAll('input').attr('type','password');
+  $(".fa-solid").on("click", function () {
+    $("input").toggleClass("active");
+    if ($("input").hasClass("active")) {
+      $(this)
+        .attr("class", "fa-solid fa-eye")
+        .prevAll("input")
+        .attr("type", "text");
+    } else {
+      $(this)
+        .attr("class", "fa-solid fa-eye-slash")
+        .prevAll("input")
+        .attr("type", "password");
     }
   });
 
@@ -73,6 +77,9 @@ $(document).ready(function () {
       dataType: "json",
       data: JSON.stringify(data),
       contentType: "application/json; charset=utf-8",
+      xhrFields: {
+        withCredentials: true,
+      },
       success: function (response) {
         alert("회원가입이 완료되었습니다. 로그인을 해주세요");
         console.log(response);
