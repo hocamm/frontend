@@ -17,7 +17,7 @@ $(document).ready(function () {
       if (response.status === 200) {
         console.log(response.data);
         $("#user-nickname").text(
-          response.data["nickname"] + "님 오랜만이에요!"
+          "멜하바, " + response.data["nickname"] + " 님!"
         );
         $("#user-email").text("email: " + response.data["email"]);
       }

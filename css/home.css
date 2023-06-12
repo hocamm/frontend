@@ -86,6 +86,10 @@ main .dashboard {
   background-color: #ffffff;
 }
 
+.choose-topic-content{
+  padding: 10px;
+}
+
 .free-talking {
   position: relative;
   display: flex;
@@ -97,6 +101,11 @@ main .dashboard {
   border-radius: 8px;
   background-color: #ffffff;
 }
+
+.free-talking-content{
+  padding: 10px;
+}
+
 
 /* home main */
 .account {

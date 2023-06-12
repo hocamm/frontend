@@ -75,6 +75,7 @@ function SocketEventHandlers() {
       let isRight = response.isRight;
       let answerReason = response.grammarFixedReason;
       let answerReasonTrans = response.translatedReason;
+      let reasons = answerReason + "<br>" +  "(" + answerReasonTrans + ")";
       let answerTrans = response.transAnswer;
       let grammarCorrectionElement;
 
@@ -90,7 +91,7 @@ function SocketEventHandlers() {
           studyLogs.push({
             userInput: message,
             fixedAnswer: FixedAnswer.substring(14),
-            reason: answerReasonTrans,
+            reason: reasons,
           });
           console.log(studyLogs);
           grammarCorrectionElement =
@@ -103,7 +104,8 @@ function SocketEventHandlers() {
             FixedAnswer.substring(13) +
             "</div>" +
             "<div class='message machine grammarcorrection'><strong>💡</strong> " +
-            answerReasonTrans +
+            reasons +
+            "</div>" +
             "</div>" +
             "</div>";
         } else if (isRight === "true") {
@@ -156,13 +158,13 @@ function SocketEventHandlers() {
     sendButton.prop("disabled", true);
     error = true;
     sendStudyLogs();
-    window.location.href = "home.html"
+    window.location.href = "home.html";
   };
 
   socket.onclose = function (event) {
     console.log("WebSocket is closed now.", event);
     error = true;
-    window.location.href = "home.html"
+    window.location.href = "home.html";
   };
 }
 getRoomId().then(SocketEventHandlers);
@@ -227,7 +229,6 @@ $(document).on("click", ".ttsBtn", function () {
       ttsButton.css("color", "red");
     });
 });
-
 
 //hocam 로고를 눌렀을 때 경고 알림
 $(document).ready(function () {
@@ -339,10 +340,13 @@ stopButton.on("click", () => {
 });
 
 finishButton.on("click", () => {
-  if (confirm("정말 종료하시겠습니까? \n(틀린 문장들만 학습 기록에 저장되고, 복습할 수 있습니다.)")) {
+  if (
+    confirm(
+      "정말 종료하시겠습니까? \n(틀린 문장들만 학습 기록에 저장되고, 복습할 수 있습니다.)"
+    )
+  ) {
     sendStudyLogs();
     socket.close();
-    // window.location.href = "home.html"
     location.href = "./home.html";
   }
 });
