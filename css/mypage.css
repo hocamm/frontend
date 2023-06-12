@@ -159,7 +159,7 @@ tbody td {
   font-size: 15px;
   justify-content: space-between;
   overflow: auto;
-  height: 70%;
+  height: 55%;
 }
 
 /* 모달창 관련 css */
@@ -439,4 +439,3 @@ footer i:hover {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-

@@ -15,7 +15,7 @@ $(window).on("load", function () {
     },
     success: function (response) {
       if (response.status === 200) {
-        $("#user").text(response.data["nickname"] + "님 학습데이터");
+        $("#user").html("<p>" + response.data["nickname"] + "님 학습데이터" + "</p>" + "<p>" + "틀린 문장들을 복습해 보세요!" + "</p>" );
         console.log(response.data);
       }
     },
