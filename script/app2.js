@@ -207,10 +207,11 @@ function SocketEventHandlers() {
       alert("호잠이 답하기 어려운 질문이 제시되어 종료됩니다.");
       sendStudyLogs();
       error = true;
+      window.location.href = "home.html";
     } else {
       console.log("WebSocket is closed now.", event);
+      window.location.href = "home.html";
     }
-    window.location.href = "home.html";
   };
 }
 getRoomId().then(SocketEventHandlers);
