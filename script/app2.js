@@ -135,6 +135,7 @@ function SocketEventHandlers() {
               "</div>" +
               "</div>";
           } else if (
+            answerReason.includes("Cümle doğru") ||
             answerReason.includes("Bu cümle doğru") ||
             answerReason.includes(
               "Bu cümle dilbilgisi açısından doğru görünüyor"
