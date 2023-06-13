@@ -75,9 +75,17 @@ function SocketEventHandlers() {
       let isRight = response.isRight;
       let answerReason = response.grammarFixedReason;
       let answerReasonTrans = response.translatedReason;
-      let reasons = answerReason + "<br>" +  "(" + answerReasonTrans + ")";
+      let reasons = answerReason + "<br>" + "(" + answerReasonTrans + ")";
       let answerTrans = response.transAnswer;
       let grammarCorrectionElement;
+
+      function pushStudylog() {
+        studyLogs.push({
+          userInput: message,
+          fixedAnswer: FixedAnswer.substring(14),
+          reason: reasons,
+        });
+      }
 
       if (response.type === "machine") {
         $(".message-container.machine.thinking").remove();
@@ -87,28 +95,7 @@ function SocketEventHandlers() {
         console.log(response);
 
         // 조건에 따라 정답 판별
-        if (message != undefined && isRight === "false") {
-          studyLogs.push({
-            userInput: message,
-            fixedAnswer: FixedAnswer.substring(14),
-            reason: reasons,
-          });
-          console.log(studyLogs);
-          grammarCorrectionElement =
-            "<div class='message-container machine grammarcorrection'>" +
-            "<div class='message machine grammarcorrection wrong'><strong>✘ 교정이 필요해요 </strong></div>" +
-            "<div class='message user'>" +
-            message +
-            "</div>" +
-            "<div class='message machine grammarcorrection wrong'>👉 이렇게 말해봐요:  " +
-            FixedAnswer.substring(13) +
-            "</div>" +
-            "<div class='message machine grammarcorrection'><strong>💡</strong> " +
-            reasons +
-            "</div>" +
-            "</div>" +
-            "</div>";
-        } else if (isRight === "true") {
+        if (message != undefined && isRight === "true") {
           grammarCorrectionElement =
             "<div class='message-container machine grammarcorrection'>" +
             "<div class='message machine grammarcorrection right'><strong>✔ 완벽해요</strong></div>" +
@@ -117,7 +104,59 @@ function SocketEventHandlers() {
             "</div>" +
             "<div class= 'message machine grammarcorrection'><strong>자연스럽게 표현했어요</strong></div>" +
             "</div>";
+        } else if (message != undefined && isRight === "false") {
+          console.log(answerReason);
+          if (
+            (answerReason.includes("Bu cümle doğru") ||
+              answerReason.includes(
+                "Bu cümle dilbilgisi açısından doğru görünüyor"
+              ) ||
+              answerReason.includes(
+                "Bu cümlede herhangi bir yazım, dilbilgisi veya noktalama hatası yoktur"
+              ) ||
+              answerReason.includes(
+                "Metinde herhangi bir yazım, dilbilgisi veya noktalama hatası yok"
+              )) == false
+          ) {
+            pushStudylog();
+            console.log(studyLogs);
+            grammarCorrectionElement =
+              "<div class='message-container machine grammarcorrection'>" +
+              "<div class='message machine grammarcorrection wrong'><strong>✘ 교정이 필요해요 </strong></div>" +
+              "<div class='message user'>" +
+              message +
+              "</div>" +
+              "<div class='message machine grammarcorrection wrong'>👉 이렇게 말해봐요:  " +
+              FixedAnswer.substring(13) +
+              "</div>" +
+              "<div class='message machine grammarcorrection'><strong>💡</strong> " +
+              reasons +
+              "</div>" +
+              "</div>" +
+              "</div>";
+          } else if (
+            answerReason.includes("Bu cümle doğru") ||
+            answerReason.includes(
+              "Bu cümle dilbilgisi açısından doğru görünüyor"
+            ) ||
+            answerReason.includes(
+              "Bu cümlede herhangi bir yazım, dilbilgisi veya noktalama hatası yoktur"
+            ) ||
+            answerReason.includes(
+              "Metinde herhangi bir yazım, dilbilgisi veya noktalama hatası yok"
+            )
+          ) {
+            grammarCorrectionElement =
+              "<div class='message-container machine grammarcorrection'>" +
+              "<div class='message machine grammarcorrection right'><strong>✔ 완벽해요</strong></div>" +
+              "<div class='message user'>" +
+              message +
+              "</div>" +
+              "<div class= 'message machine grammarcorrection'><strong>자연스럽게 표현했어요</strong></div>" +
+              "</div>";
+          }
         }
+
         scrollToBottom();
 
         // message, grammarcorrection 같은 컨테이너 안에 넣음
@@ -158,12 +197,19 @@ function SocketEventHandlers() {
     sendButton.prop("disabled", true);
     error = true;
     sendStudyLogs();
+    socket.close();
     window.location.href = "home.html";
   };
 
   socket.onclose = function (event) {
-    console.log("WebSocket is closed now.", event);
-    error = true;
+    if (event.code == 1011) {
+      console.log("WebSocket is closed now.", event);
+      alert("호잠이 답하기 어려운 질문이 제시되어 종료됩니다.");
+      sendStudyLogs();
+      error = true;
+    } else {
+      console.log("WebSocket is closed now.", event);
+    }
     window.location.href = "home.html";
   };
 }
@@ -347,7 +393,7 @@ finishButton.on("click", () => {
   ) {
     sendStudyLogs();
     socket.close();
-    location.href = "./home.html";
+    // location.href = "./home.html";
   }
 });
 // sendText는 엔터치거나 send 누르면 보내짐
@@ -476,7 +522,6 @@ function changeImgStop() {
 }
 
 function sendStudyLogs() {
-  socket.close();
   const data = {
     studyLogs: studyLogs,
     topic: selectedTopic,
