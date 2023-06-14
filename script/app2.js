@@ -546,6 +546,5 @@ function sendStudyLogs() {
       });
   } else {
     sessionStorage.clear();
-    window.location.href = "home.html";
   }
 }
