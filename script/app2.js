@@ -396,7 +396,7 @@ finishButton.on("click", () => {
   ) {
     sendStudyLogs();
     socket.close();
-    // location.href = "./home.html";
+    location.href = "./home.html";
   }
 });
 // sendText는 엔터치거나 send 누르면 보내짐
