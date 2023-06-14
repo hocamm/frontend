@@ -390,15 +390,12 @@ stopButton.on("click", () => {
 });
 
 finishButton.on("click", () => {
-  if (
-    confirm(
-      "정말 종료하시겠습니까? \n(틀린 문장들만 학습 기록에 저장되고, 복습할 수 있습니다.)"
-    )
-  ) {
-    sendStudyLogs();
-    socket.close();
-    location.href = "./home.html";
-  }
+  confirm(
+    "정말 종료하시겠습니까? \n(틀린 문장들만 학습 기록에 저장되고, 복습할 수 있습니다.)"
+  );
+  sendStudyLogs();
+  socket.close();
+  location.href = "./home.html";
 });
 // sendText는 엔터치거나 send 누르면 보내짐
 function sendText() {
