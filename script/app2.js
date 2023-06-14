@@ -547,5 +547,8 @@ function sendStudyLogs() {
       .fail(function (error) {
         console.error("에러:", error);
       });
+  } else {
+    sessionStorage.clear();
+    location.href = "./home.html";
   }
 }
