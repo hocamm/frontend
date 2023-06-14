@@ -107,7 +107,14 @@ function SocketEventHandlers() {
         } else if (message != undefined && isRight === "false") {
           console.log(answerReason);
           if (
-            (answerReason.includes("Bu cümle doğru") ||
+            (answerReason.includes(
+              "Metnin dilbilgisi ve noktalama açısından doğru görünüyor"
+            ) ||
+              answerReason.includes("Cümle dilbilgisi açısından doğru") ||
+              answerReason.includes("Bu metinde herhangi bir hata yoktur") ||
+              answerReason.includes("Metindeki cümleler doğru yazılmıştır") ||
+              answerReason.includes("Cümle doğru") ||
+              answerReason.includes("Bu cümle doğru") ||
               answerReason.includes(
                 "Bu cümle dilbilgisi açısından doğru görünüyor"
               ) ||
@@ -135,7 +142,9 @@ function SocketEventHandlers() {
               "</div>" +
               "</div>";
           } else if (
-            answerReason.includes("Metnin dilbilgisi ve noktalama açısından doğru görünüyor") ||
+            answerReason.includes(
+              "Metnin dilbilgisi ve noktalama açısından doğru görünüyor"
+            ) ||
             answerReason.includes("Cümle dilbilgisi açısından doğru") ||
             answerReason.includes("Bu metinde herhangi bir hata yoktur") ||
             answerReason.includes("Metindeki cümleler doğru yazılmıştır") ||
